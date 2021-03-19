@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import App from './App';
 import MainActivity from "./activity/MainActivity";
 
