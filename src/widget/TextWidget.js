@@ -1,5 +1,5 @@
 import Widget from "./Widget";
-import TextSpriteSheet from "../consts/TextSpriteSheet";
+import {TextSpriteSheet} from "../consts/SpriteSheetDefs";
 
 /**
  * @property {string} text

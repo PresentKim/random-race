@@ -1,9 +1,9 @@
 import Activity from './Activity';
 import Vector2 from "../utils/Vector2";
 import TextWidget from "../widget/TextWidget";
-import BackgroundSpriteSheet from "../consts/BackgroundSpriteSheet";
 import BackgroundWidget from "../widget/BackgroundWidget";
 import RenderOption from "../utils/RenderOption";
+import {BackgroundSpriteSheet} from "../consts/SpriteSheetDefs";
 
 class MainActivity extends Activity {
     constructor() {
