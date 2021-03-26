@@ -24,7 +24,7 @@ class BackgroundWidget extends Widget {
                 540 + this.sprite.w,
                 540 + this.sprite.h
         );
-        if (!this.renderOption._absolute) {
+        if (!this.isAbsolute()) {
             min.x += this.activity.camera.x;
             min.y += this.activity.camera.y;
             max.x += this.activity.camera.x;

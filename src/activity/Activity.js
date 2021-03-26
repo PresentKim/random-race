@@ -30,14 +30,14 @@ class Activity extends Component {
         ctx.save();
         ctx.translate(-this.camera.x, -this.camera.y);
         this.children.forEach((widget) => {
-            if (!widget.renderOption._absolute) {
+            if (!widget.isAbsolute()) {
                 widget.render(ctx);
             }
         });
 
         ctx.restore();
         this.children.forEach((widget) => {
-            if (widget.renderOption._absolute) {
+            if (widget.isAbsolute()) {
                 widget.render(ctx);
             }
         });

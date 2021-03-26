@@ -27,6 +27,9 @@ class Component {
     }
 
     destroy() {
+
+    isAbsolute() {
+        return this.renderOption._absolute;
     }
 }
 
