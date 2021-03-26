@@ -1,5 +1,6 @@
 import Widget from "./Widget";
 import {TextSpriteSheet} from "../consts/SpriteSheetDefs";
+import BoundingBox from "../utils/BoundingBox";
 
 /**
  * @property {string} text
@@ -38,6 +39,20 @@ class TextWidget extends Widget {
         }
 
         super.render(ctx)
+    }
+
+    getBoundingBox() {
+        const scale = this.renderOption._scale;
+        const lines = this.text.split("\n");
+        let width = 0;
+        let height = lines.length * 10 * scale;
+        for (const line of lines) {
+            const newWidth = line.length * 8 * scale;
+            if (width < newWidth) {
+                width = newWidth;
+            }
+        }
+        return new BoundingBox(this.pos.x - width / 2, this.pos.y - height / 2, this.pos.x + width / 2, this.pos.y + height / 2);
     }
 }
 

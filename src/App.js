@@ -5,6 +5,8 @@
  * @property {number} elapsedSecs
  * @property {number} lastUpdate
  */
+import Vector2 from "./utils/Vector2";
+
 class App {
     constructor(canvasElement) {
         this.activities = [];
@@ -20,6 +22,21 @@ class App {
         this.ctx.webkitImageSmoothingEnabled = false;
         this.ctx.mozImageSmoothingEnabled = false;
         this.ctx.imageSmoothingEnabled = false;
+
+        this.canvas.onclick = ev => {
+            for (const activity of this.activities.reverse()) {
+                if (ev.button !== 0)
+                    break;
+
+                const absoluteVec = new Vector2(ev.pageX, ev.pageY)
+                        .subtract(this.canvas.offsetLeft, this.canvas.offsetTop)
+                        .multiply(540 / this.canvas.offsetWidth);
+                const relativeVec = absoluteVec.addVector(activity.camera);
+                if (!activity.handleClick(absoluteVec, relativeVec)) {
+                    break;
+                }
+            }
+        };
     }
 
     /** Update all activities and rendering on requestAnimationFrame (defaults, update per 1/60 sec) */

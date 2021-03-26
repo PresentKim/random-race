@@ -42,6 +42,20 @@ class Activity extends Component {
             }
         });
     }
+
+    /**
+     * @param {Vector2} absoluteVec
+     * @param {Vector2} relativeVec
+     * @return {boolean} if returns true, stop click event handling
+     */
+    handleClick(absoluteVec, relativeVec) {
+        for (const widget of this.children) {
+            if (widget.handleClick(absoluteVec, relativeVec)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 export default Activity;

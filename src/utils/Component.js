@@ -1,12 +1,14 @@
 import RenderOption from "./RenderOption";
+import ClickHandler from "./ClickHandler";
 
 /**
  * @property {Component[]} children
  * @property {object} renderOption
  */
-class Component {
+class Component extends ClickHandler {
     /** @param {RenderOption|null} renderOption */
     constructor(renderOption = null) {
+        super();
         this.children = [];
 
         this.renderOption = renderOption || new RenderOption();
@@ -27,6 +29,11 @@ class Component {
     }
 
     destroy() {
+    }
+
+    handleClick(absoluteVec, relativeVec) {
+        return false;
+    }
 
     isAbsolute() {
         return this.renderOption._absolute;

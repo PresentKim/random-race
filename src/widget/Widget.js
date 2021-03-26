@@ -5,6 +5,7 @@ import Component from "../utils/Component";
  * @property {App|null} app
  * @property {Activity|null} activity
  * @property {Vector2} pos
+ * @property {ClickHandler|null} onClick
  */
 class Widget extends Component {
     /**
@@ -17,6 +18,26 @@ class Widget extends Component {
         this.app = null;
         this.activity = null;
         this.pos = pos || new Vector2(0, 0);
+        this.onClick = null;
+    }
+
+    handleClick(absoluteVec, relativeVec) {
+        if (this.onClick === null)
+            return false;
+
+        const bb = this.getBoundingBox();
+        if (bb === null)
+            return false;
+
+        if (bb.isVectorInside(this.isAbsolute() ? absoluteVec : relativeVec)) {
+            return this.onClick(absoluteVec, relativeVec);
+        }
+        return false;
+    }
+
+    /** @return {BoundingBox|null} */
+    getBoundingBox() {
+        return null;
     }
 }
 
