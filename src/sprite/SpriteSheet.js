@@ -30,25 +30,16 @@ class SpriteSheet {
     }
 
     /**
-     * @param {number} index
-     *
-     * @return {Sprite|null}
-     */
-    get(index) {
-        return this.sprites[index] || null;
-    }
-
-    /**
      * @param {string} name
      * @return {Sprite|null}
      */
-    getByName(name) {
-        return this.get(this.names.indexOf(name.toLowerCase()));
+    get(name) {
+        return this.sprites[this.names.indexOf(name.toLowerCase())] || null;
     }
 
     /** @return {Sprite|null} */
     random() {
-        return this.get(Math.floor(Math.random() * this.sprites.length));
+        return this.sprites[Math.floor(Math.random() * this.sprites.length)] || null;
     }
 }
 

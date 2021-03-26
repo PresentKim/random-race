@@ -25,7 +25,7 @@ class TextWidget extends Widget {
             const length = text.length;
             for (let x = 0; x < length; ++x) {
                 /** @var {Sprite|null} sprite */
-                const sprite = TextSpriteSheet.getByName(text.charAt(x));
+                const sprite = TextSpriteSheet.get(text.charAt(x));
                 if (sprite !== null) {
                     sprite.draw(
                             ctx,
