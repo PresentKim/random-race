@@ -4,6 +4,7 @@ const webpack = require("webpack");
 module.exports = {
     entry: {
         index: "./src/index.js",
+        polyfill: "./src/polyfill.js",
         styles: "./src/styles/index.js",
     },
     output: {
