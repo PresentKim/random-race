@@ -2,6 +2,9 @@ import Widget from "./Widget";
 import {TextSpriteSheet} from "@/sprite/SpriteSheetDefs";
 import BoundingBox from "@/utils/BoundingBox";
 
+const TEXT_WIDTH = 8;
+const TEXT_HEIGHT = 10;
+
 /**
  * @property {string} text
  */
@@ -17,7 +20,9 @@ class TextWidget extends Widget {
     }
 
     render(ctx) {
-        const scale = this.renderOption._scale;
+        const delta = this.renderOption._scale / 2;
+        const widthDelta = TEXT_WIDTH * delta;
+        const heightDelta = TEXT_HEIGHT * delta;
 
         const lines = this.text.split("\n");
         const lineCount = lines.length;
@@ -30,8 +35,8 @@ class TextWidget extends Widget {
                 if (sprite !== null) {
                     sprite.draw(
                             ctx,
-                            this.pos.x - (scale * 8 * length / 2) + x * scale * 8,
-                            this.pos.y - (scale * 10 * lineCount / 2) + y * scale * 10,
+                            this.pos.x - (length - x * 2) * widthDelta,
+                            this.pos.y - (lineCount - y * 2) * heightDelta,
                             this.renderOption
                     );
                 }
@@ -42,17 +47,21 @@ class TextWidget extends Widget {
     }
 
     getBoundingBox() {
-        const scale = this.renderOption._scale;
         const lines = this.text.split("\n");
-        let width = 0;
-        let height = lines.length * 10 * scale;
+        let maxWidth = 0;
         for (const line of lines) {
-            const newWidth = line.length * 8 * scale;
-            if (width < newWidth) {
-                width = newWidth;
+            if (maxWidth < line.length) {
+                maxWidth = line.length;
             }
         }
-        return new BoundingBox(this.pos.x - width / 2, this.pos.y - height / 2, this.pos.x + width / 2, this.pos.y + height / 2);
+
+        const delta = this.renderOption._scale / 2;
+        const widthDelta = maxWidth * TEXT_WIDTH * delta;
+        const heightDelta = lines.length * TEXT_HEIGHT * delta;
+        return new BoundingBox(
+                this.pos.x - widthDelta, this.pos.y - heightDelta,
+                this.pos.x + widthDelta, this.pos.y + heightDelta
+        );
     }
 }
 
