@@ -3,5 +3,5 @@ import json from "./spritesheet.json";
 import TextPng from "../../assets/sprite/ui/text.png";
 import BackgroundPng from "../../assets/sprite/ui/background.png";
 
-export const TextSpriteSheet = new SpriteSheet(TextPng, json.text.sprites);
-export const BackgroundSpriteSheet = new SpriteSheet(BackgroundPng, json.background.sprites);
+export const TextSpriteSheet = new SpriteSheet(TextPng, json.text);
+export const BackgroundSpriteSheet = new SpriteSheet(BackgroundPng, json.background);
