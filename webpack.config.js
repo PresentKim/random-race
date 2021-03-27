@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CnameWebpackPlugin = require("cname-webpack-plugin");
 
 module.exports = {
     entry: {
@@ -30,6 +31,9 @@ module.exports = {
                 viewport: "width=device-width, initial-scale=1",
                 description: "Random race game in which several characters run automatically"
             }
+        }),
+        new CnameWebpackPlugin({
+            domain: "race.present.kim",
         }),
         new webpack.HotModuleReplacementPlugin()
     ],
