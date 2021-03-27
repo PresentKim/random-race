@@ -1,6 +1,6 @@
 import Widget from "./Widget";
-import {TextSpriteSheet} from "../consts/SpriteSheetDefs";
-import BoundingBox from "../utils/BoundingBox";
+import {TextSpriteSheet} from "@/consts/SpriteSheetDefs";
+import BoundingBox from "@/utils/BoundingBox";
 
 /**
  * @property {string} text

@@ -1,5 +1,5 @@
-import App from './App';
-import MainActivity from "./activity/MainActivity";
+import App from '@/App';
+import MainActivity from "@/activity/MainActivity";
 
 //Init-game
 document.addEventListener('DOMContentLoaded', () => {

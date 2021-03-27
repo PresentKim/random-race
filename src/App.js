@@ -5,7 +5,7 @@
  * @property {number} elapsedSecs
  * @property {number} lastUpdate
  */
-import Vector2 from "./utils/Vector2";
+import Vector2 from "@/utils/Vector2";
 
 class App {
     constructor(canvasElement) {

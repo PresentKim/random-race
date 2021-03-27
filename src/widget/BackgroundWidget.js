@@ -1,5 +1,5 @@
 import Widget from "./Widget";
-import Vector2 from "../utils/Vector2";
+import Vector2 from "@/utils/Vector2";
 
 /**
  * @property {Sprite} sprite

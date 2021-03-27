@@ -8,6 +8,13 @@ module.exports = {
         polyfill: "./src/polyfill.js",
         styles: "./src/styles/index.js",
     },
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "src"),
+            "~": path.resolve(__dirname, "assets/sprite"),
+            "%": path.resolve(__dirname, "assets/audio")
+        }
+    },
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "[name].js",

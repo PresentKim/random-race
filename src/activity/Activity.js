@@ -1,5 +1,5 @@
-import Component from "../utils/Component";
-import Vector2 from "../utils/Vector2";
+import Component from "@/utils/Component";
+import Vector2 from "@/utils/Vector2";
 
 /**
  * @property {App|null} app

@@ -1,9 +1,9 @@
-import Activity from './Activity';
-import Vector2 from "../utils/Vector2";
-import TextWidget from "../widget/TextWidget";
-import BackgroundWidget from "../widget/BackgroundWidget";
-import RenderOption from "../utils/RenderOption";
-import {BackgroundSpriteSheet} from "../consts/SpriteSheetDefs";
+import Activity from "./Activity";
+import {BackgroundSpriteSheet} from "@/consts/SpriteSheetDefs";
+import RenderOption from "@/utils/RenderOption";
+import Vector2 from "@/utils/Vector2";
+import TextWidget from "@/widget/TextWidget";
+import BackgroundWidget from "@/widget/BackgroundWidget";
 
 class MainActivity extends Activity {
     constructor() {

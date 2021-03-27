@@ -1,4 +1,4 @@
-import RenderOption from "../utils/RenderOption";
+import RenderOption from "@/utils/RenderOption";
 
 /**
  * @property {number} w
