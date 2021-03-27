@@ -61,6 +61,22 @@ class App {
         this.activities.push(activity);
         activity.app = this;
     }
+
+    /**
+     * @readonly
+     * @return {number}
+     */
+    get width() {
+        return this.canvas ? this.canvas.width : 0;
+    }
+
+    /**
+     * @readonly
+     * @return {number}
+     */
+    get height() {
+        return this.canvas ? this.canvas.height : 0;
+    }
 }
 
 export default App;

@@ -35,11 +35,6 @@ class Widget extends Component {
         return false;
     }
 
-    /** @return {BoundingBox|null} */
-    getBoundingBox() {
-        return null;
-    }
-
     /**
      * @param {ClickHandler|null} handler
      * @return {Widget}

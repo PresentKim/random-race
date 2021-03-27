@@ -1,5 +1,6 @@
 import Component from "@/utils/Component";
 import Vector2 from "@/utils/Vector2";
+import BoundingBox from "@/utils/BoundingBox";
 
 /**
  * @property {App|null} app
@@ -55,6 +56,10 @@ class Activity extends Component {
             }
         }
         return false;
+    }
+
+    getBoundingBox() {
+        return new BoundingBox(0, 0, this.app.width, this.app.height);
     }
 }
 

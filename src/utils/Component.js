@@ -38,6 +38,11 @@ class Component extends ClickHandler {
     isAbsolute() {
         return this.renderOption._absolute;
     }
+
+    /** @return {BoundingBox|null} */
+    getBoundingBox() {
+        return null;
+    }
 }
 
 export default Component;
