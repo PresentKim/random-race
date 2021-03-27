@@ -63,6 +63,15 @@ class TextWidget extends Widget {
                 this.pos.x + widthDelta, this.pos.y + heightDelta
         );
     }
+
+    /**
+     * @param {string} text
+     * @return {TextWidget}
+     */
+    setText(text) {
+        this.text = text;
+        return this;
+    }
 }
 
 export default TextWidget;
