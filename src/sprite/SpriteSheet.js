@@ -19,7 +19,7 @@ class SpriteSheet {
         spriteJsons.forEach(json => {
             /** @var {Sprite} sprite */
             const sprite = Sprite.fromJson(json);
-            sprite.image = this.image
+            sprite.image = this.image;
 
             const index = this.sprites.length;
             this.sprites[index] = sprite;
