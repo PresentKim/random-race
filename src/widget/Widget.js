@@ -30,7 +30,7 @@ class Widget extends Component {
             return false;
 
         if (bb.isVectorInside(this.isAbsolute() ? absoluteVec : relativeVec)) {
-            return this.onClick(absoluteVec, relativeVec);
+            return this.onClick(absoluteVec, relativeVec, this);
         }
         return false;
     }
@@ -38,6 +38,15 @@ class Widget extends Component {
     /** @return {BoundingBox|null} */
     getBoundingBox() {
         return null;
+    }
+
+    /**
+     * @param {ClickHandler|null} handler
+     * @return {Widget}
+     */
+    setOnClick(handler){
+        this.onClick = handler;
+        return this;
     }
 }
 
