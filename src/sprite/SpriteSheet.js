@@ -1,28 +1,21 @@
 import Sprite from "./Sprite";
 
 /**
- * @property {HTMLImageElement} image
  * @property {Sprite[]} sprites
  * @property {string[]} names
  */
 class SpriteSheet {
     /**
-     * @param {string} imageSrc
+     * @param {string|HTMLImageElement} image
      * @param {object[]} spriteJsons
      */
-    constructor(imageSrc, spriteJsons) {
-        this.image = new Image();
-        this.image.src = imageSrc;
+    constructor(image, spriteJsons) {
         this.sprites = [];
         this.names = [];
 
         spriteJsons.forEach(json => {
-            /** @var {Sprite} sprite */
-            const sprite = Sprite.fromJson(json);
-            sprite.image = this.image;
-
             const index = this.sprites.length;
-            this.sprites[index] = sprite;
+            this.sprites[index] = Sprite.fromJson(json).setImage(image);
             if (json.hasOwnProperty("name")) {
                 this.names[index] = json.name.toLowerCase();
             }

@@ -7,7 +7,7 @@ import RenderOption from "@/utils/RenderOption";
  * @property {number} sy
  * @property {number} ox
  * @property {number} oy
- * @property {HTMLImageElement|null} image
+ * @property {HTMLImageElement} image
  */
 class Sprite {
     /**
@@ -18,14 +18,40 @@ class Sprite {
      * @param {number} ox
      * @param {number} oy
      */
-    constructor(w, h, sx, sy, ox = 0, oy = 0) {
-        this.image = null;
-        this.w = w;
-        this.h = h;
-        this.sx = sx;
-        this.sy = sy;
-        this.ox = ox;
-        this.oy = oy;
+    constructor(w, h, sx, sy, ox, oy) {
+        this.w = w || 0;
+        this.h = h || 0;
+        this.sx = sx || 0;
+        this.sy = sy || 0;
+        this.ox = ox || 0;
+        this.oy = oy || 0;
+    }
+
+    /** @return {HTMLImageElement} */
+    get image() {
+        if (!this._image) {
+            this._image = new Image();
+        }
+        return this._image;
+    }
+
+    /** @param {string|HTMLImageElement} image */
+    set image(image) {
+        if (image instanceof HTMLImageElement) {
+            this._image = image;
+        } else if (typeof image === 'string' || image instanceof String) {
+            this._image = new Image();
+            this._image.src = image;
+        }
+    }
+
+    /**
+     * @param {string|HTMLImageElement} image
+     * @return {Sprite}
+     */
+    setImage(image) {
+        this.image = image;
+        return this;
     }
 
     /**
@@ -36,7 +62,7 @@ class Sprite {
      * @param {RenderOption} option
      */
     draw(ctx, x, y, option = null) {
-        if (this.image === null)
+        if (!this.image.complete || this.image.naturalHeight === 0)
             return;
 
         if (option === null) {
@@ -68,7 +94,7 @@ class Sprite {
      * @return Sprite
      */
     static fromJson({w, h, sx, sy, ox, oy}) {
-        return new Sprite(w || 0, h || 0, sx || 0, sy || 0, ox || 0, oy || 0);
+        return new Sprite(w, h, sx, sy, ox, oy);
     }
 }
 
