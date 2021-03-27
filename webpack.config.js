@@ -9,9 +9,11 @@ module.exports = {
         styles: "./src/styles/index.js",
     },
     output: {
-        path: __dirname,
         path: path.resolve(__dirname, "dist"),
         filename: "[name].js",
+    },
+    devServer: {
+        hot: true
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -21,7 +23,8 @@ module.exports = {
                 viewport: "width=device-width, initial-scale=1",
                 description: "Random race game in which several characters run automatically"
             }
-        })
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ],
     module: {
         rules: [
