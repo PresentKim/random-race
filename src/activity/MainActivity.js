@@ -1,5 +1,5 @@
 import Activity from "./Activity";
-import {BackgroundSpriteSheet} from "@/consts/SpriteSheetDefs";
+import {BackgroundSpriteSheet} from "@/sprite/SpriteSheetDefs";
 import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
