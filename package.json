@@ -29,6 +29,7 @@
         "babel-loader": "^8.2.2",
         "css-loader": "^5.2.0",
         "file-loader": "^6.2.0",
+        "html-webpack-plugin": "^4.5.2",
         "image-webpack-loader": "^7.0.1",
         "style-loader": "^2.0.0",
         "webpack": "^4.46.0",
