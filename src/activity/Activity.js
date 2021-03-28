@@ -5,7 +5,6 @@ import BoundingBox from "@/utils/BoundingBox";
 /**
  * @property {App|null} app
  * @property {Widget[]} children
- * @property (boolean} hidden
  * @property {Vector2} camera
  */
 class Activity extends Component {
@@ -14,7 +13,6 @@ class Activity extends Component {
         super();
 
         this.app = app;
-        this.hidden = false;
         this.camera = new Vector2(0, 0);
     }
 
@@ -25,8 +23,8 @@ class Activity extends Component {
         widget.activity = this;
     }
 
-    render(ctx) {
-        if (this.hidden)
+    handleRenderRequest(ctx) {
+        if (this.isHidden())
             return;
 
         this.children.forEach((widget) => {
@@ -34,7 +32,7 @@ class Activity extends Component {
                 ctx.save();
                 ctx.translate(-this.camera.x, -this.camera.y);
             }
-            widget.render(ctx);
+            widget.handleRenderRequest(ctx);
             if (!widget.isAbsolute()) {
                 ctx.restore();
             }

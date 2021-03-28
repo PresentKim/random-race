@@ -39,7 +39,7 @@ class Widget extends Component {
      * @param {ClickHandler|null} handler
      * @return {Widget}
      */
-    setOnClick(handler){
+    setOnClick(handler) {
         this.onClick = handler;
         return this;
     }

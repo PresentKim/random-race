@@ -22,10 +22,18 @@ class Component extends ClickHandler {
     }
 
     /** @param {CanvasRenderingContext2D} ctx */
-    render(ctx) {
+    handleRenderRequest(ctx) {
+        ctx.save();
+        this.renderOption.applyFilter(ctx);
         this.children.forEach((component) => {
-            component.render(ctx);
+            component.handleRenderRequest(ctx);
         });
+        this.render(ctx);
+        ctx.restore();
+    }
+
+    /** @param {CanvasRenderingContext2D} ctx */
+    render(ctx) {
     }
 
     destroy() {
@@ -37,6 +45,10 @@ class Component extends ClickHandler {
 
     isAbsolute() {
         return this.renderOption._absolute;
+    }
+
+    isHidden() {
+        return this.renderOption._hidden;
     }
 
     /** @return {BoundingBox|null} */

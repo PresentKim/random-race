@@ -58,28 +58,21 @@ class Sprite {
     /**
      * @param {CanvasRenderingContext2D} ctx
      * @param {Vector2|object} vecObj
-     *
-     * @param {RenderOption} option
+     * @param {number} scale
      */
-    draw(ctx, vecObj, option = null) {
+    draw(ctx, vecObj, scale = 1) {
         if (!this.image.complete || this.image.naturalHeight === 0)
             return;
 
         const vec = Vector2.from(vecObj);
-        if (option === null) {
-            option = new RenderOption();
-        } else if (option._hidden)
-            return;
-
         ctx.save();
-        option.applyFilter(ctx);
         ctx.translate(vec.x, vec.y);
         ctx.drawImage(
                 this.image,
                 this.sx, this.sy,
                 this.w, this.h,
-                -this.ox * option._scale, -this.oy * option._scale,
-                this.w * option._scale, this.h * option._scale
+                -this.ox * scale, -this.oy * scale,
+                this.w * scale, this.h * scale
         );
         ctx.restore();
     }

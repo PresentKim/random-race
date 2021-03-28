@@ -48,7 +48,7 @@ class App {
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             this.activities.forEach((activity) => {
                 activity.update(diffSecs);
-                activity.render(this.ctx);
+                activity.handleRenderRequest(this.ctx);
             });
         }
         this.lastUpdate = now;
