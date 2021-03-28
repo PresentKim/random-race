@@ -22,7 +22,7 @@ class RenderOption {
 
     /**
      * @param {boolean} value = true
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     hidden(value = true) {
         this._hidden = value;
@@ -31,7 +31,7 @@ class RenderOption {
 
     /**
      * @param {boolean} value = true
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     static hidden(value = true) {
         return new RenderOption().hidden(value);
@@ -39,7 +39,7 @@ class RenderOption {
 
     /**
      * @param {boolean} value = true
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     absolute(value = true) {
         this._absolute = value;
@@ -48,7 +48,7 @@ class RenderOption {
 
     /**
      * @param {boolean} value = true
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     static absolute(value = true) {
         return new RenderOption().absolute(value);
@@ -56,7 +56,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 1
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     scale(value = 1) {
         this._scale = value;
@@ -65,7 +65,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 1
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     static scale(value = 1) {
         return new RenderOption().scale(value);
@@ -73,7 +73,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 0
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     rotate(value = 0) {
         this._rotate = value;
@@ -82,7 +82,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 0
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     static rotate(value = 0) {
         return new RenderOption().rotate(value);
@@ -90,7 +90,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 0
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     hue(value = 0) {
         this._hue = value;
@@ -99,7 +99,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 0
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     static hue(value = 0) {
         return new RenderOption().hue(value);
@@ -107,7 +107,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 1
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     brightness(value = 1) {
         this._brightness = value;
@@ -116,7 +116,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 1
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     static brightness(value = 1) {
         return new RenderOption().brightness(value);
@@ -124,7 +124,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 1
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     contrast(value = 1) {
         this._contrast = value;
@@ -133,7 +133,7 @@ class RenderOption {
 
     /**
      * @param {number} value = 1
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     static contrast(value = 1) {
         return new RenderOption().contrast(value);
@@ -141,7 +141,7 @@ class RenderOption {
 
     /**
      * @param {boolean} value = true
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     grayscale(value = true) {
         this._grayscale = value;
@@ -150,7 +150,7 @@ class RenderOption {
 
     /**
      * @param {boolean} value = true
-     * @returns {RenderOption}
+     * @return {RenderOption}
      */
     static grayscale(value = true) {
         return new RenderOption().grayscale(value);
