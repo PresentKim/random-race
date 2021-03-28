@@ -1,4 +1,5 @@
 import RenderOption from "@/utils/RenderOption";
+import Vector2 from "@/utils/Vector2";
 
 /**
  * @property {number} w
@@ -56,15 +57,15 @@ class Sprite {
 
     /**
      * @param {CanvasRenderingContext2D} ctx
-     * @param {number} x
-     * @param {number} y
+     * @param {Vector2|object} vecObj
      *
      * @param {RenderOption} option
      */
-    draw(ctx, x, y, option = null) {
+    draw(ctx, vecObj, option = null) {
         if (!this.image.complete || this.image.naturalHeight === 0)
             return;
 
+        const vec = Vector2.from(vecObj);
         if (option === null) {
             option = new RenderOption();
         } else if (option._hidden)
@@ -72,7 +73,7 @@ class Sprite {
 
         ctx.save();
         option.applyFilter(ctx);
-        ctx.translate(x, y);
+        ctx.translate(vec.x, vec.y);
         ctx.drawImage(
                 this.image,
                 this.sx, this.sy,

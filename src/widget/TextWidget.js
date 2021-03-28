@@ -1,6 +1,7 @@
 import Widget from "./Widget";
 import {TextSpriteSheet} from "@/sprite/SpriteSheetDefs";
 import BoundingBox from "@/utils/BoundingBox";
+import Vector2 from "@/utils/Vector2";
 
 const TEXT_WIDTH = 8;
 const TEXT_HEIGHT = 10;
@@ -33,12 +34,7 @@ class TextWidget extends Widget {
                 /** @var {Sprite|null} sprite */
                 const sprite = TextSpriteSheet.get(text.charAt(x));
                 if (sprite !== null) {
-                    sprite.draw(
-                            ctx,
-                            this.pos.x - (length - x * 2) * widthDelta,
-                            this.pos.y - (lineCount - y * 2) * heightDelta,
-                            this.renderOption
-                    );
+                    sprite.draw(ctx, this.pos.subtract((length - x * 2) * widthDelta, (lineCount - y * 2) * heightDelta), this.renderOption);
                 }
             }
         }
@@ -55,13 +51,8 @@ class TextWidget extends Widget {
             }
         }
 
-        const delta = this.renderOption._scale / 2;
-        const widthDelta = maxWidth * TEXT_WIDTH * delta;
-        const heightDelta = lines.length * TEXT_HEIGHT * delta;
-        return new BoundingBox(
-                this.pos.x - widthDelta, this.pos.y - heightDelta,
-                this.pos.x + widthDelta, this.pos.y + heightDelta
-        );
+        const deltaDec = new Vector2(maxWidth * TEXT_WIDTH, lines.length * TEXT_HEIGHT).multiply(this.renderOption._scale / 2);
+        return BoundingBox.from(this.pos).expand(deltaDec);
     }
 
     /**

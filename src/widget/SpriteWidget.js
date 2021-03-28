@@ -1,5 +1,6 @@
 import Widget from "./Widget";
 import BoundingBox from "@/utils/BoundingBox";
+import Vector2 from "@/utils/Vector2";
 
 /**
  * @property {Sprite} sprite
@@ -17,25 +18,13 @@ class SpriteWidget extends Widget {
 
     render(ctx) {
         const delta = this.renderOption._scale / 2;
-        this.sprite.draw(
-                ctx,
-                this.pos.x - (this.sprite.w * delta),
-                this.pos.y - (this.sprite.h * delta),
-                this.renderOption
-        );
-
+        this.sprite.draw(ctx, this.pos.subtract(Vector2.from(this.sprite).multiply(delta)), this.renderOption);
         super.render(ctx);
     }
 
     getBoundingBox() {
-        const delta = this.renderOption._scale / 2;
-        const widthDelta = this.sprite.w * delta;
-        const heightDelta = this.sprite.h * delta;
-
-        return new BoundingBox(
-                this.pos.x - widthDelta, this.pos.y - heightDelta,
-                this.pos.x + widthDelta, this.pos.y + heightDelta
-        );
+        const deltaDec = Vector2.from(this.sprite).multiply(this.renderOption._scale / 2);
+        return BoundingBox.from(this.pos).expand(deltaDec);
     }
 
     /**

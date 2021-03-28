@@ -60,7 +60,7 @@ class Activity extends Component {
     }
 
     getBoundingBox() {
-        return new BoundingBox(0, 0, this.app.width, this.app.height);
+        return BoundingBox.from(0, this.app.canvas);
     }
 }
 

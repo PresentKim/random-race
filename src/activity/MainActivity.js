@@ -10,8 +10,10 @@ class MainActivity extends Activity {
     constructor(app) {
         super(app);
 
-        this.addWidget(new BackgroundWidget(BackgroundSpriteSheet.random()));
-        this.addWidget(new TextWidget(new Vector2(270, 40), "random race", RenderOption.scale(3).absolute(true)));
+        this.background = new BackgroundWidget(BackgroundSpriteSheet.random(), RenderOption.absolute());
+        this.titleText = new TextWidget(new Vector2(270, 40), "random race", RenderOption.absolute().scale(3));
+        this.addWidget(this.background);
+        this.addWidget(this.titleText);
     }
 
     update(diffSecs) {
