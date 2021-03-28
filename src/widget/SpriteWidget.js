@@ -19,13 +19,19 @@ class SpriteWidget extends Widget {
 
     init() {
         this.onRender = ctx => {
+            if (!this.sprite || !this.sprite.image.complete)
+                return;
+
             const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
             this.sprite.draw(ctx, this.pos.subtract(deltaVec), this.getScale());
         };
     }
 
-    /** @return {BoundingBox} */
+    /** @return {BoundingBox|null} */
     getBoundingBox() {
+        if (!this.sprite)
+            return null;
+
         const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
         return BoundingBox.from(this.pos).expand(deltaVec);
     }
