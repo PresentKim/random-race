@@ -15,12 +15,12 @@ class MainActivity extends Activity {
 
         const background = new BackgroundWidget(null, BackgroundSpriteSheet.random(), RenderOption.absolute());
         background.update = (diffSecs) => {
-            this.background.pos.x -= diffSecs / 10;
+            background.pos.x -= diffSecs / 10;
         };
         const titleText = new TextWidget(new Vector2(270, 40), "random race", RenderOption.absolute().scale(3));
         const reloadButton = new SpriteWidget(new Vector2(430, 40), new Sprite(21, 22).setImage(ReloadPng), RenderOption.absolute().scale(2));
         reloadButton.onClick = () => {
-            this.background.sprite = BackgroundSpriteSheet.random();
+            background.sprite = BackgroundSpriteSheet.random();
             return true;
         };
         this.addWidget(background);
