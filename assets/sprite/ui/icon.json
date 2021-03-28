@@ -1,0 +1,21 @@
+[
+    {"name": "achievements", "w": 20, "h": 20, "sx": 0, "sy": 0},
+    {"name": "leaderboard", "w": 20, "h": 20, "sx": 20, "sy": 0},
+    {"name": "settings", "w": 20, "h": 20, "sx": 40, "sy": 0},
+    {"name": "sound_on", "w": 20, "h": 20, "sx": 60, "sy": 0},
+    {"name": "sound_off", "w": 20, "h": 20, "sx": 80, "sy": 0},
+
+    {"name": "prev", "w": 20, "h": 20, "sx": 0, "sy": 20},
+    {"name": "next", "w": 20, "h": 20, "sx": 20, "sy": 20},
+    {"name": "play", "w": 20, "h": 20, "sx": 40, "sy": 20},
+    {"name": "pause", "w": 20, "h": 20, "sx": 60, "sy": 20},
+    {"name": "reset", "w": 20, "h": 20, "sx": 80, "sy": 20},
+
+    {"name": "fullscreen_enter", "w": 20, "h": 20, "sx": 0, "sy": 40},
+    {"name": "fullscreen_exit", "w": 20, "h": 20, "sx": 20, "sy": 40},
+    {"name": "buttons", "w": 20, "h": 20, "sx": 40, "sy": 40},
+
+    {"name": "close", "w": 20, "h": 20, "sx": 0, "sy": 60},
+    {"name": "back", "w": 20, "h": 20, "sx": 20, "sy": 60},
+    {"name": "death", "w": 20, "h": 20, "sx": 40, "sy": 60}
+]
