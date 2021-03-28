@@ -24,7 +24,7 @@ class App {
         this.ctx.imageSmoothingEnabled = false;
 
         this.canvas.onclick = ev => {
-            for (const activity of this.activities.reverse()) {
+            for (const activity of this.activities.slice().reverse()) {
                 if (ev.button !== 0)
                     break;
 
@@ -32,7 +32,7 @@ class App {
                         .subtract(this.canvas.offsetLeft, this.canvas.offsetTop)
                         .multiply(540 / this.canvas.offsetWidth);
                 const relativeVec = absoluteVec.add(activity.camera);
-                if (!activity.handleClick(absoluteVec, relativeVec)) {
+                if (activity.handleClick(absoluteVec, relativeVec)) {
                     break;
                 }
             }

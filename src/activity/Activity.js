@@ -29,18 +29,14 @@ class Activity extends Component {
         if (this.hidden)
             return;
 
-        ctx.save();
-        ctx.translate(-this.camera.x, -this.camera.y);
         this.children.forEach((widget) => {
             if (!widget.isAbsolute()) {
-                widget.render(ctx);
+                ctx.save();
+                ctx.translate(-this.camera.x, -this.camera.y);
             }
-        });
-
-        ctx.restore();
-        this.children.forEach((widget) => {
-            if (widget.isAbsolute()) {
-                widget.render(ctx);
+            widget.render(ctx);
+            if (!widget.isAbsolute()) {
+                ctx.restore();
             }
         });
     }
@@ -51,7 +47,7 @@ class Activity extends Component {
      * @return {boolean} if returns true, stop click event handling
      */
     handleClick(absoluteVec, relativeVec) {
-        for (const widget of this.children) {
+        for (const widget of this.children.slice().reverse()) {
             if (widget.handleClick(absoluteVec, relativeVec)) {
                 return true;
             }
