@@ -23,7 +23,7 @@ class Vector2 {
      * @param {number} y
      * @return {Vector2}
      */
-    add(x = 0, y = 0) {
+    add(x = 0, y) {
         const vec = Vector2.from(x, y);
         return new Vector2(this.x + vec.x, this.y + vec.y);
     }
@@ -33,7 +33,7 @@ class Vector2 {
      * @param {number} y
      * @return {Vector2}
      */
-    subtract(x = 0, y = 0) {
+    subtract(x = 0, y) {
         const vec = Vector2.from(x, y);
         return new Vector2(this.x - vec.x, this.y - vec.y);
     }
@@ -43,7 +43,7 @@ class Vector2 {
      * @param {number} y
      * @return {Vector2}
      */
-    multiply(x = 1, y = 1) {
+    multiply(x = 1, y) {
         const vec = Vector2.from(x, y);
         return new Vector2(this.x * vec.x, this.y * vec.y);
     }
@@ -53,7 +53,7 @@ class Vector2 {
      * @param {number} y
      * @return {Vector2}
      */
-    divide(x = 1, y = 1) {
+    divide(x = 1, y) {
         const vec = Vector2.from(x, y);
         return new Vector2(this.x / vec.x, this.y / vec.y);
     }
@@ -63,7 +63,7 @@ class Vector2 {
      * @param {number} y
      * @return {Vector2}
      */
-    mod(x = 1, y = 1) {
+    mod(x = 1, y) {
         const vec = Vector2.from(x, y);
         return new Vector2(this.x % vec.x, this.y % vec.y);
     }
@@ -93,7 +93,7 @@ class Vector2 {
      * @param {number} y
      * @return {Vector2}
      */
-    distance(x = 0, y = 0) {
+    distance(x, y) {
         return Math.sqrt(this.distanceSquared(x, y));
     }
 
@@ -102,7 +102,7 @@ class Vector2 {
      * @param {number} y
      * @return {Vector2}
      */
-    distanceSquared(x = 0, y = 0) {
+    distanceSquared(x, y) {
         const vec = Vector2.from(x, y);
         return ((this.x - vec.x) ** 2) + ((this.y - vec.y) ** 2) + ((this.z - vec.z) ** 2);
     }
