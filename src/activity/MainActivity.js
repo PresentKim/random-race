@@ -21,7 +21,7 @@ class MainActivity extends Activity {
         this.addWidget(reloadButton.setOnClick(() => background.setSprite(BackgroundSpriteSheet.random()) || true));
         if (screenFull.isEnabled) {
             const fullscreenButton = new SpriteWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.absolute().scale(3));
-            this.addWidget(fullscreenButton.setOnClick(() => screenFull.toggle(this.app.canvas) || true));
+            this.addWidget(fullscreenButton.setOnClick(() => screenFull.toggle(document.body) || true));
 
             screenFull.on("change", () => {
                 fullscreenButton.sprite = IconSpriteSheet.get(screenFull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter");
