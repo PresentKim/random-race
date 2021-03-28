@@ -1,8 +1,5 @@
 import "@babel/polyfill";
 
-Array.prototype.last = function () {
-    return (this.length > 0) ? this[this.length - 1] : null;
-}
 window.requestAnimationFrame = (function () {
     // noinspection JSUnresolvedVariable
     return window.requestAnimationFrame ||
