@@ -88,6 +88,28 @@ class BoundingBox {
     }
 
     /**
+     * @param {number|object} value
+     * @param {number} fallback
+     * @return {BoundingBox}
+     */
+    add(value, fallback) {
+        const vec = Vector2.from(value, fallback);
+        return new BoundingBox(this.min.add(vec), this.max.add(vec));
+    }
+
+    /**
+     * Un shifts this bounding box. by the given x, y
+     *
+     * @param {number|object} value
+     * @param {number} fallback
+     * @return {BoundingBox}
+     */
+    subtract(value, fallback) {
+        const vec = Vector2.from(value, fallback);
+        return new BoundingBox(this.min.subtract(vec), this.max.subtract(vec));
+    }
+
+    /**
      * Outsets the bounds of this bounding box.
      *
      * @param {number|object} value
@@ -96,11 +118,7 @@ class BoundingBox {
      */
     expand(value, fallback) {
         const vec = Vector2.from(value, fallback);
-        this.min.x -= vec.x;
-        this.min.y -= vec.y;
-        this.max.x += vec.x;
-        this.max.y += vec.y;
-        return this;
+        return new BoundingBox(this.min.subtract(vec), this.max.add(vec));
     }
 
     /**
@@ -112,11 +130,7 @@ class BoundingBox {
      */
     contract(value, fallback) {
         const vec = Vector2.from(value, fallback);
-        this.min.x += vec.x;
-        this.min.y += vec.y;
-        this.max.x -= vec.x;
-        this.max.y -= vec.y;
-        return this;
+        return new BoundingBox(this.min.add(vec), this.max.subtract(vec));
     }
 
     /** @return {BoundingBox} */
