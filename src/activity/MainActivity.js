@@ -13,25 +13,15 @@ class MainActivity extends Activity {
         super(app);
 
         const background = new BackgroundWidget(null, BackgroundSpriteSheet.random(), RenderOption.absolute());
-        background.onUpdate = (diffSecs) => {
-            background.pos.x -= diffSecs / 10;
-        };
         const titleText = new TextWidget(Vector2.from(app).multiply(0.5, 0.1), "random race", RenderOption.absolute().scale(5));
         const reloadButton = new SpriteWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.absolute().scale(3));
-        reloadButton.onClick = () => {
-            background.sprite = BackgroundSpriteSheet.random();
-            return true;
-        };
-        this.addWidget(background);
+
+        this.addWidget(background.setOnUpdate((diffSecs) => background.pos.x -= diffSecs / 10));
         this.addWidget(titleText);
-        this.addWidget(reloadButton);
+        this.addWidget(reloadButton.setOnClick(() => background.setSprite(BackgroundSpriteSheet.random()) || true));
         if (screenFull.isEnabled) {
             const fullscreenButton = new SpriteWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.absolute().scale(3));
-            fullscreenButton.onClick = () => {
-                screenFull.toggle(this.app.canvas);
-                return true;
-            };
-            this.addWidget(fullscreenButton);
+            this.addWidget(fullscreenButton.setOnClick(() => screenFull.toggle(this.app.canvas) || true));
 
             screenFull.on("change", () => {
                 fullscreenButton.sprite = IconSpriteSheet.get(screenFull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter");

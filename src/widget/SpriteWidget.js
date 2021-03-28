@@ -1,7 +1,6 @@
 import Widget from "./Widget";
 import BoundingBox from "@/utils/BoundingBox";
 import Vector2 from "@/utils/Vector2";
-import {TextSpriteSheet} from "@/sprite/SpriteSheetDefs";
 
 /**
  * @property {Sprite} sprite
@@ -34,6 +33,15 @@ class SpriteWidget extends Widget {
 
         const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
         return BoundingBox.from(this.pos).expand(deltaVec);
+    }
+
+    /**
+     * @param {Sprite} sprite
+     * @return {SpriteWidget}
+     */
+    setSprite(sprite) {
+        this.sprite = sprite;
+        return this;
     }
 }
 
