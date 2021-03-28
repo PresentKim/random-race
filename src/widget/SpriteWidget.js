@@ -1,6 +1,7 @@
 import Widget from "./Widget";
 import BoundingBox from "@/utils/BoundingBox";
 import Vector2 from "@/utils/Vector2";
+import {TextSpriteSheet} from "@/sprite/SpriteSheetDefs";
 
 /**
  * @property {Sprite} sprite
@@ -16,11 +17,14 @@ class SpriteWidget extends Widget {
         this.sprite = sprite;
     }
 
-    render(ctx) {
-        const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
-        this.sprite.draw(ctx, this.pos.subtract(deltaVec), this.getScale());
+    init() {
+        this.onRender = ctx => {
+            const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
+            this.sprite.draw(ctx, this.pos.subtract(deltaVec), this.getScale());
+        };
     }
 
+    /** @return {BoundingBox} */
     getBoundingBox() {
         const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
         return BoundingBox.from(this.pos).expand(deltaVec);

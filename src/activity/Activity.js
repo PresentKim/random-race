@@ -23,17 +23,17 @@ class Activity extends Component {
         widget.activity = this;
     }
 
-    handleRenderRequest(ctx) {
+    render(ctx) {
         if (this.isHidden())
             return;
 
-        this.children.forEach((widget) => {
-            if (!widget.isAbsolute()) {
+        this.children.forEach((component) => {
+            if (!component.isAbsolute()) {
                 ctx.save();
                 ctx.translate(-this.camera.x, -this.camera.y);
             }
-            widget.handleRenderRequest(ctx);
-            if (!widget.isAbsolute()) {
+            component.render(ctx);
+            if (!component.isAbsolute()) {
                 ctx.restore();
             }
         });
@@ -44,9 +44,9 @@ class Activity extends Component {
      * @param {Vector2} relativeVec
      * @return {boolean} if returns true, stop click event handling
      */
-    handleClick(absoluteVec, relativeVec) {
+    click(absoluteVec, relativeVec) {
         for (const widget of this.children.slice().reverse()) {
-            if (widget.handleClick(absoluteVec, relativeVec)) {
+            if (widget.click(absoluteVec, relativeVec)) {
                 return true;
             }
         }

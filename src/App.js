@@ -4,6 +4,9 @@
  * @property {CanvasRenderingContext2D} ctx
  * @property {number} elapsedSecs
  * @property {number} lastUpdate
+ *
+ * @property {number} width @readonly
+ * @property {number} height @readonly
  */
 import Vector2 from "@/utils/Vector2";
 
@@ -32,7 +35,7 @@ class App {
                         .subtract(this.canvas.offsetLeft, this.canvas.offsetTop)
                         .multiply(540 / this.canvas.offsetWidth);
                 const relativeVec = absoluteVec.add(activity.camera);
-                if (activity.handleClick(absoluteVec, relativeVec)) {
+                if (activity.click(absoluteVec, relativeVec)) {
                     break;
                 }
             }
@@ -45,10 +48,10 @@ class App {
         if (this.lastUpdate !== -1) {
             const diffSecs = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
 
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.fillRect(0, 0, this.width, this.height);
             this.activities.forEach((activity) => {
                 activity.update(diffSecs);
-                activity.handleRenderRequest(this.ctx);
+                activity.render(this.ctx);
             });
         }
         this.lastUpdate = now;

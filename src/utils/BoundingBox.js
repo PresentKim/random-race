@@ -4,10 +4,12 @@ import Vector2 from "@/utils/Vector2";
  * @property {Vector2} min
  * @property {Vector2} max
  *
- * @property {number} minX
- * @property {number} minY
- * @property {number} maxX
- * @property {number} maxY
+ * @property {number} minX @readonly
+ * @property {number} minY @readonly
+ * @property {number} maxX @readonly
+ * @property {number} maxY @readonly
+ * @property {number} xLength @readonly
+ * @property {number} yLength @readonly
  */
 class BoundingBox {
     /**
@@ -17,57 +19,6 @@ class BoundingBox {
     constructor(vec1, vec2) {
         this.min = new Vector2(Math.min(vec1.x, vec2.x), Math.min(vec1.y, vec2.y));
         this.max = new Vector2(Math.max(vec1.x, vec2.x), Math.max(vec1.y, vec2.y));
-    }
-
-    /** @return {number} */
-    get minX() {
-        return this.min.x;
-    }
-
-    /** @param {number} value */
-    set minX(value) {
-        this.min.x = value;
-    }
-
-    /** @return {number} */
-    get minY() {
-        return this.min.y;
-    }
-
-    /** @param {number} value */
-    set minY(value) {
-        this.min.y = value;
-    }
-
-    /** @return {number} */
-    get maxX() {
-        return this.max.x;
-    }
-
-    /** @param {number} value */
-    set maxX(value) {
-        this.max.x = value;
-    }
-
-
-    /** @return {number} */
-    get maxY() {
-        return this.max.y;
-    }
-
-    /** @param {number} value */
-    set maxY(value) {
-        this.max.y = value;
-    }
-
-    /** @return {number} */
-    get xLength() {
-        return this.max.x - this.min.x;
-    }
-
-    /** @return {number} */
-    get yLength() {
-        return this.max.y - this.min.y;
     }
 
     /**
@@ -141,6 +92,55 @@ class BoundingBox {
     /** @return {BoundingBox} */
     clone() {
         return BoundingBox.from(this.min, this.max);
+    }
+
+    /**
+     * @readonly
+     * @return {number}
+     */
+    get minX() {
+        return this.min.x;
+    }
+
+    /**
+     * @readonly
+     * @return {number}
+     */
+    get minY() {
+        return this.min.y;
+    }
+
+    /**
+     * @readonly
+     * @return {number}
+     */
+    get maxX() {
+        return this.max.x;
+    }
+
+
+    /**
+     * @readonly
+     * @return {number}
+     */
+    get maxY() {
+        return this.max.y;
+    }
+
+    /**
+     * @readonly
+     * @return {number}
+     */
+    get xLength() {
+        return this.max.x - this.min.x;
+    }
+
+    /**
+     * @readonly
+     * @return {number}
+     */
+    get yLength() {
+        return this.max.y - this.min.y;
     }
 
     /**

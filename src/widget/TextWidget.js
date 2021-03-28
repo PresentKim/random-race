@@ -20,25 +20,28 @@ class TextWidget extends Widget {
         this.text = text;
     }
 
-    render(ctx) {
-        const delta = this.getScale() / 2;
-        const widthDelta = TEXT_WIDTH * delta;
-        const heightDelta = TEXT_HEIGHT * delta;
+    init() {
+        this.onRender = ctx => {
+            const delta = this.getScale() / 2;
+            const widthDelta = TEXT_WIDTH * delta;
+            const heightDelta = TEXT_HEIGHT * delta;
 
-        const lines = this.text.split("\n");
-        const lineCount = lines.length;
-        for (let y = 0; y < lineCount; ++y) {
-            const text = lines[y];
-            const length = text.length;
-            for (let x = 0; x < length; ++x) {
-                const sprite = TextSpriteSheet.get(text.charAt(x));
-                if (sprite !== null) {
-                    sprite.draw(ctx, this.pos.subtract((length - x * 2) * widthDelta, (lineCount - y * 2) * heightDelta), this.getScale());
+            const lines = this.text.split("\n");
+            const lineCount = lines.length;
+            for (let y = 0; y < lineCount; ++y) {
+                const text = lines[y];
+                const length = text.length;
+                for (let x = 0; x < length; ++x) {
+                    const sprite = TextSpriteSheet.get(text.charAt(x));
+                    if (sprite !== null) {
+                        sprite.draw(ctx, this.pos.subtract((length - x * 2) * widthDelta, (lineCount - y * 2) * heightDelta), this.getScale());
+                    }
                 }
             }
-        }
+        };
     }
 
+    /** @return {BoundingBox} */
     getBoundingBox() {
         const lines = this.text.split("\n");
         let maxWidth = 0;

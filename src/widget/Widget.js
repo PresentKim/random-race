@@ -1,11 +1,11 @@
 import Vector2 from "@/utils/Vector2";
 import Component from "@/utils/Component";
+import RenderOption from "@/utils/RenderOption";
 
 /**
  * @property {App|null} app
  * @property {Activity|null} activity
  * @property {Vector2} pos
- * @property {ClickHandler|null} onClick
  */
 class Widget extends Component {
     /**
@@ -17,30 +17,15 @@ class Widget extends Component {
 
         this.app = null;
         this.activity = null;
-        this.pos = pos || new Vector2(0, 0);
-        this.onClick = null;
-    }
-
-    handleClick(absoluteVec, relativeVec) {
-        if (this.onClick === null)
-            return false;
-
-        const bb = this.getBoundingBox();
-        if (bb === null)
-            return false;
-
-        if (bb.isVectorInside(this.isAbsolute() ? absoluteVec : relativeVec)) {
-            return this.onClick(absoluteVec, relativeVec, this);
-        }
-        return false;
+        this.setPos(pos);
     }
 
     /**
-     * @param {ClickHandler|null} handler
-     * @return {Widget}
+     * @param {Vector2|null} pos
+     * @return {Component}
      */
-    setOnClick(handler) {
-        this.onClick = handler;
+    setPos(pos) {
+        this.pos = pos || new Vector2(0, 0);
         return this;
     }
 }
