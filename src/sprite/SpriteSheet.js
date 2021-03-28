@@ -14,12 +14,22 @@ class SpriteSheet {
         this.names = [];
 
         spriteJsons.forEach(json => {
-            const index = this.sprites.length;
-            this.sprites[index] = Sprite.fromJson(json).setImage(image);
             if (json.hasOwnProperty("name")) {
-                this.names[index] = json.name.toLowerCase();
+                this.set(json.name, Sprite.fromJson(json).setImage(image));
             }
         });
+    }
+
+    /**
+     * @param {string} name
+     * @param {Sprite} sprite
+     * @return {SpriteSheet}
+     */
+    set(name, sprite) {
+        const index = this.sprites.length;
+        this.sprites[index] = sprite;
+        this.names[index] = name.toLowerCase();
+        return this;
     }
 
     /**
