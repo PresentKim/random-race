@@ -10,6 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.append(canvas);
 
     const app = new App(canvas);
-    app.addActivity(new MainActivity());
+    app.addActivity(new MainActivity(app));
     app.update();
 });

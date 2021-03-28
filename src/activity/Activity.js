@@ -9,10 +9,11 @@ import BoundingBox from "@/utils/BoundingBox";
  * @property {Vector2} camera
  */
 class Activity extends Component {
-    constructor() {
+    /** @param {App} app */
+    constructor(app) {
         super();
 
-        this.app = null;
+        this.app = app;
         this.hidden = false;
         this.camera = new Vector2(0, 0);
     }

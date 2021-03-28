@@ -59,7 +59,6 @@ class App {
     /** @param {Activity} activity */
     addActivity(activity) {
         this.activities.push(activity);
-        activity.app = this;
     }
 
     /**

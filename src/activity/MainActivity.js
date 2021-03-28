@@ -6,8 +6,9 @@ import TextWidget from "@/widget/TextWidget";
 import BackgroundWidget from "@/widget/BackgroundWidget";
 
 class MainActivity extends Activity {
-    constructor() {
-        super();
+    /** @param {App} app */
+    constructor(app) {
+        super(app);
 
         this.addWidget(new BackgroundWidget(BackgroundSpriteSheet.random()));
         this.addWidget(new TextWidget(new Vector2(270, 40), "random race", RenderOption.scale(3).absolute(true)));
