@@ -7,6 +7,7 @@
  * @property {number} _brightness = 1
  * @property {number} _contrast = 1
  * @property {boolean} _grayscale = false
+ * @property {BoundingBox|null} _drawBox = null
  */
 class RenderOption {
     constructor() {
@@ -18,6 +19,7 @@ class RenderOption {
         this._brightness = 1;
         this._contrast = 1;
         this._grayscale = false;
+        this._drawBox = null;
     }
 
     /**
@@ -156,6 +158,23 @@ class RenderOption {
         return new RenderOption().grayscale(value);
     }
 
+    /**
+     * @param {BoundingBox|null} value = null
+     * @return {RenderOption}
+     */
+    drawBox(value = null) {
+        this._drawBox = value;
+        return this;
+    }
+
+    /**
+     * @param {BoundingBox|null} value = null
+     * @return {RenderOption}
+     */
+    static drawBox(value = null) {
+        return new RenderOption().drawBox(value);
+    }
+
     /** @param {CanvasRenderingContext2D} ctx */
     applyFilter(ctx) {
         if (this._rotate !== 0) ctx.rotate(-this._rotate);
@@ -163,6 +182,11 @@ class RenderOption {
         if (this._brightness !== 1) ctx.filter += ` brightness(${this._brightness}) `;
         if (this._contrast !== 1) ctx.filter += ` brightness(${this._contrast}) `;
         if (this._grayscale) ctx.filter += ` grayscale(1) `;
+        if (this._drawBox) {
+            ctx.rect(this._drawBox.minX, this._drawBox.minY, this._drawBox.maxX, this._drawBox.maxY);
+            ctx.clip();
+            ctx.clearRect(this._drawBox.minX, this._drawBox.minY, this._drawBox.maxX, this._drawBox.maxY);
+        }
     }
 }
 

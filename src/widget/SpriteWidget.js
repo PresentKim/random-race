@@ -17,23 +17,13 @@ class SpriteWidget extends Widget {
     }
 
     render(ctx) {
-        const delta = this.renderOption._scale / 2;
-        this.sprite.draw(ctx, this.pos.subtract(Vector2.from(this.sprite).multiply(delta)), this.renderOption);
-        super.render(ctx);
+        const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
+        this.sprite.draw(ctx, this.pos.subtract(deltaVec), this.getScale());
     }
 
     getBoundingBox() {
-        const deltaDec = Vector2.from(this.sprite).multiply(this.renderOption._scale / 2);
-        return BoundingBox.from(this.pos).expand(deltaDec);
-    }
-
-    /**
-     * @param {Sprite} sprite
-     * @return {SpriteWidget}
-     */
-    setSprite(sprite) {
-        this.sprite = sprite;
-        return this;
+        const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
+        return BoundingBox.from(this.pos).expand(deltaVec);
     }
 }
 

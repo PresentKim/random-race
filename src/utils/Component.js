@@ -51,9 +51,19 @@ class Component extends ClickHandler {
         return this.renderOption._hidden;
     }
 
+    /** @return {number} */
+    getScale() {
+        return this.renderOption._scale;
+    }
+
     /** @return {BoundingBox|null} */
     getBoundingBox() {
         return null;
+    }
+
+    /** @return {BoundingBox|null} */
+    getDrawBox() {
+        return this.renderOption._drawBox;
     }
 }
 

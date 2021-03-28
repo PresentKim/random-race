@@ -134,6 +134,11 @@ class BoundingBox {
     }
 
     /** @return {BoundingBox} */
+    floor() {
+        return BoundingBox.from(this.min.floor(), this.max.floor());
+    }
+
+    /** @return {BoundingBox} */
     clone() {
         return BoundingBox.from(this.min, this.max);
     }
