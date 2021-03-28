@@ -33,7 +33,7 @@ class App {
 
                 const absoluteVec = new Vector2(ev.pageX, ev.pageY)
                         .subtract(this.canvas.offsetLeft, this.canvas.offsetTop)
-                        .multiply(540 / this.canvas.offsetWidth);
+                        .multiply(1024 / this.canvas.offsetWidth);
                 const relativeVec = absoluteVec.add(activity.camera);
                 if (activity.click(absoluteVec, relativeVec)) {
                     break;

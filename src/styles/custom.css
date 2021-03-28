@@ -4,6 +4,16 @@ canvas#game {
     align-items: center;
 
     margin: auto auto;
-    width: 80vmin;
-    height: 80vmin;
+}
+
+@media screen and (orientation: portrait) {
+    canvas#game {
+        width: 100vmin;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    canvas#game {
+        height: 100vmin;
+    }
 }

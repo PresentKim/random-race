@@ -4,8 +4,8 @@ import MainActivity from "@/activity/MainActivity";
 //Init-game
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.createElement("canvas");
-    canvas.width = 540;
-    canvas.height = 540;
+    canvas.width = 1024;
+    canvas.height = 576;
     canvas.id = "game";
     document.body.append(canvas);
 

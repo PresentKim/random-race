@@ -17,8 +17,8 @@ class MainActivity extends Activity {
         background.onUpdate = (diffSecs) => {
             background.pos.x -= diffSecs / 10;
         };
-        const titleText = new TextWidget(new Vector2(270, 40), "random race", RenderOption.absolute().scale(3));
-        const reloadButton = new SpriteWidget(new Vector2(430, 40), new Sprite(21, 22).setImage(ReloadPng), RenderOption.absolute().scale(2));
+        const titleText = new TextWidget(Vector2.from(app).multiply(0.5, 0.05), "random race", RenderOption.absolute().scale(5));
+        const reloadButton = new SpriteWidget(Vector2.from(app).multiply(0.95, 0.05), new Sprite(21, 22).setImage(ReloadPng), RenderOption.absolute().scale(2));
         reloadButton.onClick = () => {
             background.sprite = BackgroundSpriteSheet.random();
             return true;
