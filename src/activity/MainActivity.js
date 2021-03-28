@@ -5,7 +5,7 @@ import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
 import BackgroundWidget from "@/widget/BackgroundWidget";
 import SpriteWidget from "@/widget/SpriteWidget";
-import Sprite from "@/sprite/Sprite";
+import screenFull from "screenfull";
 
 class MainActivity extends Activity {
     /** @param {App} app */
@@ -25,6 +25,18 @@ class MainActivity extends Activity {
         this.addWidget(background);
         this.addWidget(titleText);
         this.addWidget(reloadButton);
+        if (screenFull.isEnabled) {
+            const fullscreenButton = new SpriteWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.absolute().scale(3));
+            fullscreenButton.onClick = () => {
+                screenFull.toggle(this.app.canvas);
+                return true;
+            };
+            this.addWidget(fullscreenButton);
+
+            screenFull.on("change", () => {
+                fullscreenButton.sprite = IconSpriteSheet.get(screenFull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter");
+            });
+        }
     }
 }
 
