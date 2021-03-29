@@ -26,7 +26,12 @@ class MainActivity extends Activity {
                 titleCharacter.drawable = Animations.main_character.hit.clone()
                         .setLoop(1)
                         .setImage(titleCharacter.drawable.image)
-                        .setOnAnimationEnd(() => titleCharacter.drawable = idleAnimation.setLoop(1).setImage(PngFiles.randomProperty()))
+                        .setOnAnimationEnd(() => {
+                            const randomPng = PngFiles.randomProperty();
+                            idleAnimation.setImage(randomPng);
+                            runAnimation.setImage(randomPng);
+                            titleCharacter.drawable = idleAnimation.setLoop(1);
+                        })
         ));
         this.addWidget(titleText);
         this.addWidget(reloadButton.setOnClick(() => background.setDrawable(BackgroundSpriteSheet.random()) || true));
