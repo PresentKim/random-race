@@ -73,6 +73,19 @@ class Component {
             ctx.restore();
         });
         this.onRender(ctx, this);
+
+        if (new URLSearchParams(window.location.search).get("renderBoundingBox")) {
+            const bb = this.getBoundingBox();
+            if (bb) {
+                ctx.beginPath();
+                ctx.moveTo(bb.minX, bb.minY);
+                ctx.lineTo(bb.minX, bb.maxY);
+                ctx.lineTo(bb.maxX, bb.maxY);
+                ctx.lineTo(bb.maxX, bb.minY);
+                ctx.closePath();
+                ctx.stroke();
+            }
+        }
         ctx.restore();
     }
 
