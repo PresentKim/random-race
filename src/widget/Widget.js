@@ -1,6 +1,5 @@
 import Vector2 from "@/utils/Vector2";
 import Component from "@/utils/Component";
-import RenderOption from "@/utils/RenderOption";
 
 /**
  * @property {App|null} app

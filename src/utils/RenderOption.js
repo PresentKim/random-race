@@ -177,16 +177,18 @@ class RenderOption {
 
     /** @param {CanvasRenderingContext2D} ctx */
     applyFilter(ctx) {
+        let filter = ctx.filter === "none" ? "" : ctx.filter;
         if (this._rotate !== 0) ctx.rotate(-this._rotate);
-        if (this._hue !== 0) ctx.filter += ` hue-rotate(${this._hue}deg) `;
-        if (this._brightness !== 1) ctx.filter += ` brightness(${this._brightness}) `;
-        if (this._contrast !== 1) ctx.filter += ` brightness(${this._contrast}) `;
-        if (this._grayscale) ctx.filter += ` grayscale(1) `;
+        if (this._hue !== 0) filter += ` hue-rotate(${this._hue}deg) `;
+        if (this._brightness !== 1) filter += ` brightness(${this._brightness}) `;
+        if (this._contrast !== 1) filter += ` contrast(${this._contrast}) `;
+        if (this._grayscale) filter += ` grayscale(1) `;
         if (this._drawBox) {
             ctx.rect(this._drawBox.minX, this._drawBox.minY, this._drawBox.maxX, this._drawBox.maxY);
             ctx.clip();
             ctx.clearRect(this._drawBox.minX, this._drawBox.minY, this._drawBox.maxX, this._drawBox.maxY);
         }
+        ctx.filter = filter;
     }
 }
 
