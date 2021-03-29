@@ -24,13 +24,23 @@ class MainActivity extends Activity {
         const reloadButton = new DrawWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.scale(3));
 
         this.addWidget(background.setOnUpdate((diffSecs) => background.pos.x -= diffSecs / 10));
-        this.addWidget(titleCharacter.setOnClick(() => {
+        this.addWidget(titleCharacter.setOnClick((vec) => {
             idleAnimation.fps -= 3;
             runAnimation.fps -= 3;
             if (idleAnimation.fps < 0) {
                 idleAnimation.fps = 100;
                 runAnimation.fps = 100;
             }
+            this.addWidget(new TextWidget(vec.add(Math.random() * 80 - 40, 0))
+                    .setText(idleAnimation.fps === 100 ? "-100" : "+3")
+                    .setRenderOption(RenderOption.scale(2).absolute().hue(Math.random() * 360).brightness(6).contrast(2))
+                    .setOnUpdate((diffSecs, self) => {
+                        self.pos.y -= diffSecs / 20;
+                        if (self.pos.y < 0) {
+                            self.destroy();
+                        }
+                    })
+            );
         }));
         this.addWidget(titleText);
         this.addWidget(reloadButton.setOnClick(() => {
