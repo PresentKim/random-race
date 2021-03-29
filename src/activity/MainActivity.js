@@ -69,6 +69,15 @@ class MainActivity extends Activity {
                 fullscreenButton.drawable = IconSpriteSheet.get(screenFull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter");
             });
         }
+
+        if (new URLSearchParams(window.location.search).get("renderMouseClick")) {
+            this.setOnMouseClick(vec => {
+                const clickAnimation = Animations.collected_item.clone().setLoop(0);
+                const clickParticle = new DrawWidget(vec, clickAnimation);
+                clickAnimation.setOnAnimationEnd(() => clickParticle.destroy());
+                this.addWidget(clickParticle);
+            })
+        }
     }
 }
 
