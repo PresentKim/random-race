@@ -70,6 +70,38 @@ class MainActivity extends Activity {
             });
         }
 
+        for (let i = 0; i < 30; ++i) {
+            const runner = new DrawWidget(new Vector2(Math.random() * this.app.canvas.width, this.app.canvas.height));
+            this.addWidget(runner.setOnUpdate(diffSecs => {
+                if (runner.getBoundingBox()?.minX > this.getBoundingBox().maxX) {
+                    runner.pos.x = 0;
+                    runner.drawable = null;
+                }
+                if (!runner.drawable) {
+                    runner.renderOption.scale(Math.random() * 5 + 2.5)
+                    runner.drawable = Animations.main_character.run.clone().setImage(PngFiles.randomProperty()).setFps(Math.random() * 60 + 30)
+                }
+                /** @var {SpriteAnimation} */
+                let animation = runner.drawable;
+                animation.update(diffSecs);
+                if (animation.loop === -1) {
+                    runner.pos.x += diffSecs / 5 * (60 / animation.fps);
+                }
+            }).setOnMouseClick(() => {
+                if (runner.drawable.loop === -1) {
+                    runner.setDrawable(Animations.main_character.hit.clone()
+                            .setLoop(1)
+                            .setImage(runner.drawable.image)
+                            .setOnAnimationEnd(() => {
+                                runner.pos.x = 0;
+                                runner.drawable = null;
+                            })
+                    );
+                    return true;
+                }
+            }));
+        }
+
         if (new URLSearchParams(window.location.search).get("renderMouseClick")) {
             this.setOnMouseClick(vec => {
                 const clickAnimation = Animations.collected_item.clone().setLoop(0);
