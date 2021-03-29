@@ -1,5 +1,5 @@
 import Activity from "./Activity";
-import {BackgroundSpriteSheet, IconSpriteSheet} from "@/sprite/SpriteSheetDefs";
+import {BackgroundSpriteSheet, IconSpriteSheet, Animations} from "@/sprite/SpriteSheetDefs";
 import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
@@ -13,10 +13,16 @@ class MainActivity extends Activity {
         super(app);
 
         const background = new BackgroundWidget(null, BackgroundSpriteSheet.random(), RenderOption.absolute());
+        const idleAnimation = Animations.pink_man.idle.clone();
+        const runAnimation = Animations.pink_man.run.clone();
+        idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.drawable = runAnimation.setLoop(6));
+        runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.drawable = idleAnimation.setLoop(4));
+        const titleCharacter = new DrawWidget(Vector2.from(app).multiply(0.275, 0.25), runAnimation, RenderOption.absolute().scale(3));
         const titleText = new TextWidget(Vector2.from(app).multiply(0.5, 0.1), "random race", RenderOption.absolute().scale(5));
         const reloadButton = new DrawWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.absolute().scale(3));
 
         this.addWidget(background.setOnUpdate((diffSecs) => background.pos.x -= diffSecs / 10));
+        this.addWidget(titleCharacter);
         this.addWidget(titleText);
         this.addWidget(reloadButton.setOnClick(() => background.setDrawable(BackgroundSpriteSheet.random()) || true));
         if (screenFull.isEnabled) {
