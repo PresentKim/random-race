@@ -1,85 +1,42 @@
 import Drawable from "@/sprite/Drawable";
+import Sprite from "@/sprite/Sprite";
 
 /**
+ * @property {HTMLImageElement} image
  * @property {Sprite[]} frames
+ * @property {number} count
  * @property {number} fps
  * @property {number} loop if is -1, infinite loop
  * @property {number} elapsedSecs
  *
  * @property {Function|null} onAnimationEnd (SpriteAnimation) : void
  */
-class SpriteAnimation extends Drawable {
+class SpriteAnimation extends Sprite {
     /**
-     * @param {Sprite[]} frames
+     * @param {string|HTMLImageElement} image
+     *
      * @param {number} fps
-     * @param {boolean} loop
+     * @param {number} w
+     * @param {number} h
+     * @param {number} ox
+     * @param {number} oy
+     * @param {number} sx
+     * @param {number} sy
+     * @param {number} count
      */
-    constructor(frames, fps = 60, loop = -1) {
-        super();
-        this.frames = frames;
+    constructor(image, {fps, w, h, ox, oy, sx, sy, count}) {
+        super(w, h, sx, sy, ox, oy);
+        super.image = image;
+        this.frames = [];
+        this.count = 0;
         this.fps = fps;
-        this.loop = loop;
+        this.loop = -1;
         this.elapsedSecs = 0;
         this.onAnimationEnd = null;
-    }
 
-    /** @return {number} */
-    get w() {
-        const frame = this.frame;
-        if (!frame) {
-            return 0;
-        } else {
-            return frame.w;
-        }
-    }
-
-    /** @return {number} */
-    get h() {
-        const frame = this.frame;
-        if (!frame) {
-            return 0;
-        } else {
-            return frame.h;
-        }
-    }
-
-    /** @return {number} */
-    get sx() {
-        const frame = this.frame;
-        if (!frame) {
-            return 0;
-        } else {
-            return frame.sx;
-        }
-    }
-
-    /** @return {number} */
-    get sy() {
-        const frame = this.frame;
-        if (!frame) {
-            return 0;
-        } else {
-            return frame.sy;
-        }
-    }
-
-    /** @return {number} */
-    get ox() {
-        const frame = this.frame;
-        if (!frame) {
-            return 0;
-        } else {
-            return frame.ox;
-        }
-    }
-
-    /** @return {number} */
-    get oy() {
-        const frame = this.frame;
-        if (!frame) {
-            return 0;
-        } else {
-            return frame.oy;
+        for (let i = 0; i < count; ++i) {
+            this.frames[i] = new Sprite(w, h, sx + i * w, sy, ox, oy).setImage(image);
+            ++this.count;
         }
     }
 
@@ -101,28 +58,6 @@ class SpriteAnimation extends Drawable {
             }
         }
         return frame || null;
-    }
-
-    /** @return {HTMLImageElement|null} */
-    get image() {
-        const frame = this.frame;
-        if (!frame) {
-            return null;
-        } else {
-            return frame.image;
-        }
-    }
-
-    /** @param {string|HTMLImageElement} image */
-    set image(image) {
-    }
-
-    /**
-     * @param {string|HTMLImageElement} image
-     * @return {Sprite}
-     */
-    setImage(image) {
-        return this;
     }
 
     /**
@@ -175,7 +110,7 @@ class SpriteAnimation extends Drawable {
 
     /** @return {SpriteAnimation} */
     clone() {
-        return new SpriteAnimation(this.frames, this.fps, this.loop);
+        return new SpriteAnimation(this.image, this);
     }
 }
 
