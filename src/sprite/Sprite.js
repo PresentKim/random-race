@@ -73,7 +73,7 @@ class Sprite extends Drawable {
                 this.image,
                 this.sx, this.sy,
                 this.w, this.h,
-                -this.ox * scale, -this.oy * scale,
+                -this.ox * scale / 2, -this.oy * scale/ 2,
                 this.w * scale, this.h * scale
         );
         ctx.restore();

@@ -21,7 +21,7 @@ class MainActivity extends Activity {
         const runAnimation = Animations.main_character.run.clone().setImage(PngFiles.pink_man);
         idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.drawable = runAnimation.setLoop(6));
         runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.drawable = idleAnimation.setLoop(4));
-        const titleCharacter = new DrawWidget(Vector2.from(app).multiply(0.275, 0.25), runAnimation, RenderOption.scale(3));
+        const titleCharacter = new DrawWidget(Vector2.from(app).multiply(0.25, 0.175), runAnimation, RenderOption.scale(3));
         const titleText = new TextWidget(Vector2.from(app).multiply(0.5, 0.1), "random race", RenderOption.scale(5));
         const reloadButton = new DrawWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.scale(3));
 
