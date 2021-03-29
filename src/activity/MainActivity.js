@@ -22,7 +22,12 @@ class MainActivity extends Activity {
         const reloadButton = new DrawWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.scale(3));
 
         this.addWidget(background.setOnUpdate((diffSecs) => background.pos.x -= diffSecs / 10));
-        this.addWidget(titleCharacter);
+        this.addWidget(titleCharacter.setOnClick(() =>
+                titleCharacter.drawable = Animations.main_character.hit.clone()
+                        .setLoop(1)
+                        .setImage(titleCharacter.drawable.image)
+                        .setOnAnimationEnd(() => titleCharacter.drawable = idleAnimation.setLoop(1).setImage(PngFiles.randomProperty()))
+        ));
         this.addWidget(titleText);
         this.addWidget(reloadButton.setOnClick(() => background.setDrawable(BackgroundSpriteSheet.random()) || true));
         if (screenFull.isEnabled) {
