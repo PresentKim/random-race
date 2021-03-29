@@ -3,25 +3,28 @@ import RenderOption from "./RenderOption";
 /**
  * @property {Component[]} children
  * @property {object} renderOption
+ * @property {boolean} isDestroyed
  *
- * @property {Function} onUpdate (number) : void
- * @property {Function} onRender (CanvasRenderingContext2D) : void
- * @property {Function} onClick (Vector2, Vector2) : boolean
+ * @property {Function} onUpdate (number, Component) : void
+ * @property {Function} onRender (CanvasRenderingContext2D, Component) : void
+ * @property {Function} onDestroy (Component) : void
+ * @property {Function} onClick (Vector2, Vector2, Component) : boolean
  */
 class Component {
     /** @param {RenderOption|null} renderOption */
     constructor(renderOption = null) {
         this.children = [];
-        this.setRenderOption(renderOption);
-
-        this.onUpdate = (diffSecs) => {
+        this.isDestroyed = false;
+        this.onUpdate = (diffSecs, self) => {
         };
-        this.onRender = (ctx) => {
+        this.onRender = (ctx, self) => {
         };
-        this.onClick = (absoluteVec, relativeVec) => {
+        this.onDestroy = (self) => {
+        };
+        this.onClick = (absoluteVec, relativeVec, self) => {
             return false;
         };
-
+        this.setRenderOption(renderOption);
         this.init();
     }
 
@@ -30,17 +33,19 @@ class Component {
 
     /** @param {number} diffSecs */
     update(diffSecs) {
-        this.children.forEach((component) => {
+        this.children.forEach((component, index) => {
+            if (component.isDestroyed) {
+                this.children.splice(index, 1)
+                return;
+            }
             component.update(diffSecs);
         });
-        if (this.onUpdate) {
-            this.onUpdate(diffSecs);
-        }
+        this.onUpdate(diffSecs, this);
     }
 
     /** @param {CanvasRenderingContext2D} ctx */
     render(ctx) {
-        if (this.isHidden())
+        if (this.isDestroyed || this.isHidden())
             return;
 
         ctx.save();
@@ -50,9 +55,7 @@ class Component {
             component.render(ctx);
             ctx.restore();
         });
-        if (this.onRender) {
-            this.onRender(ctx);
-        }
+        this.onRender(ctx, this);
         ctx.restore();
     }
 
@@ -62,7 +65,7 @@ class Component {
      * @return {boolean} if returns true, stop click event handling
      */
     click(absoluteVec, relativeVec) {
-        if (!this.onClick)
+        if (this.isDestroyed)
             return false;
 
         const bb = this.getBoundingBox();
@@ -73,6 +76,11 @@ class Component {
             return this.onClick(absoluteVec, relativeVec, this);
         }
         return false;
+    }
+
+    destroy() {
+        this.isDestroyed = true;
+        this.onDestroy(this);
     }
 
     /**

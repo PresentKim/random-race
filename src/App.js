@@ -49,7 +49,11 @@ class App {
             const diffSecs = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
 
             this.ctx.fillRect(0, 0, this.width, this.height);
-            this.activities.forEach((activity) => {
+            this.activities.forEach((activity, index) => {
+                if (activity.isDestroyed) {
+                    this.activities.splice(index, 1)
+                    return;
+                }
                 activity.update(diffSecs);
                 activity.render(this.ctx);
             });

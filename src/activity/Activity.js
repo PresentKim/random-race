@@ -24,7 +24,7 @@ class Activity extends Component {
     }
 
     render(ctx) {
-        if (this.isHidden())
+        if (this.isDestroyed || this.isHidden())
             return;
 
         this.children.forEach((component) => {
@@ -45,6 +45,9 @@ class Activity extends Component {
      * @return {boolean} if returns true, stop click event handling
      */
     click(absoluteVec, relativeVec) {
+        if (this.isDestroyed)
+            return false;
+
         for (const widget of this.children.slice().reverse()) {
             if (widget.click(absoluteVec, relativeVec)) {
                 return true;

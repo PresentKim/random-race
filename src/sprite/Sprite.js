@@ -57,10 +57,6 @@ class Sprite extends Drawable {
         return this;
     }
 
-    /** @param {number} diffSecs */
-    update(diffSecs) {
-    }
-
     /**
      * @param {CanvasRenderingContext2D} ctx
      * @param {Vector2|object} vecObj
