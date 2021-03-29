@@ -32,8 +32,8 @@ class TextWidget extends Widget {
                 const text = lines[y];
                 const length = text.length;
                 for (let x = 0; x < length; ++x) {
-                    const sprite = TextSpriteSheet.get(text.charAt(x));
-                    if (sprite !== null) {
+                    const sprite = TextSpriteSheet.get(text.charAt(x).toLowerCase());
+                    if (sprite) {
                         sprite.draw(ctx, this.pos.subtract((length - x * 2) * widthDelta, (lineCount - y * 2) * heightDelta), this.getScale());
                     }
                 }

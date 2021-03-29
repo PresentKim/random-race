@@ -4,45 +4,22 @@ import Sprite from "./Sprite";
  * @property {Sprite[]} sprites
  * @property {string[]} names
  */
-class SpriteSheet {
+class SpriteSheet extends Map {
     /**
      * @param {string|HTMLImageElement} image
      * @param {object[]} spriteJsons
      */
     constructor(image, spriteJsons) {
-        this.sprites = [];
-        this.names = [];
+        super();
 
         spriteJsons.forEach(json => {
-            if (json.hasOwnProperty("name")) {
-                this.set(json.name, Sprite.fromJson(json).setImage(image));
-            }
+            this.set(json.hasOwnProperty("name") ? json.name : this.size, Sprite.fromJson(json).setImage(image));
         });
-    }
-
-    /**
-     * @param {string} name
-     * @param {Sprite} sprite
-     * @return {SpriteSheet}
-     */
-    set(name, sprite) {
-        const index = this.sprites.length;
-        this.sprites[index] = sprite;
-        this.names[index] = name.toLowerCase();
-        return this;
-    }
-
-    /**
-     * @param {string} name
-     * @return {Sprite|null}
-     */
-    get(name) {
-        return this.sprites[this.names.indexOf(name.toLowerCase())] || null;
     }
 
     /** @return {Sprite|null} */
     random() {
-        return this.sprites[Math.floor(Math.random() * this.sprites.length)] || null;
+        return Array.from(this.values())[Math.floor(Math.random() * this.size)];
     }
 }
 
