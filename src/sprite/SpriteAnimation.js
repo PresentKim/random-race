@@ -40,6 +40,12 @@ class SpriteAnimation extends Sprite {
         }
     }
 
+    setImage(image) {
+        super.setImage(image);
+        this.frames.forEach(frame => frame.image = this.image);
+        return this;
+    }
+
     /** @return {Sprite|null} */
     get frame() {
         let frame = this.frames[Math.floor(this.elapsedSecs / this.fps)];
