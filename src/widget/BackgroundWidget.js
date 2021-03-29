@@ -1,16 +1,16 @@
-import SpriteWidget from "@/widget/SpriteWidget";
+import DrawWidget from "@/widget/DrawWidget";
 import Vector2 from "@/utils/Vector2";
 
-class BackgroundWidget extends SpriteWidget {
+class BackgroundWidget extends DrawWidget {
     init() {
         this.onRender = ctx => {
             const bb = (this.getDrawBox() || this.activity.getBoundingBox())
-                    .add(this.pos.mod(this.sprite))
-                    .expand(Vector2.from(this.sprite).multiply(2))
+                    .add(this.pos.mod(this.drawable))
+                    .expand(Vector2.from(this.drawable).multiply(2))
                     .floor();
-            for (let x = bb.min.x; x < bb.max.x; x += this.sprite.w) {
-                for (let y = bb.min.y; y < bb.max.y; y += this.sprite.h) {
-                    this.sprite.draw(ctx, new Vector2(x, y), this.getScale());
+            for (let x = bb.min.x; x < bb.max.x; x += this.drawable.w) {
+                for (let y = bb.min.y; y < bb.max.y; y += this.drawable.h) {
+                    this.drawable.draw(ctx, new Vector2(x, y), this.getScale());
                 }
             }
         };
@@ -20,7 +20,6 @@ class BackgroundWidget extends SpriteWidget {
     getBoundingBox() {
         return this.getDrawBox();
     }
-
 }
 
 export default BackgroundWidget;

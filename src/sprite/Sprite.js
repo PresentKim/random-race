@@ -1,5 +1,6 @@
 import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
+import Drawable from "@/sprite/Drawable";
 
 /**
  * @property {number} w
@@ -10,7 +11,7 @@ import Vector2 from "@/utils/Vector2";
  * @property {number} oy
  * @property {HTMLImageElement} image
  */
-class Sprite {
+class Sprite extends Drawable {
     /**
      * @param {number} w
      * @param {number} h
@@ -20,6 +21,7 @@ class Sprite {
      * @param {number} oy
      */
     constructor(w, h, sx, sy, ox, oy) {
+        super();
         this.w = w || 0;
         this.h = h || 0;
         this.sx = sx || 0;
@@ -53,6 +55,10 @@ class Sprite {
     setImage(image) {
         this.image = image;
         return this;
+    }
+
+    /** @param {number} diffSecs */
+    update(diffSecs) {
     }
 
     /**
