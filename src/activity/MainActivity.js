@@ -1,5 +1,5 @@
 import Activity from "./Activity";
-import {BackgroundSpriteSheet, IconSpriteSheet, Animations} from "@/sprite/SpriteSheetDefs";
+import {BackgroundSpriteSheet, IconSpriteSheet, PngFiles, Animations} from "@/sprite/SpriteSheetDefs";
 import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
@@ -13,8 +13,8 @@ class MainActivity extends Activity {
         super(app);
 
         const background = new BackgroundWidget(null, BackgroundSpriteSheet.random());
-        const idleAnimation = Animations.pink_man.idle.clone();
-        const runAnimation = Animations.pink_man.run.clone();
+        const idleAnimation = Animations.main_character.idle.clone().setImage(PngFiles.pink_man);
+        const runAnimation = Animations.main_character.run.clone().setImage(PngFiles.pink_man);
         idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.drawable = runAnimation.setLoop(6));
         runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.drawable = idleAnimation.setLoop(4));
         const titleCharacter = new DrawWidget(Vector2.from(app).multiply(0.275, 0.25), runAnimation, RenderOption.scale(3));

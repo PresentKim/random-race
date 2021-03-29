@@ -28,15 +28,16 @@ export const TextSpriteSheet = loadSpriteSheet(TextPng, TextJson);
 export const BackgroundSpriteSheet = loadSpriteSheet(BackgroundPng, BackgroundJson);
 export const IconSpriteSheet = loadSpriteSheet(IconPng, IconJson);
 
-export const Characters = new Map()
-        .set("pink_man", PinkManPng)
-        .set("mask_man", MaskManPng)
-        .set("ninja_frog", NinjaProgPng)
-        .set("virtual_guy", VirtualGuyPng)
+export const PngFiles = {
+    pink_man: PinkManPng,
+    mask_man: MaskManPng,
+    ninja_frog: NinjaProgPng,
+    virtual_guy: VirtualGuyPng
+};
 export const Animations = {
-    pink_man: {
-        idle: new SpriteAnimation(Characters.get("pink_man"), MainCharacterAnimationJson.idle),
-        run: new SpriteAnimation(Characters.get("pink_man"), MainCharacterAnimationJson.run),
-        hit: new SpriteAnimation(Characters.get("pink_man"), MainCharacterAnimationJson.hit)
+    main_character: {
+        idle: new SpriteAnimation(null, MainCharacterAnimationJson.idle),
+        run: new SpriteAnimation(null, MainCharacterAnimationJson.run),
+        hit: new SpriteAnimation(null, MainCharacterAnimationJson.hit)
     }
 };
