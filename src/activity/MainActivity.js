@@ -13,7 +13,9 @@ class MainActivity extends Activity {
         super(app);
 
         const background = new BackgroundWidget(null, BackgroundSpriteSheet.random());
+        /** @var {SpriteAnimation} */
         const idleAnimation = Animations.main_character.idle.clone().setImage(PngFiles.pink_man);
+        /** @var {SpriteAnimation} */
         const runAnimation = Animations.main_character.run.clone().setImage(PngFiles.pink_man);
         idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.drawable = runAnimation.setLoop(6));
         runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.drawable = idleAnimation.setLoop(4));
@@ -22,19 +24,31 @@ class MainActivity extends Activity {
         const reloadButton = new DrawWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.scale(3));
 
         this.addWidget(background.setOnUpdate((diffSecs) => background.pos.x -= diffSecs / 10));
-        this.addWidget(titleCharacter.setOnClick(() =>
-                titleCharacter.drawable = Animations.main_character.hit.clone()
-                        .setLoop(1)
-                        .setImage(titleCharacter.drawable.image)
-                        .setOnAnimationEnd(() => {
-                            const randomPng = PngFiles.randomProperty();
-                            idleAnimation.setImage(randomPng);
-                            runAnimation.setImage(randomPng);
-                            titleCharacter.drawable = idleAnimation.setLoop(1);
-                        })
-        ));
+        this.addWidget(titleCharacter.setOnClick(() => {
+            idleAnimation.fps -= 3;
+            runAnimation.fps -= 3;
+            if (idleAnimation.fps < 0) {
+                idleAnimation.fps = 100;
+                runAnimation.fps = 100;
+            }
+        }));
         this.addWidget(titleText);
-        this.addWidget(reloadButton.setOnClick(() => background.setDrawable(BackgroundSpriteSheet.random()) || true));
+        this.addWidget(reloadButton.setOnClick(() => {
+            background.setDrawable(BackgroundSpriteSheet.random());
+
+            titleCharacter.setDrawable(Animations.main_character.hit.clone()
+                    .setLoop(1)
+                    .setImage(titleCharacter.drawable.image)
+                    .setOnAnimationEnd(() => {
+                        const randomPng = PngFiles.randomProperty();
+                        idleAnimation.setImage(randomPng);
+                        runAnimation.setImage(randomPng);
+                        titleCharacter.drawable = idleAnimation.setLoop(1);
+                    })
+            );
+
+            return true;
+        }));
         if (screenFull.isEnabled) {
             const fullscreenButton = new DrawWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.scale(3));
             this.addWidget(fullscreenButton.setOnClick(() => screenFull.toggle(document.body) || true));
