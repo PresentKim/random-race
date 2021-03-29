@@ -24,12 +24,12 @@ Object.prototype.randomProperty = function () {
 /**
  * @param {MouseEvent} ev
  * @param {number} verticalPixels
- * @param {number} horizontalPixels
  * @return {number[]}
  */
-HTMLCanvasElement.prototype.calcMousePoint = function (ev, verticalPixels, horizontalPixels) {
+HTMLCanvasElement.prototype.calcMousePoint = function (ev, verticalPixels) {
+    const ratio = verticalPixels / this.offsetWidth;
     return [
-        (ev.pageX - this.offsetLeft) * verticalPixels / this.offsetWidth,
-        (ev.pageY - this.offsetTop) * (horizontalPixels ? horizontalPixels / this.offsetHeight : 1)
+        (ev.pageX - this.offsetLeft) * ratio,
+        (ev.pageY - this.offsetTop) * ratio
     ];
 }
