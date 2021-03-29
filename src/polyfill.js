@@ -9,3 +9,14 @@ window.requestAnimationFrame = (function () {
             ((callback) => window.setTimeout(callback, 1000 / 60));
 })();
 Date.now = (Date.now || (() => new Date().getTime()));
+
+Array.prototype.random = function () {
+    const values = this.slice();
+    return values[Math.floor(values.length * Math.random() << 0)];
+};
+Map.prototype.random = function () {
+    return Array.from(this.values()).random();
+};
+Object.prototype.randomProperty = function () {
+    return this[Object.keys(this).random()];
+};
