@@ -35,7 +35,7 @@ class DrawWidget extends Widget {
             return null;
 
         const deltaVec = Vector2.from(this.drawable).multiply(this.getScale() / 2);
-        return BoundingBox.from(this.pos).expand(deltaVec);
+        return BoundingBox.from(this.pos).expand(deltaVec).subtract(this.drawable.ox * this.getScale(), this.drawable.oy * this.getScale());
     }
 
     /**

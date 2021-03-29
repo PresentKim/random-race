@@ -43,6 +43,46 @@ class SpriteAnimation extends Drawable {
         }
     }
 
+    /** @return {number} */
+    get sx() {
+        const frame = this.frame;
+        if (!frame) {
+            return 0;
+        } else {
+            return frame.sx;
+        }
+    }
+
+    /** @return {number} */
+    get sy() {
+        const frame = this.frame;
+        if (!frame) {
+            return 0;
+        } else {
+            return frame.sy;
+        }
+    }
+
+    /** @return {number} */
+    get ox() {
+        const frame = this.frame;
+        if (!frame) {
+            return 0;
+        } else {
+            return frame.ox;
+        }
+    }
+
+    /** @return {number} */
+    get oy() {
+        const frame = this.frame;
+        if (!frame) {
+            return 0;
+        } else {
+            return frame.oy;
+        }
+    }
+
     /** @return {Sprite|null} */
     get frame() {
         let frame = this.frames[Math.floor(this.elapsedSecs / this.fps)];

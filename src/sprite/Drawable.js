@@ -1,3 +1,11 @@
+/**
+ * @property {number} w
+ * @property {number} h
+ * @property {number} sx
+ * @property {number} sy
+ * @property {number} ox
+ * @property {number} oy
+ */
 class Drawable {
     /** @return {HTMLImageElement|null} */
     get image() {
