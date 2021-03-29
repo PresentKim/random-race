@@ -33,12 +33,12 @@ class Component {
 
     /** @param {number} diffSecs */
     update(diffSecs) {
-        this.children.forEach((component, index) => {
-            if (component.isDestroyed) {
-                this.children.splice(index, 1)
-                return;
-            }
+        this.children = this.children.filter((component, index) => {
+            if (component.isDestroyed)
+                return false;
+
             component.update(diffSecs);
+            return true;
         });
         this.onUpdate(diffSecs, this);
     }
@@ -69,13 +69,10 @@ class Component {
             return false;
 
         const bb = this.getBoundingBox();
-        if (!bb)
+        if (!bb || !bb.isVectorInside(this.isAbsolute() ? absoluteVec : relativeVec))
             return false;
 
-        if (bb.isVectorInside(this.isAbsolute() ? absoluteVec : relativeVec)) {
-            return this.onClick(absoluteVec, relativeVec, this);
-        }
-        return false;
+        return this.onClick(absoluteVec, relativeVec, this) || this.children.slice().reverse().findIndex(component => component.click(absoluteVec, relativeVec)) !== -1;
     }
 
     destroy() {

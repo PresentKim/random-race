@@ -44,12 +44,7 @@ class TextWidget extends Widget {
     /** @return {BoundingBox} */
     getBoundingBox() {
         const lines = this.text.split("\n");
-        let maxWidth = 0;
-        for (const line of lines) {
-            if (maxWidth < line.length) {
-                maxWidth = line.length;
-            }
-        }
+        const maxWidth = lines.reduce((prev, current) => Math.max(prev, current.length), 0);
 
         const deltaVec = new Vector2(maxWidth * TEXT_WIDTH, lines.length * TEXT_HEIGHT).multiply(this.getScale() / 2);
         return BoundingBox.from(this.pos).expand(deltaVec);

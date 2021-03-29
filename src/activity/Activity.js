@@ -39,23 +39,6 @@ class Activity extends Component {
         });
     }
 
-    /**
-     * @param {Vector2} absoluteVec
-     * @param {Vector2} relativeVec
-     * @return {boolean} if returns true, stop click event handling
-     */
-    click(absoluteVec, relativeVec) {
-        if (this.isDestroyed)
-            return false;
-
-        for (const widget of this.children.slice().reverse()) {
-            if (widget.click(absoluteVec, relativeVec)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     getBoundingBox() {
         return BoundingBox.from(0, this.app.canvas);
     }

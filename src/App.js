@@ -27,18 +27,16 @@ class App {
         this.ctx.imageSmoothingEnabled = false;
 
         this.canvas.onclick = ev => {
-            for (const activity of this.activities.slice().reverse()) {
-                if (ev.button !== 0)
-                    break;
+            if (ev.button !== 0)
+                return;
 
+            this.activities.slice().reverse().some(activity => {
                 const absoluteVec = new Vector2(ev.pageX, ev.pageY)
                         .subtract(this.canvas.offsetLeft, this.canvas.offsetTop)
                         .multiply(1024 / this.canvas.offsetWidth);
                 const relativeVec = absoluteVec.add(activity.camera);
-                if (activity.click(absoluteVec, relativeVec)) {
-                    break;
-                }
-            }
+                return activity.click(absoluteVec, relativeVec);
+            });
         };
     }
 
@@ -49,13 +47,13 @@ class App {
             const diffSecs = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
 
             this.ctx.fillRect(0, 0, this.width, this.height);
-            this.activities.forEach((activity, index) => {
-                if (activity.isDestroyed) {
-                    this.activities.splice(index, 1)
-                    return;
-                }
+            this.activities = this.activities.filter((activity, index) => {
+                if (activity.isDestroyed)
+                    return false;
+
                 activity.update(diffSecs);
                 activity.render(this.ctx);
+                return true;
             });
         }
         this.lastUpdate = now;
