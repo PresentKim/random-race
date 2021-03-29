@@ -5,10 +5,14 @@ import RenderOption from "./RenderOption";
  * @property {object} renderOption
  * @property {boolean} isDestroyed
  *
+ * @property {number} hoverOutDelay
+ *
  * @property {Function} onUpdate (number, Component) : void
  * @property {Function} onRender (CanvasRenderingContext2D, Component) : void
  * @property {Function} onDestroy (Component) : void
- * @property {Function} onClick (Vector2, Vector2, Component) : boolean
+ * @property {Function} onMouseClick (Vector2, Vector2, Component) : boolean
+ * @property {Function} onMouseHover (Vector2, Vector2, Component) : boolean
+ * @property {Function} onMouseHoverOut (Component) : void
  */
 class Component {
     /** @param {RenderOption|null} renderOption */
@@ -21,8 +25,13 @@ class Component {
         };
         this.onDestroy = (self) => {
         };
-        this.onClick = (absoluteVec, relativeVec, self) => {
+        this.onMouseClick = (absoluteVec, relativeVec, self) => {
             return false;
+        };
+        this.onMouseHover = (absoluteVec, relativeVec, self) => {
+            return false;
+        };
+        this.onMouseHoverOut = (self) => {
         };
         this.setRenderOption(renderOption);
         this.init();
@@ -40,6 +49,14 @@ class Component {
             component.update(diffSecs);
             return true;
         });
+
+        if (this.hoverOutDelay > 0) {
+            this.hoverOutDelay -= diffSecs;
+            if (this.hoverOutDelay <= 0) {
+                this.hoverOutDelay = 0;
+                this.onMouseHoverOut(this);
+            }
+        }
         this.onUpdate(diffSecs, this);
     }
 
@@ -64,7 +81,7 @@ class Component {
      * @param {Vector2} relativeVec
      * @return {boolean} if returns true, stop click event handling
      */
-    click(absoluteVec, relativeVec) {
+    mouseClick(absoluteVec, relativeVec) {
         if (this.isDestroyed)
             return false;
 
@@ -72,7 +89,24 @@ class Component {
         if (!bb || !bb.isVectorInside(this.isAbsolute() ? absoluteVec : relativeVec))
             return false;
 
-        return this.onClick(absoluteVec, relativeVec, this) || this.children.slice().reverse().findIndex(component => component.click(absoluteVec, relativeVec)) !== -1;
+        return this.onMouseClick(absoluteVec, relativeVec, this) || this.children.slice().reverse().findIndex(component => component.mouseClick(absoluteVec, relativeVec)) !== -1;
+    }
+
+    /**
+     * @param {Vector2} absoluteVec
+     * @param {Vector2} relativeVec
+     * @return {boolean} if returns true, stop click event handling
+     */
+    mouseHover(absoluteVec, relativeVec) {
+        if (this.isDestroyed)
+            return false;
+
+        const bb = this.getBoundingBox();
+        if (!bb || !bb.isVectorInside(this.isAbsolute() ? absoluteVec : relativeVec))
+            return false;
+
+        this.hoverOutDelay = 100;
+        return this.onMouseHover(absoluteVec, relativeVec, this) || this.children.slice().reverse().findIndex(component => component.mouseHover(absoluteVec, relativeVec)) !== -1;
     }
 
     destroy() {
@@ -102,8 +136,26 @@ class Component {
      * @param {Function} handler(Vector2,Vector2) : boolean
      * @return {Component}
      */
-    setOnClick(handler) {
-        this.onClick = handler;
+    setOnMouseClick(handler) {
+        this.onMouseClick = handler;
+        return this;
+    }
+
+    /**
+     * @param {Function} handler(Vector2,Vector2) : boolean
+     * @return {Component}
+     */
+    setOnMouseHover(handler) {
+        this.onMouseHover = handler;
+        return this;
+    }
+
+    /**
+     * @param {Function} handler() : void
+     * @return {Component}
+     */
+    setOnMouseHoverOut(handler) {
+        this.onMouseHoverOut = handler;
         return this;
     }
 
@@ -124,6 +176,11 @@ class Component {
     /** @return {boolean} */
     isHidden() {
         return this.renderOption._hidden;
+    }
+
+    /** @return {boolean} */
+    isHover() {
+        return this.hoverOutDelay > 0;
     }
 
     /** @return {number} */

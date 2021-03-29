@@ -1,20 +1,22 @@
+import Vector2 from "@/utils/Vector2";
+
 /**
  * @property {Activity[]} activities
  * @property {HTMLCanvasElement} canvas
  * @property {CanvasRenderingContext2D} ctx
+ * @property {Vector2} mouseVec
  * @property {number} elapsedSecs
  * @property {number} lastUpdate
  *
  * @property {number} width @readonly
  * @property {number} height @readonly
  */
-import Vector2 from "@/utils/Vector2";
-
 class App {
     constructor(canvasElement) {
         this.activities = [];
         this.canvas = canvasElement;
         this.ctx = this.canvas.getContext('2d');
+        this.mouseVec = new Vector2();
         this.elapsedSecs = 0;
         this.lastUpdate = -1;
 
@@ -30,13 +32,13 @@ class App {
             if (ev.button !== 0)
                 return;
 
+            const clickVec = new Vector2(...this.canvas.calcMousePoint(ev, 1024));
             this.activities.slice().reverse().some(activity => {
-                const absoluteVec = new Vector2(ev.pageX, ev.pageY)
-                        .subtract(this.canvas.offsetLeft, this.canvas.offsetTop)
-                        .multiply(1024 / this.canvas.offsetWidth);
-                const relativeVec = absoluteVec.add(activity.camera);
-                return activity.click(absoluteVec, relativeVec);
+                return activity.mouseClick(clickVec, clickVec.add(activity.camera));
             });
+        };
+        this.canvas.onmousemove = ev => {
+            this.mouseVec = new Vector2(...this.canvas.calcMousePoint(ev, 1024));
         };
     }
 
@@ -58,6 +60,9 @@ class App {
         }
         this.lastUpdate = now;
 
+        this.activities.slice().reverse().some(activity => {
+            return activity.mouseHover(this.mouseVec, this.mouseVec.add(activity.camera));
+        });
         requestAnimationFrame(this.update.bind(this));
     }
 

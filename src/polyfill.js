@@ -20,3 +20,16 @@ Map.prototype.random = function () {
 Object.prototype.randomProperty = function () {
     return this[Object.keys(this).random()];
 };
+
+/**
+ * @param {MouseEvent} ev
+ * @param {number} verticalPixels
+ * @param {number} horizontalPixels
+ * @return {number[]}
+ */
+HTMLCanvasElement.prototype.calcMousePoint = function (ev, verticalPixels, horizontalPixels) {
+    return [
+        (ev.pageX - this.offsetLeft) * verticalPixels / this.offsetWidth,
+        (ev.pageY - this.offsetTop) * (horizontalPixels ? horizontalPixels / this.offsetHeight : 1)
+    ];
+}

@@ -24,7 +24,7 @@ class MainActivity extends Activity {
         const reloadButton = new DrawWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.scale(3));
 
         this.addWidget(background.setOnUpdate((diffSecs) => background.pos.x -= diffSecs / 10));
-        this.addWidget(titleCharacter.setOnClick((vec) => {
+        this.addWidget(titleCharacter.setOnMouseClick((vec) => {
             idleAnimation.fps -= 3;
             runAnimation.fps -= 3;
             if (idleAnimation.fps < 0) {
@@ -43,7 +43,7 @@ class MainActivity extends Activity {
             );
         }));
         this.addWidget(titleText);
-        this.addWidget(reloadButton.setOnClick(() => {
+        this.addWidget(reloadButton.setOnMouseClick(() => {
             background.setDrawable(BackgroundSpriteSheet.random());
 
             titleCharacter.setDrawable(Animations.main_character.hit.clone()
@@ -61,7 +61,7 @@ class MainActivity extends Activity {
         }));
         if (screenFull.isEnabled) {
             const fullscreenButton = new DrawWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.scale(3));
-            this.addWidget(fullscreenButton.setOnClick(() => screenFull.toggle(document.body) || true));
+            this.addWidget(fullscreenButton.setOnMouseClick(() => screenFull.toggle(document.body) || true));
 
             screenFull.on("change", () => {
                 fullscreenButton.drawable = IconSpriteSheet.get(screenFull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter");
