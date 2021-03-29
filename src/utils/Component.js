@@ -105,7 +105,7 @@ class Component {
         if (!bb || !bb.isVectorInside(this.isAbsolute() ? absoluteVec : relativeVec))
             return false;
 
-        this.hoverOutDelay = 100;
+        this.hoverOutDelay = 20;
         return this.onMouseHover(absoluteVec, relativeVec, this) || this.children.slice().reverse().findIndex(component => component.mouseHover(absoluteVec, relativeVec)) !== -1;
     }
 
