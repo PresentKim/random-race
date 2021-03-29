@@ -7,6 +7,8 @@ import BackgroundWidget from "@/widget/BackgroundWidget";
 import DrawWidget from "@/widget/DrawWidget";
 import screenFull from "screenfull";
 
+const upscaleWhenHover = (_, component) => component.renderOption.scale(component.isHover() ? 3.3 : 3);
+
 class MainActivity extends Activity {
     /** @param {App} app */
     constructor(app) {
@@ -58,10 +60,10 @@ class MainActivity extends Activity {
             );
 
             return true;
-        }));
+        }).setOnUpdate(upscaleWhenHover));
         if (screenFull.isEnabled) {
             const fullscreenButton = new DrawWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.scale(3));
-            this.addWidget(fullscreenButton.setOnMouseClick(() => screenFull.toggle(document.body) || true));
+            this.addWidget(fullscreenButton.setOnMouseClick(() => screenFull.toggle(document.body) || true).setOnUpdate(upscaleWhenHover));
 
             screenFull.on("change", () => {
                 fullscreenButton.drawable = IconSpriteSheet.get(screenFull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter");
