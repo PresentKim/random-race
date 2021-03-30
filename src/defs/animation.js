@@ -1,5 +1,5 @@
 import SpriteAnimation from "@/sprite/SpriteAnimation";
-import {CharacterImages, BlockImages} from "@/defs/image";
+import {CharacterImages, ParticleImages} from "@/defs/image";
 import {MainCharacterAnimationJson, CollectedItemJson} from "@/defs/json";
 
 export const MainCharacterAnimation = {
@@ -29,4 +29,4 @@ export const VirtualGuy = {
     hit: MainCharacterAnimation.hit(CharacterImages.VirtualGuy)
 };
 
-export const CollectedItem = new SpriteAnimation(BlockImages.CollectedItem, CollectedItemJson);
+export const CollectedItem = new SpriteAnimation(ParticleImages.CollectedItem, CollectedItemJson);

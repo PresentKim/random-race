@@ -30,9 +30,9 @@ export const MainCharacterImages = {
 export const CharacterImages = {...MainCharacterImages};
 
 
-import CollectedItemPng from "~/block/items/collected_item.png";
+import CollectedItemPng from "~/particle/collected_item.png";
 
 export const CollectedItemImage = CollectedItemPng;
-export const BlockImages = {
+export const ParticleImages = {
     CollectedItem: CollectedItemImage
 };
