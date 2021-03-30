@@ -1,7 +1,7 @@
 import Activity from "./Activity";
 import {DefaultCharacterImages} from "@/defs/image";
 import {BackgroundSpriteSheet, IconSpriteSheet} from "@/defs/spritesheet";
-import {DefaultCharacterAnimation, CollectedItem} from "@/defs/animation";
+import {DefaultCharacterAnimation, CharacterAppearingAnimation, CollectedItemAnimation} from "@/defs/animation";
 import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
@@ -53,10 +53,14 @@ class MainActivity extends Activity {
             titleCharacter.setSprite(DefaultCharacterAnimation.hit(titleCharacter.sprite.image)
                     .setLoop(1)
                     .setOnAnimationEnd(() => {
-                        const randomPng = DefaultCharacterImages.randomProperty();
-                        idleAnimation.setImage(randomPng);
-                        runAnimation.setImage(randomPng);
-                        titleCharacter.sprite = idleAnimation.setLoop(1);
+                        titleCharacter.setSprite(CharacterAppearingAnimation.in()
+                                .setLoop(0)
+                                .setOnAnimationEnd(() => {
+                                    const randomPng = DefaultCharacterImages.randomProperty();
+                                    idleAnimation.setImage(randomPng);
+                                    runAnimation.setImage(randomPng);
+                                    titleCharacter.sprite = idleAnimation.setLoop(1);
+                                }))
                     })
             );
 
@@ -91,10 +95,14 @@ class MainActivity extends Activity {
             }).setOnMouseClick(() => {
                 if (runner.sprite.loop === -1) {
                     runner.setSprite(DefaultCharacterAnimation.hit(runner.sprite.image)
-                            .setLoop(1)
+                            .setLoop(0)
                             .setOnAnimationEnd(() => {
-                                runner.pos.x = 0;
-                                runner.sprite = null;
+                                runner.setSprite(CharacterAppearingAnimation.out()
+                                        .setLoop(0)
+                                        .setOnAnimationEnd(() => {
+                                            runner.pos.x = 0;
+                                            runner.sprite = null;
+                                        }))
                             })
                     );
                     return true;
@@ -104,7 +112,7 @@ class MainActivity extends Activity {
 
         if (new URLSearchParams(window.location.search).get("renderMouseClick")) {
             this.setOnMouseClick(vec => {
-                const clickAnimation = CollectedItem.clone().setLoop(0);
+                const clickAnimation = CollectedItemAnimation.clone().setLoop(0);
                 const clickParticle = new SpriteWidget(vec, clickAnimation);
                 clickAnimation.setOnAnimationEnd(() => clickParticle.destroy());
                 this.addWidget(clickParticle);

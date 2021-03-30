@@ -30,9 +30,12 @@ export const DefaultCharacterImages = {
 export const CharacterImages = {...DefaultCharacterImages};
 
 
+import CharacterAppearingPng from "~/particle/character_appearing.png";
 import CollectedItemPng from "~/particle/collected_item.png";
 
+export const CharacterAppearingImage = CharacterAppearingPng;
 export const CollectedItemImage = CollectedItemPng;
 export const ParticleImages = {
+    CharacterAppearing: CharacterAppearingImage,
     CollectedItem: CollectedItemImage
 };
