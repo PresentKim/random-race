@@ -4,4 +4,4 @@ export const IconJson = require("~/ui/icon.json");
 
 export const CollectedItemJson = require("~/particle/collected_item.json");
 
-export const MainCharacterAnimationJson = require("~/character/main_character.animation.json");
+export const DefaultCharacterAnimationJson = require("~/character/default_character.animation.json");

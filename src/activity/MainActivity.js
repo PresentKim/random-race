@@ -1,7 +1,7 @@
 import Activity from "./Activity";
-import {MainCharacterImages} from "@/defs/image";
+import {DefaultCharacterImages} from "@/defs/image";
 import {BackgroundSpriteSheet, IconSpriteSheet} from "@/defs/spritesheet";
-import {MainCharacterAnimation, CollectedItem} from "@/defs/animation";
+import {DefaultCharacterAnimation, CollectedItem} from "@/defs/animation";
 import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
@@ -18,9 +18,9 @@ class MainActivity extends Activity {
 
         const background = new BackgroundWidget(null, BackgroundSpriteSheet.random());
         /** @var {SpriteAnimation} */
-        const idleAnimation = MainCharacterAnimation.idle(MainCharacterImages.PinkMan)
+        const idleAnimation = DefaultCharacterAnimation.idle(DefaultCharacterImages.PinkMan)
         /** @var {SpriteAnimation} */
-        const runAnimation = MainCharacterAnimation.run(MainCharacterImages.PinkMan)
+        const runAnimation = DefaultCharacterAnimation.run(DefaultCharacterImages.PinkMan)
         idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.sprite = runAnimation.setLoop(6));
         runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.sprite = idleAnimation.setLoop(4));
         const titleCharacter = new SpriteWidget(Vector2.from(app).multiply(0.25, 0.175), runAnimation, RenderOption.scale(3));
@@ -50,10 +50,10 @@ class MainActivity extends Activity {
         this.addWidget(reloadButton.setOnMouseClick(() => {
             background.setSprite(BackgroundSpriteSheet.random());
 
-            titleCharacter.setSprite(MainCharacterAnimation.hit(titleCharacter.sprite.image)
+            titleCharacter.setSprite(DefaultCharacterAnimation.hit(titleCharacter.sprite.image)
                     .setLoop(1)
                     .setOnAnimationEnd(() => {
-                        const randomPng = MainCharacterImages.randomProperty();
+                        const randomPng = DefaultCharacterImages.randomProperty();
                         idleAnimation.setImage(randomPng);
                         runAnimation.setImage(randomPng);
                         titleCharacter.sprite = idleAnimation.setLoop(1);
@@ -80,7 +80,7 @@ class MainActivity extends Activity {
                 }
                 if (!runner.sprite) {
                     runner.renderOption.scale(Math.random() * 5 + 2.5)
-                    runner.sprite = MainCharacterAnimation.run(MainCharacterImages.randomProperty()).setFps(Math.random() * 60 + 30)
+                    runner.sprite = DefaultCharacterAnimation.run(DefaultCharacterImages.randomProperty()).setFps(Math.random() * 60 + 30)
                 }
                 /** @var {SpriteAnimation} */
                 let animation = runner.sprite;
@@ -90,7 +90,7 @@ class MainActivity extends Activity {
                 }
             }).setOnMouseClick(() => {
                 if (runner.sprite.loop === -1) {
-                    runner.setSprite(MainCharacterAnimation.hit(runner.sprite.image)
+                    runner.setSprite(DefaultCharacterAnimation.hit(runner.sprite.image)
                             .setLoop(1)
                             .setOnAnimationEnd(() => {
                                 runner.pos.x = 0;

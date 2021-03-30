@@ -21,13 +21,13 @@ export const PinkManImage = PinkManPng;
 export const MaskManImage = MaskManPng;
 export const NinjaFrogImage = NinjaFrogPng;
 export const VirtualGuyImage = VirtualGuyPng;
-export const MainCharacterImages = {
+export const DefaultCharacterImages = {
     PinkMan: PinkManImage,
     MaskMan: MaskManImage,
     NinjaFrog: NinjaFrogImage,
     VirtualGuy: VirtualGuyImage
 };
-export const CharacterImages = {...MainCharacterImages};
+export const CharacterImages = {...DefaultCharacterImages};
 
 
 import CollectedItemPng from "~/particle/collected_item.png";
