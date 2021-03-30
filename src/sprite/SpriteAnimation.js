@@ -1,4 +1,3 @@
-import Drawable from "@/sprite/Drawable";
 import Sprite from "@/sprite/Sprite";
 
 /**

@@ -1,6 +1,4 @@
-import RenderOption from "@/utils/RenderOption";
-import Vector2 from "@/utils/Vector2";
-import Drawable from "@/sprite/Drawable";
+import Vector2 from "@/utils/Vector2"
 
 /**
  * @property {number} w
@@ -11,7 +9,7 @@ import Drawable from "@/sprite/Drawable";
  * @property {number} oy
  * @property {HTMLImageElement} image
  */
-class Sprite extends Drawable {
+class Sprite {
     /**
      * @param {number} w
      * @param {number} h
@@ -21,7 +19,6 @@ class Sprite extends Drawable {
      * @param {number} oy
      */
     constructor(w, h, sx, sy, ox, oy) {
-        super();
         this.w = w || 0;
         this.h = h || 0;
         this.sx = sx || 0;
@@ -57,6 +54,10 @@ class Sprite extends Drawable {
         return this;
     }
 
+    /** @param {number} diffSecs */
+    update(diffSecs) {
+    }
+
     /**
      * @param {CanvasRenderingContext2D} ctx
      * @param {Vector2|object} vecObj
@@ -73,7 +74,7 @@ class Sprite extends Drawable {
                 this.image,
                 this.sx, this.sy,
                 this.w, this.h,
-                -this.ox * scale / 2, -this.oy * scale/ 2,
+                -this.ox * scale / 2, -this.oy * scale / 2,
                 this.w * scale, this.h * scale
         );
         ctx.restore();

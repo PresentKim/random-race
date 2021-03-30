@@ -6,7 +6,7 @@ import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
 import BackgroundWidget from "@/widget/BackgroundWidget";
-import DrawWidget from "@/widget/DrawWidget";
+import SpriteWidget from "@/widget/SpriteWidget";
 import screenFull from "screenfull";
 
 const upscaleWhenHover = (_, component) => component.renderOption.scale(component.isHover() ? 3.3 : 3);
@@ -21,11 +21,11 @@ class MainActivity extends Activity {
         const idleAnimation = MainCharacterAnimation.idle(MainCharacterImages.PinkMan)
         /** @var {SpriteAnimation} */
         const runAnimation = MainCharacterAnimation.run(MainCharacterImages.PinkMan)
-        idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.drawable = runAnimation.setLoop(6));
-        runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.drawable = idleAnimation.setLoop(4));
-        const titleCharacter = new DrawWidget(Vector2.from(app).multiply(0.25, 0.175), runAnimation, RenderOption.scale(3));
+        idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.sprite = runAnimation.setLoop(6));
+        runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.sprite = idleAnimation.setLoop(4));
+        const titleCharacter = new SpriteWidget(Vector2.from(app).multiply(0.25, 0.175), runAnimation, RenderOption.scale(3));
         const titleText = new TextWidget(Vector2.from(app).multiply(0.5, 0.1), "random race", RenderOption.scale(5));
-        const reloadButton = new DrawWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.scale(3));
+        const reloadButton = new SpriteWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.scale(3));
 
         this.addWidget(background.setOnUpdate((diffSecs) => background.pos.x -= diffSecs / 10));
         this.addWidget(titleCharacter.setOnMouseClick((vec) => {
@@ -48,53 +48,53 @@ class MainActivity extends Activity {
         }));
         this.addWidget(titleText);
         this.addWidget(reloadButton.setOnMouseClick(() => {
-            background.setDrawable(BackgroundSpriteSheet.random());
+            background.setSprite(BackgroundSpriteSheet.random());
 
-            titleCharacter.setDrawable(MainCharacterAnimation.hit(titleCharacter.drawable.image)
+            titleCharacter.setSprite(MainCharacterAnimation.hit(titleCharacter.sprite.image)
                     .setLoop(1)
                     .setOnAnimationEnd(() => {
                         const randomPng = MainCharacterImages.randomProperty();
                         idleAnimation.setImage(randomPng);
                         runAnimation.setImage(randomPng);
-                        titleCharacter.drawable = idleAnimation.setLoop(1);
+                        titleCharacter.sprite = idleAnimation.setLoop(1);
                     })
             );
 
             return true;
         }).setOnUpdate(upscaleWhenHover));
         if (screenFull.isEnabled) {
-            const fullscreenButton = new DrawWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.scale(3));
+            const fullscreenButton = new SpriteWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.scale(3));
             this.addWidget(fullscreenButton.setOnMouseClick(() => screenFull.toggle(document.body) || true).setOnUpdate(upscaleWhenHover));
 
             screenFull.on("change", () => {
-                fullscreenButton.drawable = IconSpriteSheet.get(screenFull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter");
+                fullscreenButton.sprite = IconSpriteSheet.get(screenFull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter");
             });
         }
 
         for (let i = 0; i < 30; ++i) {
-            const runner = new DrawWidget(new Vector2(Math.random() * this.app.canvas.width, this.app.canvas.height));
+            const runner = new SpriteWidget(new Vector2(Math.random() * this.app.canvas.width, this.app.canvas.height));
             this.addWidget(runner.setOnUpdate(diffSecs => {
                 if (runner.getBoundingBox()?.minX > this.getBoundingBox().maxX) {
                     runner.pos.x = 0;
-                    runner.drawable = null;
+                    runner.sprite = null;
                 }
-                if (!runner.drawable) {
+                if (!runner.sprite) {
                     runner.renderOption.scale(Math.random() * 5 + 2.5)
-                    runner.drawable = MainCharacterAnimation.run(MainCharacterImages.randomProperty()).setFps(Math.random() * 60 + 30)
+                    runner.sprite = MainCharacterAnimation.run(MainCharacterImages.randomProperty()).setFps(Math.random() * 60 + 30)
                 }
                 /** @var {SpriteAnimation} */
-                let animation = runner.drawable;
+                let animation = runner.sprite;
                 animation.update(diffSecs);
                 if (animation.loop === -1) {
                     runner.pos.x += diffSecs / 5 * (60 / animation.fps);
                 }
             }).setOnMouseClick(() => {
-                if (runner.drawable.loop === -1) {
-                    runner.setDrawable(MainCharacterAnimation.hit(runner.drawable.image)
+                if (runner.sprite.loop === -1) {
+                    runner.setSprite(MainCharacterAnimation.hit(runner.sprite.image)
                             .setLoop(1)
                             .setOnAnimationEnd(() => {
                                 runner.pos.x = 0;
-                                runner.drawable = null;
+                                runner.sprite = null;
                             })
                     );
                     return true;
@@ -105,7 +105,7 @@ class MainActivity extends Activity {
         if (new URLSearchParams(window.location.search).get("renderMouseClick")) {
             this.setOnMouseClick(vec => {
                 const clickAnimation = CollectedItem.clone().setLoop(0);
-                const clickParticle = new DrawWidget(vec, clickAnimation);
+                const clickParticle = new SpriteWidget(vec, clickAnimation);
                 clickAnimation.setOnAnimationEnd(() => clickParticle.destroy());
                 this.addWidget(clickParticle);
             })
