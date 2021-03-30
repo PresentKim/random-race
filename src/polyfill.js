@@ -20,6 +20,11 @@ Map.prototype.random = function () {
 Object.prototype.randomProperty = function () {
     return this[Object.keys(this).random()];
 };
+Object.prototype.clone = function () {
+    const obj = {};
+    Object.keys(this).forEach(key => obj[key] = this[key]);
+    return obj;
+};
 
 /**
  * @param {MouseEvent} ev

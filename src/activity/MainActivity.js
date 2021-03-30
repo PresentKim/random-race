@@ -1,5 +1,7 @@
 import Activity from "./Activity";
-import {BackgroundSpriteSheet, IconSpriteSheet, PngFiles, Animations} from "@/sprite/SpriteSheetDefs";
+import {MainCharacterImages} from "@/defs/image";
+import {BackgroundSpriteSheet, IconSpriteSheet} from "@/defs/spritesheet";
+import {MainCharacterAnimation, CollectedItem} from "@/defs/animation";
 import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
@@ -16,9 +18,9 @@ class MainActivity extends Activity {
 
         const background = new BackgroundWidget(null, BackgroundSpriteSheet.random());
         /** @var {SpriteAnimation} */
-        const idleAnimation = Animations.main_character.idle.clone().setImage(PngFiles.pink_man);
+        const idleAnimation = MainCharacterAnimation.idle(MainCharacterImages.PinkMan)
         /** @var {SpriteAnimation} */
-        const runAnimation = Animations.main_character.run.clone().setImage(PngFiles.pink_man);
+        const runAnimation = MainCharacterAnimation.run(MainCharacterImages.PinkMan)
         idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.drawable = runAnimation.setLoop(6));
         runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.drawable = idleAnimation.setLoop(4));
         const titleCharacter = new DrawWidget(Vector2.from(app).multiply(0.25, 0.175), runAnimation, RenderOption.scale(3));
@@ -48,11 +50,10 @@ class MainActivity extends Activity {
         this.addWidget(reloadButton.setOnMouseClick(() => {
             background.setDrawable(BackgroundSpriteSheet.random());
 
-            titleCharacter.setDrawable(Animations.main_character.hit.clone()
+            titleCharacter.setDrawable(MainCharacterAnimation.hit(titleCharacter.drawable.image)
                     .setLoop(1)
-                    .setImage(titleCharacter.drawable.image)
                     .setOnAnimationEnd(() => {
-                        const randomPng = PngFiles.randomProperty();
+                        const randomPng = MainCharacterImages.randomProperty();
                         idleAnimation.setImage(randomPng);
                         runAnimation.setImage(randomPng);
                         titleCharacter.drawable = idleAnimation.setLoop(1);
@@ -79,7 +80,7 @@ class MainActivity extends Activity {
                 }
                 if (!runner.drawable) {
                     runner.renderOption.scale(Math.random() * 5 + 2.5)
-                    runner.drawable = Animations.main_character.run.clone().setImage(PngFiles.randomProperty()).setFps(Math.random() * 60 + 30)
+                    runner.drawable = MainCharacterAnimation.run(MainCharacterImages.randomProperty()).setFps(Math.random() * 60 + 30)
                 }
                 /** @var {SpriteAnimation} */
                 let animation = runner.drawable;
@@ -89,9 +90,8 @@ class MainActivity extends Activity {
                 }
             }).setOnMouseClick(() => {
                 if (runner.drawable.loop === -1) {
-                    runner.setDrawable(Animations.main_character.hit.clone()
+                    runner.setDrawable(MainCharacterAnimation.hit(runner.drawable.image)
                             .setLoop(1)
-                            .setImage(runner.drawable.image)
                             .setOnAnimationEnd(() => {
                                 runner.pos.x = 0;
                                 runner.drawable = null;
@@ -104,7 +104,7 @@ class MainActivity extends Activity {
 
         if (new URLSearchParams(window.location.search).get("renderMouseClick")) {
             this.setOnMouseClick(vec => {
-                const clickAnimation = Animations.collected_item.clone().setLoop(0);
+                const clickAnimation = CollectedItem.clone().setLoop(0);
                 const clickParticle = new DrawWidget(vec, clickAnimation);
                 clickAnimation.setOnAnimationEnd(() => clickParticle.destroy());
                 this.addWidget(clickParticle);

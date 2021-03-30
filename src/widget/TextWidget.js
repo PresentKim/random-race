@@ -1,5 +1,5 @@
 import Widget from "./Widget";
-import {TextSpriteSheet} from "@/sprite/SpriteSheetDefs";
+import {TextSpriteSheet} from "@/defs/spritesheet";
 import BoundingBox from "@/utils/BoundingBox";
 import Vector2 from "@/utils/Vector2";
 
