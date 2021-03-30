@@ -20,6 +20,10 @@ class BackgroundWidget extends SpriteWidget {
     getBoundingBox() {
         return this.getDrawBox();
     }
+
+    isAbsolute() {
+        return true;
+    }
 }
 
 export default BackgroundWidget;

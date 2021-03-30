@@ -42,6 +42,10 @@ class Activity extends Component {
     getBoundingBox() {
         return BoundingBox.from(0, this.app.canvas);
     }
+
+    isAbsolute() {
+        return true;
+    }
 }
 
 export default Activity;
