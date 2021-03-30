@@ -23,9 +23,9 @@ class MainActivity extends Activity {
         const runAnimation = DefaultCharacterAnimation.run(DefaultCharacterImages.PinkMan)
         idleAnimation.setLoop(4).setOnAnimationEnd(() => titleCharacter.sprite = runAnimation.setLoop(6));
         runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.sprite = idleAnimation.setLoop(4));
-        const titleCharacter = new SpriteWidget(Vector2.from(app).multiply(0.25, 0.175), runAnimation, RenderOption.scale(3));
-        const titleText = new TextWidget(Vector2.from(app).multiply(0.5, 0.1), "random race", RenderOption.scale(5));
-        const reloadButton = new SpriteWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.scale(3));
+        const titleCharacter = new SpriteWidget(Vector2.from(app).multiply(0.25, 0.175), runAnimation, RenderOption.absolute().scale(3));
+        const titleText = new TextWidget(Vector2.from(app).multiply(0.5, 0.1), "random race", RenderOption.absolute().scale(5));
+        const reloadButton = new SpriteWidget(Vector2.from(app).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), RenderOption.absolute().scale(3));
 
         this.addWidget(background.setOnUpdate((diffSecs) => background.pos.x -= diffSecs / 10));
         this.addWidget(titleCharacter.setOnMouseClick((vec) => {
@@ -35,8 +35,7 @@ class MainActivity extends Activity {
                 idleAnimation.fps = 100;
                 runAnimation.fps = 100;
             }
-            this.addWidget(new TextWidget(vec.add(Math.random() * 80 - 40, 0))
-                    .setText(idleAnimation.fps === 100 ? "-100" : "+3")
+            this.addWidget(new TextWidget(vec.add(Math.random() * 80 - 40, 0), idleAnimation.fps === 100 ? "-100" : "+3", RenderOption.absolute())
                     .setRenderOption(RenderOption.scale(2).absolute().hue(Math.random() * 360).brightness(6).contrast(2))
                     .setOnUpdate((diffSecs, self) => {
                         self.pos.y -= diffSecs / 20;
@@ -67,7 +66,7 @@ class MainActivity extends Activity {
             return true;
         }).setOnUpdate(upscaleWhenHover));
         if (screenFull.isEnabled) {
-            const fullscreenButton = new SpriteWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.scale(3));
+            const fullscreenButton = new SpriteWidget(reloadButton.pos.subtract(72, 0), IconSpriteSheet.get("fullscreen_enter"), RenderOption.absolute().scale(3));
             this.addWidget(fullscreenButton.setOnMouseClick(() => screenFull.toggle(document.body) || true).setOnUpdate(upscaleWhenHover));
 
             screenFull.on("change", () => {
@@ -78,8 +77,8 @@ class MainActivity extends Activity {
         for (let i = 0; i < 30; ++i) {
             const runner = new SpriteWidget(new Vector2(Math.random() * this.app.canvas.width, this.app.canvas.height));
             this.addWidget(runner.setOnUpdate(diffSecs => {
-                if (runner.getBoundingBox()?.minX > this.getBoundingBox().maxX) {
-                    runner.pos.x = 0;
+                if (runner.getBoundingBox()?.minX > this.getBoundingBox().add(this.camera).maxX) {
+                    runner.pos.x = this.camera.x;
                     runner.sprite = null;
                 }
                 if (!runner.sprite) {
@@ -100,7 +99,7 @@ class MainActivity extends Activity {
                                 runner.setSprite(CharacterAppearingAnimation.out()
                                         .setLoop(0)
                                         .setOnAnimationEnd(() => {
-                                            runner.pos.x = 0;
+                                            runner.pos.x = this.camera.x;
                                             runner.sprite = null;
                                         }))
                             })
@@ -113,11 +112,15 @@ class MainActivity extends Activity {
         if (new URLSearchParams(window.location.search).get("renderMouseClick")) {
             this.setOnMouseClick(vec => {
                 const clickAnimation = CollectedItemAnimation.clone().setLoop(0);
-                const clickParticle = new SpriteWidget(vec, clickAnimation);
+                const clickParticle = new SpriteWidget(vec, clickAnimation, RenderOption.absolute());
                 clickAnimation.setOnAnimationEnd(() => clickParticle.destroy());
                 this.addWidget(clickParticle);
             })
         }
+
+        this.setOnUpdate(diffSecs => {
+            this.camera.x += diffSecs / 10;
+        })
     }
 }
 
