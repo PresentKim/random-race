@@ -1,0 +1,1 @@
+canvas#game{display:flex;justify-content:center;align-items:center;margin:auto auto}@media screen and (orientation: portrait){canvas#game{width:100vmin}}@media screen and (orientation: landscape){canvas#game{height:100vmin}}
