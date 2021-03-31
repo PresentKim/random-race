@@ -1,29 +1,27 @@
 import Component from "@/utils/Component";
 import Vector2 from "@/utils/Vector2";
 import BoundingBox from "@/utils/BoundingBox";
+import App from "@/App";
+import Widget from "@/widget/Widget";
 
-/**
- * @property {App|null} app
- * @property {Widget[]} children
- * @property {Vector2} camera
- */
-class Activity extends Component {
-    /** @param {App} app */
-    constructor(app) {
+export default class Activity extends Component {
+    public readonly app: any;
+    public readonly camera: Vector2;
+
+    constructor(app: App) {
         super();
 
         this.app = app;
-        this.camera = new Vector2(0, 0);
+        this.camera = new Vector2();
     }
 
-    /** @param {Widget} widget */
-    addWidget(widget) {
+    addWidget(widget: Widget): void {
         this.children.push(widget);
         widget.app = this.app;
         widget.activity = this;
     }
 
-    render(ctx) {
+    render(ctx: CanvasRenderingContext2D): void {
         if (this.isDestroyed || this.isHidden())
             return;
 
@@ -39,13 +37,11 @@ class Activity extends Component {
         });
     }
 
-    getBoundingBox() {
+    getBoundingBox(): BoundingBox {
         return BoundingBox.from(0, this.app.canvas);
     }
 
-    isAbsolute() {
+    isAbsolute(): boolean {
         return true;
     }
 }
-
-export default Activity;

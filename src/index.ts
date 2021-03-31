@@ -1,8 +1,8 @@
-import App from '@/App';
+import App from "@/App";
 import MainActivity from "@/activity/MainActivity";
 
 //Init-game
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.createElement("canvas");
     canvas.width = 1024;
     canvas.height = 576;

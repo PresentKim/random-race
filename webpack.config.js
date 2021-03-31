@@ -5,11 +5,13 @@ const CnameWebpackPlugin = require("cname-webpack-plugin");
 
 module.exports = {
     entry: {
-        index: "./src/index.js",
-        polyfill: "./src/polyfill.js",
-        styles: "./src/styles/index.js",
+        index: "./src/index.ts",
+        styles: "./src/styles/index.ts",
+        polyfill: "@babel/polyfill"
     },
+    devtool: "inline-source-map",
     resolve: {
+        extensions: [".tsx", ".ts", ".js"],
         alias: {
             "@": path.resolve(__dirname, "src"),
             "~": path.resolve(__dirname, "assets/sprite"),
@@ -39,6 +41,11 @@ module.exports = {
     ],
     module: {
         rules: [
+            {
+                test: /\.(tsx?)$/i,
+                exclude: /node_modules/,
+                use: ["awesome-typescript-loader"]
+            },
             {
                 test: /\.(js)$/i,
                 exclude: /node_modules/,

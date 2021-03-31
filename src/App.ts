@@ -1,21 +1,24 @@
 import Vector2 from "@/utils/Vector2";
+import {getCanvasMousePos, requestAnimationFrame} from "@/utils/utils";
+import Activity from "@/activity/Activity";
 
-/**
- * @property {Activity[]} activities
- * @property {HTMLCanvasElement} canvas
- * @property {CanvasRenderingContext2D} ctx
- * @property {Vector2} mouseVec
- * @property {number} elapsedSecs
- * @property {number} lastUpdate
- *
- * @property {number} width @readonly
- * @property {number} height @readonly
- */
-class App {
-    constructor(canvasElement) {
+export default class App {
+    public activities: Activity[];
+    public readonly canvas: HTMLCanvasElement;
+    public readonly ctx: CanvasRenderingContext2D;
+    public mouseVec: Vector2;
+
+    public elapsedSecs: number;
+    public lastUpdate: number;
+
+    constructor(canvasElement: HTMLCanvasElement) {
         this.activities = [];
         this.canvas = canvasElement;
-        this.ctx = this.canvas.getContext('2d');
+        const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
+        if (!ctx)
+            throw "Can't get context from canvas";
+
+        this.ctx = ctx;
         this.mouseVec = new Vector2();
         this.elapsedSecs = 0;
         this.lastUpdate = -1;
@@ -23,8 +26,10 @@ class App {
         /**
          * Disable smoothing feature of canvas context for use a clear dot image
          * @url https://stackoverflow.com/a/18556117
-         * */
+         */
+        //@ts-ignore
         this.ctx.webkitImageSmoothingEnabled = false;
+        //@ts-ignore
         this.ctx.mozImageSmoothingEnabled = false;
         this.ctx.imageSmoothingEnabled = false;
 
@@ -32,24 +37,24 @@ class App {
             if (ev.button !== 0)
                 return;
 
-            const clickVec = new Vector2(...this.canvas.calcMousePoint(ev, 1024));
+            const clickVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, 1024);
             this.activities.slice().reverse().some(activity => {
                 return activity.mouseClick(clickVec, clickVec.add(activity.camera));
             });
         };
         this.canvas.onmousemove = ev => {
-            this.mouseVec = new Vector2(...this.canvas.calcMousePoint(ev, 1024));
+            this.mouseVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, 1024);
         };
     }
 
     /** Update all activities and rendering on requestAnimationFrame (defaults, update per 1/60 sec) */
-    update() {
+    update(): void {
         const now = Date.now();
         if (this.lastUpdate !== -1) {
             const diffSecs = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
 
-            this.ctx.fillRect(0, 0, this.width, this.height);
-            this.activities = this.activities.filter((activity, index) => {
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            this.activities = this.activities.filter(activity => {
                 if (activity.isDestroyed)
                     return false;
 
@@ -66,26 +71,7 @@ class App {
         requestAnimationFrame(this.update.bind(this));
     }
 
-    /** @param {Activity} activity */
-    addActivity(activity) {
+    addActivity(activity: Activity): void {
         this.activities.push(activity);
     }
-
-    /**
-     * @readonly
-     * @return {number}
-     */
-    get width() {
-        return this.canvas ? this.canvas.width : 0;
-    }
-
-    /**
-     * @readonly
-     * @return {number}
-     */
-    get height() {
-        return this.canvas ? this.canvas.height : 0;
-    }
 }
-
-export default App;
