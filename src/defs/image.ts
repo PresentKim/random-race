@@ -3,6 +3,7 @@ import RandomMap from "../utils/RandomMap";
 import TextPng from "~/ui/text.png";
 import BackgroundPng from "~/ui/background.png";
 import IconPng from "~/ui/icon.png";
+import ButtonPng from "~/ui/button.png"
 
 import PinkManPng from "~/character/pink_man.png";
 import MaskManPng from "~/character/mask_man.png";
@@ -15,10 +16,12 @@ import CollectedItemPng from "~/particle/collected_item.png";
 export const TextImage = TextPng;
 export const BackgroundImage = BackgroundPng;
 export const IconImage = IconPng;
+export const ButtonImage = ButtonPng;
 export const UiImages = {
     Text: TextImage,
     Background: BackgroundImage,
-    Icon: IconImage
+    Icon: IconImage,
+    button: ButtonImage
 };
 
 export const PinkManImage = PinkManPng;

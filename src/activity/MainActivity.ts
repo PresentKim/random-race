@@ -1,7 +1,7 @@
 import Activity from "./Activity";
 import App from "@/App";
 import {DefaultCharacterImages} from "@/defs/image";
-import {BackgroundSpriteSheet, IconSpriteSheet} from "@/defs/spritesheet";
+import {BackgroundSpriteSheet, ButtonSpriteSheet, IconSpriteSheet} from "@/defs/spritesheet";
 import {DefaultCharacterAnimation, CharacterAppearingAnimation, CollectedItemAnimation} from "@/defs/animation";
 import RenderOption from "@/utils/RenderOption";
 import Vector2 from "@/utils/Vector2";
@@ -28,6 +28,8 @@ export default class MainActivity extends Activity {
         runAnimation.setLoop(6).setOnAnimationEnd(() => titleCharacter.sprite = idleAnimation.setLoop(4));
         const titleCharacter = new SpriteWidget(Vector2.from(this.app.canvas).multiply(0.25, 0.175), runAnimation, new RenderOption().absolute().scale(3));
         const titleText = new TextWidget(Vector2.from(this.app.canvas).multiply(0.5, 0.1), "random race", new RenderOption().absolute().scale(5));
+        const startGameButton = new SpriteWidget(Vector2.from(this.app.canvas).multiply(0.5, 0.3), ButtonSpriteSheet.get("start_game"), new RenderOption().absolute().scale(7));
+        const descriptionButton = new SpriteWidget(Vector2.from(this.app.canvas).multiply(0.5, 0.5), ButtonSpriteSheet.get("description"), new RenderOption().absolute().scale(6));
         const reloadButton = new SpriteWidget(Vector2.from(this.app.canvas).multiply(0.95, 0.1), IconSpriteSheet.get("reset"), new RenderOption().absolute().scale(3));
 
         this.addWidget(background.setOnUpdate(diffSecs => {
@@ -55,6 +57,14 @@ export default class MainActivity extends Activity {
             );
         }));
         this.addWidget(titleText);
+        this.addWidget(startGameButton.setOnUpdate((_, component) => {
+            component.renderOption.scale(component.isHover() ? 7.3 : 7);
+            return true
+        }));
+        this.addWidget(descriptionButton.setOnUpdate((_, component) => {
+            component.renderOption.scale(component.isHover() ? 6.3 : 6);
+            return true
+        }));
         this.addWidget(reloadButton.setOnMouseClick(() => {
             background.setSprite(BackgroundSpriteSheet.random());
 
@@ -94,7 +104,7 @@ export default class MainActivity extends Activity {
                     runner.sprite = null;
                 }
                 if (!runner.sprite) {
-                    runner.renderOption.scale(Math.random() * 5 + 2.5)
+                    runner.renderOption.scale(Math.random() * 4 + 2.5)
                     runner.sprite = DefaultCharacterAnimation.run(DefaultCharacterImages.random()).setFps(Math.random() * 60 + 30);
                 }
                 if (runner.sprite instanceof SpriteAnimation) {
