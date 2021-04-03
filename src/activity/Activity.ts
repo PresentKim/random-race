@@ -15,6 +15,9 @@ export default class Activity extends Component {
         this.camera = new Vector2();
     }
 
+    relocation(ratio: number) {
+    }
+
     addWidget(widget: Widget): void {
         this.children.push(widget);
         widget.app = this.app;
@@ -43,5 +46,17 @@ export default class Activity extends Component {
 
     isAbsolute(): boolean {
         return true;
+    }
+
+    viewport(vw: number = 0, vh: number = 0): Vector2 {
+        return new Vector2(this.vw(vw), this.vh(vh));
+    }
+
+    vw(ratio: number): number {
+        return this.app.canvas.width / 100 * ratio;
+    }
+
+    vh(ratio: number): number {
+        return this.app.canvas.height / 100 * ratio;
     }
 }

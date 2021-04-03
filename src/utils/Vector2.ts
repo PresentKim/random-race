@@ -15,6 +15,10 @@ export default class Vector2 {
         this.y = y;
     }
 
+    set(x: number | null, y: number | null = null): Vector2 {
+        return new Vector2(x ?? this.x, y ?? this.y);
+    }
+
     add(xy: number): Vector2;
     add(x: number, y: number): Vector2;
     add(vec: Vector2Like): Vector2;
