@@ -4,13 +4,12 @@ import {DefaultCharacterImages} from "@/defs/image";
 import {BackgroundSpriteSheet, ButtonSpriteSheet, IconSpriteSheet} from "@/defs/spritesheet";
 import {DefaultCharacterAnimation, CharacterAppearingAnimation, CollectedItemAnimation} from "@/defs/animation";
 import RenderOption from "@/utils/RenderOption";
-import Vector2 from "@/utils/Vector2";
 import TextWidget from "@/widget/TextWidget";
 import BackgroundWidget from "@/widget/BackgroundWidget";
 import SpriteWidget from "@/widget/SpriteWidget";
 import {UpdateHandler} from "@/utils/Component";
 import SpriteAnimation from "@/sprite/SpriteAnimation";
-import * as ScreenFull from "screenfull";
+import FullScreen from "@/utils/FullScreen";
 
 const upscaleWhenHover: UpdateHandler = (_, component) => {
     component.renderOption.scale(component.isHover() ? 6.5 : 6);
@@ -44,15 +43,13 @@ export default class MainActivity extends Activity {
 
         this.reloadButton = new SpriteWidget(null, IconSpriteSheet.get("reset"), new RenderOption().absolute().scale(3));
         this.fullscreenButton = null;
-        if (ScreenFull.isEnabled) {
-            //@ts-ignore
-            const screenfull = ScreenFull.default;
+        if (FullScreen.valid) {
             this.fullscreenButton = new SpriteWidget(this.reloadButton.pos.subtract(this.vw(7), 0), IconSpriteSheet.get("fullscreen_enter"), new RenderOption().absolute().scale(3));
-            this.fullscreenButton.setOnMouseClick(() => screenfull.toggle(document.body) || true).setOnUpdate(upscaleWhenHover);
+            this.fullscreenButton.setOnMouseClick(() => FullScreen.toggle(document.body)).setOnUpdate(upscaleWhenHover);
 
-            screenfull.on("change", () => {
-                this.fullscreenButton.sprite = IconSpriteSheet.get(screenfull.isFullscreen ? "fullscreen_exit" : "fullscreen_enter") ?? null;
-            });
+            FullScreen.onChange(() => {
+                this.fullscreenButton.sprite = IconSpriteSheet.get(FullScreen.enable ? "fullscreen_exit" : "fullscreen_enter") ?? null;
+            })
         }
         this.background.setOnUpdate(diffSecs => this.background.pos.x -= diffSecs / 10);
         this.titleCharacter.setOnMouseClick(vec => {
