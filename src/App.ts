@@ -1,5 +1,5 @@
 import Vector2 from "@/utils/Vector2";
-import {getCanvasMousePos, requestAnimationFrame} from "@/utils/utils";
+import {getCanvasMousePos, intervalPerAnimationFrame} from "@/utils/utils";
 import Activity from "@/activity/Activity";
 
 export default class App {
@@ -68,7 +68,7 @@ export default class App {
         this.activities.slice().reverse().some(activity => {
             return activity.mouseHover(this.mouseVec, this.mouseVec.add(activity.camera));
         });
-        requestAnimationFrame(this.update.bind(this));
+        intervalPerAnimationFrame(this.update.bind(this));
     }
 
     addActivity(activity: Activity): void {
