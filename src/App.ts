@@ -5,7 +5,6 @@ import Activity from "@/activity/Activity";
 export default class App {
     public activities: Activity[];
     public readonly canvas: HTMLCanvasElement;
-    public readonly ctx: CanvasRenderingContext2D;
     public mouseVec: Vector2;
 
     public elapsedSecs: number;
@@ -14,24 +13,9 @@ export default class App {
     constructor(canvasElement: HTMLCanvasElement) {
         this.activities = [];
         this.canvas = canvasElement;
-        const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
-        if (!ctx)
-            throw "Can't get context from canvas";
-
-        this.ctx = ctx;
         this.mouseVec = new Vector2();
         this.elapsedSecs = 0;
         this.lastUpdate = -1;
-
-        /**
-         * Disable smoothing feature of canvas context for use a clear dot image
-         * @url https://stackoverflow.com/a/18556117
-         */
-        //@ts-ignore
-        this.ctx.webkitImageSmoothingEnabled = false;
-        //@ts-ignore
-        this.ctx.mozImageSmoothingEnabled = false;
-        this.ctx.imageSmoothingEnabled = false;
 
         this.canvas.onclick = ev => {
             if (ev.button !== 0)
@@ -45,6 +29,22 @@ export default class App {
         this.canvas.onmousemove = ev => {
             this.mouseVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, this.canvas.width, this.canvas.height);
         };
+    }
+
+    get ctx(): CanvasRenderingContext2D {
+        const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
+        if (!ctx)
+            throw "Can't get context from canvas";
+
+        /**
+         * Disable smoothing feature of canvas context for use a clear dot image
+         * @url https://stackoverflow.com/a/18556117
+         */
+        (ctx as any).webkitImageSmoothingEnabled = false;
+        (ctx as any).mozImageSmoothingEnabled = false;
+        (ctx as any).imageSmoothingEnabled = false;
+
+        return ctx
     }
 
     /** Update all activities and rendering on requestAnimationFrame (defaults, update per 1/60 sec) */
