@@ -37,13 +37,13 @@ export default class App {
             if (ev.button !== 0)
                 return;
 
-            const clickVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, 1024);
+            const clickVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, this.canvas.width, this.canvas.height);
             this.activities.slice().reverse().some(activity => {
                 return activity.mouseClick(clickVec, clickVec.add(activity.camera));
             });
         };
         this.canvas.onmousemove = ev => {
-            this.mouseVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, 1024);
+            this.mouseVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, this.canvas.width, this.canvas.height);
         };
     }
 
