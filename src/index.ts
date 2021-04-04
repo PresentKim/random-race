@@ -1,5 +1,6 @@
 import App from "@/App";
 import MainActivity from "@/activity/MainActivity";
+import FullScreen from "@/utils/FullScreen";
 
 const canvas = document.createElement("canvas");
 canvas.id = "game";
@@ -13,7 +14,7 @@ function resizingCanvas() {
     canvas.height = 1080;
 
     if (beforeWidth !== canvas.width) {
-        app.activities.forEach(activity => activity.relocation(beforeWidth /  canvas.width));
+        app.activities.forEach(activity => activity.relocation(beforeWidth / canvas.width));
     }
 }
 
@@ -27,3 +28,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("resize", resizingCanvas);
 window.addEventListener("orientationchange", resizingCanvas);
+
+//Force orientation to "landscape" when full-screen enabled
+if (FullScreen.valid && window.screen && screen.orientation && screen.orientation.lock) {
+    FullScreen.onChange(() => {
+        if (!FullScreen.enable || window.innerWidth > window.innerHeight)
+            return;
+
+        const orientation = screen.orientation.type;
+        if (orientation !== "portrait-primary" && orientation !== "portrait-secondary")
+            return;
+
+        screen.orientation.lock("landscape");
+    })
+}
