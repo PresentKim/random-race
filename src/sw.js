@@ -1,22 +1,13 @@
-import {precacheAndRoute} from "workbox-precaching";
+importScripts("https://storage.googleapis.com/workbox-cdn/releases/5.0.0/workbox-sw.js");
 
-workbox.core.skipWaiting()
-workbox.core.clientsClaim()
+self.skipWaiting();
 
-precacheAndRoute(self.__WB_MANIFEST);
-workbox.routing.registerRoute(
-        new RegExp("https://jsonplaceholder.typicode.com"),
-        new workbox.strategies.StaleWhileRevalidate()
-)
+workbox.loadModule("workbox-core");
+workbox.core.clientsClaim();
 
-self.addEventListener("push", event => {
-    const title = "Get Started With Workbox"
-    const options = {
-        body: event.data.text(),
-    }
-    event.waitUntil(
-            self.ServiceWorkerRegistration.showNotification(title, options)
-    )
-})
+workbox.loadModule("workbox-routing");
+workbox.loadModule("workbox-strategies");
+workbox.routing.registerRoute((req) => req.event.request.headers.get("accept").includes("text/html"), new workbox.strategies.NetworkFirst());
 
-workbox.precaching.precacheAndRoute(self.__precacheManifest)
+workbox.loadModule("workbox-precaching");
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);
