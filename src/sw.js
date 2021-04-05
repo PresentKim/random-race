@@ -7,7 +7,10 @@ workbox.core.clientsClaim();
 
 workbox.loadModule("workbox-routing");
 workbox.loadModule("workbox-strategies");
-workbox.routing.registerRoute((req) => req.event.request.headers.get("accept").includes("text/html"), new workbox.strategies.NetworkFirst());
+workbox.routing.registerRoute((req) => {
+    //TODO
+    return true;
+}, new workbox.strategies.NetworkFirst());
 
 workbox.loadModule("workbox-precaching");
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);
