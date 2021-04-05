@@ -9,7 +9,6 @@ module.exports = {
         styles: "./src/styles/index.ts",
         polyfill: "@babel/polyfill"
     },
-    devtool: "inline-source-map",
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
         alias: {
