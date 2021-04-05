@@ -38,13 +38,14 @@ export default class App {
 
         /**
          * Disable smoothing feature of canvas context for use a clear dot image
-         * @url https://stackoverflow.com/a/18556117
+         * @url https://github.com/niklasvh/html2canvas/issues/576#issuecomment-316739410
          */
-        (ctx as any).webkitImageSmoothingEnabled = false;
-        (ctx as any).mozImageSmoothingEnabled = false;
-        (ctx as any).imageSmoothingEnabled = false;
-
-        return ctx
+        (ctx as any).imageSmoothingEnabled = false; //standard
+        (ctx as any).mozImageSmoothingEnabled = false; //Firefox
+        (ctx as any).oImageSmoothingEnabled = false; //Opera
+        (ctx as any).webkitImageSmoothingEnabled = false; //Safari
+        (ctx as any).msImageSmoothingEnabled = false; //IE
+        return ctx;
     }
 
     /** Update all activities and rendering on requestAnimationFrame (defaults, update per 1/60 sec) */
