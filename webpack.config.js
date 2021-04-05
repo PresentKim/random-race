@@ -5,9 +5,8 @@ const CnameWebpackPlugin = require("cname-webpack-plugin");
 
 module.exports = {
     entry: {
-        index: "./src/index.ts",
-        styles: "./src/styles/index.ts",
-        polyfill: "@babel/polyfill"
+        index: ["core-js/stable", "./src/index.ts"],
+        styles: "./src/styles/index.ts"
     },
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
@@ -24,6 +23,7 @@ module.exports = {
     devServer: {
         hot: true
     },
+    target: ["web", "es5"],
     plugins: [
         new HtmlWebpackPlugin({
             title: "Random Race",
@@ -41,12 +41,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(tsx?)$/i,
-                exclude: /node_modules/,
-                use: ["awesome-typescript-loader"]
-            },
-            {
-                test: /\.(js)$/i,
+                test: /\.(js|tsx?|)$/i,
                 exclude: /node_modules/,
                 use: ["babel-loader"]
             },

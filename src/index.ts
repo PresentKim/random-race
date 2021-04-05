@@ -1,3 +1,4 @@
+import "core-js/stable";
 import App from "@/App";
 import MainActivity from "@/activity/MainActivity";
 import FullScreen from "@/utils/FullScreen";
