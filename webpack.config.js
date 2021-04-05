@@ -3,6 +3,9 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackNoModulePlugin = require("webpack-nomodule-plugin").WebpackNoModulePlugin;
 const CnameWebpackPlugin = require("cname-webpack-plugin");
+const {InjectManifest} = require("workbox-webpack-plugin")
+const WebpackPwaManifest = require("webpack-pwa-manifest")
+const manifest = require("./site.webmanifest.json")
 
 module.exports = {
     entry: {
@@ -29,15 +32,19 @@ module.exports = {
     target: ["web", "es5"],
     plugins: [
         new HtmlWebpackPlugin({
-            title: "Random Race",
+            title: manifest.name,
+            name: manifest.name,
+            short_name: manifest.short_name,
             favicon: "./assets/icon/favicon.ico",
-            meta: {
-                viewport: "width=device-width, initial-scale=1, user-scalable=no",
-                description: "Random race game in which several characters run automatically"
-            }
+            meta: {viewport: "width=device-width, initial-scale=1"}
         }),
         new WebpackNoModulePlugin({
-            filePatterns: ["polyfill.js"]
+            filePatterns: ["polyfill.**.js"]
+        }),
+        new WebpackPwaManifest(manifest),
+        new InjectManifest({
+            swSrc: path.resolve(__dirname, "src/sw.js"),
+            swDest: "sw.js"
         }),
         new CnameWebpackPlugin({
             domain: "race.present.kim",
