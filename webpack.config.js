@@ -27,6 +27,7 @@ module.exports = {
         filename: "[name].js",
     },
     devServer: {
+        host: "172.30.1.21",
         hot: true
     },
     target: ["web", "es5"],
@@ -36,7 +37,10 @@ module.exports = {
             name: manifest.name,
             short_name: manifest.short_name,
             favicon: "./assets/icon/favicon.ico",
-            meta: {viewport: "width=device-width, initial-scale=1"}
+            meta: {
+                viewport: "width=device-width, initial-scale=1",
+                description: manifest.description
+            }
         }),
         new WebpackNoModulePlugin({
             filePatterns: ["polyfill.**.js"]
