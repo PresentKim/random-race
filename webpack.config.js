@@ -30,7 +30,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: "Random Race",
-            favicon: "./assets/favicon/favicon.ico",
+            favicon: "./assets/icon/favicon.ico",
             meta: {
                 viewport: "width=device-width, initial-scale=1, user-scalable=no",
                 description: "Random race game in which several characters run automatically"
