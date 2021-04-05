@@ -1,11 +1,13 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WebpackNoModulePlugin = require("webpack-nomodule-plugin").WebpackNoModulePlugin;
 const CnameWebpackPlugin = require("cname-webpack-plugin");
 
 module.exports = {
     entry: {
-        index: ["core-js/stable", "./src/index.ts"],
+        polyfill: "core-js/stable",
+        index: "./src/index.ts",
         styles: "./src/styles/index.ts"
     },
     resolve: {
@@ -17,6 +19,7 @@ module.exports = {
         }
     },
     output: {
+        publicPath: "",
         path: path.resolve(__dirname, "dist"),
         filename: "[name].js",
     },
@@ -32,6 +35,9 @@ module.exports = {
                 viewport: "width=device-width, initial-scale=1, user-scalable=no",
                 description: "Random race game in which several characters run automatically"
             }
+        }),
+        new WebpackNoModulePlugin({
+            filePatterns: ["polyfill.js"]
         }),
         new CnameWebpackPlugin({
             domain: "race.present.kim",
