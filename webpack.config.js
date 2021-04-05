@@ -40,18 +40,9 @@ module.exports = {
     ],
     module: {
         rules: [
-            {
-                test: /\.(js|tsx?|)$/i,
-                exclude: /node_modules/,
-                use: ["babel-loader"]
-            },
-            {
-                test: /\.(css)$/i,
-                use: ["style-loader", "css-loader"]
-            }, {
-                test: /\.(gif|png|jpe?g|svg)$/i,
-                use: ["file-loader", "image-webpack-loader"]
-            }
+            {test: /\.(js|tsx?|)$/i, use: ["babel-loader"]},
+            {test: /\.(css)$/i, use: ["style-loader", "css-loader"]},
+            {test: /\.(png)$/i, use: ["file-loader", "image-webpack-loader"]}
         ]
     }
 }
