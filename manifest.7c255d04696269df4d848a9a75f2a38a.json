@@ -1,0 +1,49 @@
+{
+  "icons": [
+    {
+      "src": "icon_1024x1024.53028cb71ac503a1975d2027bd5cfc3c.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_512x512.ad453194a436fc6333e711da07e3e87e.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_192x192.d95503dca4647c6c4b9de6f0c7736bd6.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_128x128.73ea49e8231e7ea01cd0784f592dcbb0.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_64x64.d6ac645b8f93e36bc0898055e8185637.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_32x32.f2a5dd5be1e48aebf6cb8fc61336c71a.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_512x512.796cb676a30ed2bd0806ea9c56f3fde2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "name": "Random Race",
+  "short_name": "RandomRace",
+  "orientation": "landscape",
+  "display": "standalone",
+  "start_url": ".",
+  "description": "Random race game in which several characters run automatically",
+  "lang": "en",
+  "theme_color": "#f89cc0",
+  "background_color": "#ffffff"
+}
