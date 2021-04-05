@@ -21,7 +21,7 @@ function resizingCanvas() {
 //Init-game
 document.addEventListener("DOMContentLoaded", () => {
     resizingCanvas();
-    document.body.append(canvas);
+    document.body.appendChild(canvas);
     app.addActivity(new MainActivity(app));
     app.update();
 });
@@ -30,9 +30,9 @@ window.addEventListener("resize", resizingCanvas);
 window.addEventListener("orientationchange", resizingCanvas);
 
 //Force orientation to "landscape" when full-screen enabled
-if (FullScreen.valid && window.screen && screen.orientation && screen.orientation.lock) {
+if (FullScreen.isSupport && window.screen && screen.orientation && screen.orientation.lock) {
     FullScreen.onChange(() => {
-        if (!FullScreen.enable || window.innerWidth > window.innerHeight)
+        if (!FullScreen.isEnabled || window.innerWidth > window.innerHeight)
             return;
 
         const orientation = screen.orientation.type;
@@ -40,5 +40,5 @@ if (FullScreen.valid && window.screen && screen.orientation && screen.orientatio
             return;
 
         screen.orientation.lock("landscape");
-    })
+    });
 }

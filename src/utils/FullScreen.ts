@@ -1,35 +1,62 @@
+const document = (window.document as any) ?? {};
+
 export default class FullScreen {
-    static get valid(): boolean {
-        const _document = (document as any) ?? {};
-        return Boolean(_document.fullscreenEnabled || _document.webkitFullscreenEnabled || _document.webkitCancelFullScreen || _document.msFullscreenEnabled || _document.mozFullScreenEnabled || false);
+    static get isSupport(): boolean {
+        return Boolean(
+                document.fullscreenEnabled ||
+                document.webkitFullscreenEnabled ||
+                document.msFullscreenEnabled ||
+                document.mozFullScreenEnabled
+        );
     }
 
-    static get enable(): boolean {
-        if (!this.valid)
-            return false;
-
-        const _document = (document as any) ?? {};
-        return Boolean(_document.fullscreenElement || _document.webkitFullscreenElement || _document.webkitCurrentFullScreenElement || _document.msFullscreenElement || _document.mozFullScreenElement);
+    static get isEnabled(): boolean {
+        return this.isSupport && Boolean(
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.webkitCurrentFullScreenElement ||
+                document.msFullscreenElement ||
+                document.mozFullScreenElement
+        );
     }
 
-    static request(element: Element = document.documentElement): void {
+    static request(element: Element = document.documentElement): boolean {
         const _element = (element as any) ?? {};
-        _element.requestFullscreen() || _element.webkitRequestFullscreen() || _element.webkitRequestFullScreen() || _element.msRequestFullscreen() || _element.mozRequestFullScreen();
+        const requestMethod: Function | undefined =
+                _element.requestFullscreen ||
+                _element.webkitRequestFullscreen ||
+                _element.msRequestFullscreen ||
+                _element.mozRequestFullScreen;
+
+        if (requestMethod) {
+            requestMethod.call(_element);
+            return true;
+        }
+        return false;
     }
 
-    static exit() {
-        const _document = (document as any) ?? {};
-        return _document.exitFullscreen() || _document.webkitExitFullscreen() || _document.webkitCancelFullScreen() || _document.msExitFullscreen() || _document.mozCancelFullScreen();
+    static exit(): boolean {
+        const exitMethod: Function | undefined =
+                document.exitFullscreen ||
+                document.webkitExitFullscreen ||
+                document.webkitCancelFullScreen ||
+                document.msExitFullscreen ||
+                document.mozCancelFullScreen;
+
+        if (exitMethod) {
+            exitMethod.call(document);
+            return true;
+        }
+        return false;
     };
 
-    static toggle(element: Element = document.documentElement) {
-        this.enable ? this.exit() : this.request(element);
+    static toggle(element: Element = document.documentElement): boolean {
+        return this.isEnabled ? this.exit() : this.request(element);
     }
 
-    static onChange(callback: (this: Document, ev: Event) => any) {
-        document.addEventListener("fullscreenchange", callback, false);
-        document.addEventListener("webkitfullscreenchange", callback, false);
-        document.addEventListener("mozfullscreenchange", callback, false);
-        document.addEventListener("MSFullscreenChange", callback, false);
+    static onChange(callback: (this: Document, ev: Event) => any): void {
+        ["", "webkit", "moz", "ms"].forEach(
+                prefix => document.addEventListener(prefix + "fullscreenchange", callback, false)
+        );
     }
 };

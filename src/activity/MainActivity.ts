@@ -43,12 +43,12 @@ export default class MainActivity extends Activity {
 
         this.reloadButton = new SpriteWidget(null, IconSpriteSheet.get("reset"), new RenderOption().absolute().scale(3));
         this.fullscreenButton = null;
-        if (FullScreen.valid) {
+        if (FullScreen.isSupport) {
             this.fullscreenButton = new SpriteWidget(this.reloadButton.pos.subtract(this.vw(7), 0), IconSpriteSheet.get("fullscreen_enter"), new RenderOption().absolute().scale(3));
             this.fullscreenButton.setOnMouseClick(() => FullScreen.toggle(document.body)).setOnUpdate(upscaleWhenHover);
 
             FullScreen.onChange(() => {
-                this.fullscreenButton.sprite = IconSpriteSheet.get(FullScreen.enable ? "fullscreen_exit" : "fullscreen_enter") ?? null;
+                this.fullscreenButton.sprite = IconSpriteSheet.get(FullScreen.isEnabled ? "fullscreen_exit" : "fullscreen_enter") ?? null;
             })
         }
         this.background.setOnUpdate(diffSecs => this.background.pos.x -= diffSecs / 10);
