@@ -1,6 +1,7 @@
 import Vector2 from "@/utils/Vector2";
 import {getCanvasMousePos, intervalPerAnimationFrame} from "@/utils/utils";
 import Activity from "@/activity/Activity";
+import FullScreen from "@/utils/FullScreen";
 
 export default class App {
     public activities: Activity[];
@@ -16,6 +17,7 @@ export default class App {
         this.mouseVec = new Vector2();
         this.elapsedSecs = 0;
         this.lastUpdate = -1;
+        this.resizingCanvas();
 
         this.canvas.onclick = ev => {
             if (ev.button !== 0)
@@ -29,6 +31,24 @@ export default class App {
         this.canvas.onmousemove = ev => {
             this.mouseVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, this.canvas.width, this.canvas.height);
         };
+
+        //Resize canvas when screen size and orientation changed
+        window.addEventListener("resize", this.resizingCanvas.bind(this));
+        window.addEventListener("orientationchange", this.resizingCanvas.bind(this));
+
+        //Force orientation to "landscape" when full-screen enabled
+        if (FullScreen.isSupport && window.screen && screen.orientation && screen.orientation.lock) {
+            FullScreen.onChange(async () => {
+                if (!FullScreen.isEnabled || window.innerWidth > window.innerHeight)
+                    return;
+
+                const orientation = screen.orientation.type;
+                if (orientation !== "portrait-primary" && orientation !== "portrait-secondary")
+                    return;
+
+                await screen.orientation.lock("landscape");
+            });
+        }
     }
 
     get ctx(): CanvasRenderingContext2D {
@@ -74,5 +94,19 @@ export default class App {
 
     addActivity(activity: Activity): void {
         this.activities.push(activity);
+    }
+
+    resizingCanvas() {
+        const widthMin = 1080 * 16 / 9; //ratio 9:16 (Galaxy 4~)
+        const widthMax = 1080 * 21 / 9; //ratio 9:21 (~Galaxy Fold)
+        const beforeWidth = this.canvas.width;
+        this.canvas.width = Math.min(widthMax, Math.max(widthMin, window.innerWidth / window.innerHeight * 1080));
+        this.canvas.height = 1080;
+
+        if (beforeWidth !== this.canvas.width) {
+            const ratio = beforeWidth / this.canvas.width;
+            this.mouseVec.multiply(ratio, 1);
+            this.activities.forEach(activity => activity.relocation(ratio));
+        }
     }
 }
