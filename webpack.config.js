@@ -48,7 +48,8 @@ module.exports = {
         new WebpackPwaManifest(manifest),
         new InjectManifest({
             swSrc: path.resolve(__dirname, "src/sw.js"),
-            swDest: "sw.js"
+            swDest: "sw.js",
+            exclude: [/CNAME/]
         }),
         new CnameWebpackPlugin({
             domain: "race.present.kim",
