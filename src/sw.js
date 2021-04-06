@@ -46,11 +46,11 @@ workbox.core.clientsClaim();
                 return;
 
             const requests = [
-                caches.open(STATIC_CACHE_NAME).then(cache => cache.match(event.request.clone())),
-                caches.open(DYNAMIC_CACHE_NAME).then(cache => cache.match(event.request.clone())),
+                caches.open(STATIC_CACHE_NAME).then(cache => cache.match(event.request)),
+                caches.open(DYNAMIC_CACHE_NAME).then(cache => cache.match(event.request)),
             ];
             if (event.request.referrer !== "") {
-                requests.push(fetch(event.request.clone()).then(networkResponse => {
+                requests.push(fetch(event.request).then(networkResponse => {
                     if (STATIC_FILES.some(fileName => networkResponse.url.endsWith(fileName))) {
                         caches.open(STATIC_CACHE_NAME).then(cache => cache.put(event.request, networkResponse));
                     } else {
