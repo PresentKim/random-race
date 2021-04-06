@@ -6,6 +6,12 @@ canvas#game {
     margin: auto auto;
 }
 
+img#install {
+    position: absolute;
+    top: 0;
+    width: 15vw;
+}
+
 @media screen and (orientation: portrait) {
     canvas#game {
         width: 100vmin;

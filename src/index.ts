@@ -42,7 +42,3 @@ if (FullScreen.isSupport && window.screen && screen.orientation && screen.orient
         screen.orientation.lock("landscape");
     });
 }
-
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));
-}

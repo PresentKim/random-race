@@ -9,6 +9,7 @@ const manifest = require("./site.webmanifest.json")
 
 module.exports = {
     entry: {
+        sw_registration: "./src/sw_registration.ts",
         polyfill: "core-js/stable",
         index: "./src/index.ts",
         styles: "./src/styles/index.ts"
@@ -27,7 +28,6 @@ module.exports = {
         filename: "[name].js",
     },
     devServer: {
-        host: "172.30.1.21",
         hot: true
     },
     target: ["web", "es5"],
