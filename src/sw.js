@@ -46,8 +46,8 @@ workbox.core.clientsClaim();
                 return;
 
             const requests = [
-                caches.open(STATIC_CACHE_NAME).then(cache => cache.match(event.request.clone()).then(response => response)),
-                caches.open(DYNAMIC_CACHE_NAME).then(cache => cache.match(event.request.clone()).then(response => response)),
+                caches.open(STATIC_CACHE_NAME).then(cache => cache.match(event.request.clone())),
+                caches.open(DYNAMIC_CACHE_NAME).then(cache => cache.match(event.request.clone())),
             ];
             if (event.request.referrer !== "") {
                 requests.push(fetch(event.request.clone()).then(networkResponse => {
