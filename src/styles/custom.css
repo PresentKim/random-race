@@ -12,14 +12,14 @@ img#install {
     width: 15vw;
 }
 
-@media screen and (orientation: portrait) {
+@media screen and (max-aspect-ratio: 16/9) {
     canvas#game {
-        width: 100vmin;
+        width: 100vw;
     }
 }
 
-@media screen and (orientation: landscape) {
+@media screen and (min-aspect-ratio: 16/9) {
     canvas#game {
-        height: 100vmin;
+        height: 100vh;
     }
 }
