@@ -33,6 +33,7 @@
         "core-js": "^3.10.0",
         "css-loader": "^5.2.0",
         "file-loader": "^6.2.0",
+        "fullscreen-wrapper": "^1.0.1",
         "html-webpack-plugin": "^4.5.2",
         "image-webpack-loader": "^7.0.1",
         "style-loader": "^2.0.0",

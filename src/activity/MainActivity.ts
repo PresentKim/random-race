@@ -9,7 +9,7 @@ import BackgroundWidget from "@/widget/BackgroundWidget";
 import SpriteWidget from "@/widget/SpriteWidget";
 import {UpdateHandler} from "@/utils/Component";
 import SpriteAnimation from "@/sprite/SpriteAnimation";
-import FullScreen from "@/utils/FullScreen";
+import fullscreen from "fullscreen-wrapper";
 
 const upscaleWhenHover: UpdateHandler = (_, component) => {
     component.renderOption.scale(component.isHover() ? 6.5 : 6);
@@ -43,12 +43,12 @@ export default class MainActivity extends Activity {
 
         this.reloadButton = new SpriteWidget(null, IconSpriteSheet.get("reset"), new RenderOption().absolute());
         this.fullscreenButton = null;
-        if (FullScreen.isSupport) {
+        if (fullscreen.isEnabled) {
             this.fullscreenButton = new SpriteWidget(this.reloadButton.pos.subtract(this.vw(7), 0), IconSpriteSheet.get("fullscreen_enter"), new RenderOption().absolute());
-            this.fullscreenButton.setOnMouseClick(() => FullScreen.toggle(document.body)).setOnUpdate(upscaleWhenHover);
+            this.fullscreenButton.setOnMouseClick(() => fullscreen.toggle(document.body)).setOnUpdate(upscaleWhenHover);
 
-            FullScreen.onChange(() => {
-                this.fullscreenButton.sprite = IconSpriteSheet.get(FullScreen.isEnabled ? "fullscreen_exit" : "fullscreen_enter") ?? null;
+            fullscreen.onChange(() => {
+                this.fullscreenButton.sprite = IconSpriteSheet.get(fullscreen.isFullscreen ? "fullscreen_exit" : "fullscreen_enter") ?? null;
             })
         }
         this.background.setOnUpdate(diffSecs => this.background.pos.x -= diffSecs / 10);

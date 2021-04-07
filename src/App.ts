@@ -1,7 +1,7 @@
 import Vector2 from "@/utils/Vector2";
 import {getCanvasMousePos, intervalPerAnimationFrame} from "@/utils/utils";
 import Activity from "@/activity/Activity";
-import FullScreen from "@/utils/FullScreen";
+import fullscreen from "fullscreen-wrapper";
 
 export default class App {
     public activities: Activity[];
@@ -37,9 +37,9 @@ export default class App {
         window.addEventListener("orientationchange", this.resizingCanvas.bind(this));
 
         //Force orientation to "landscape" when full-screen enabled
-        if (FullScreen.isSupport && window.screen && screen.orientation && screen.orientation.lock) {
-            FullScreen.onChange(async () => {
-                if (!FullScreen.isEnabled || window.innerWidth > window.innerHeight)
+        if (fullscreen.isEnabled && window.screen && screen.orientation && screen.orientation.lock) {
+            fullscreen.onChange(async () => {
+                if (!fullscreen.isFullscreen || window.innerWidth > window.innerHeight)
                     return;
 
                 const orientation = screen.orientation.type;
