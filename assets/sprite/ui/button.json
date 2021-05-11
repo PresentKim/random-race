@@ -1,4 +1,1 @@
-[
-    {"name": "start_game", "w": 76, "h": 14, "sx": 0, "sy": 0},
-    {"name": "description", "w": 84, "h": 14, "sx": 0, "sy": 14}
-]
+{"description":{"sw":84,"sh":14,"sx":0,"sy":0,"tx":0,"ty":0,"ow":84,"oh":14,"px":42,"py":7},"start_game":{"sw":76,"sh":14,"sx":0,"sy":14,"tx":0,"ty":0,"ow":76,"oh":14,"px":38,"py":7}}
