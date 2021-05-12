@@ -1,8 +1,12 @@
 /**
  * Scripts for SpriteSheet Packer
  * @url https://github.com/amakaseev/sprite-sheet-packer
+ *
+ * @param {string} dataFilePath
+ * @param {any} _
+ * @param {{frame: {}, sourceColorRect:{}, sourceSize:{}}} spriteFrames
  */
-function exportSpriteSheet(dataFilePath, imageFilePaths, spriteFrames) {
+function exportSpriteSheet(dataFilePath, _, spriteFrames) {
     var frames = {};
     for (var key in spriteFrames) {
         if (!spriteFrames.hasOwnProperty(key))
@@ -26,8 +30,8 @@ function exportSpriteSheet(dataFilePath, imageFilePaths, spriteFrames) {
         frame.ow = spriteFrames[key].sourceSize.width; //origin width
         frame.oh = spriteFrames[key].sourceSize.height; //origin height
 
-        frame.px = (frame.ow / 2 + frame.tx) | 0; //pivot x (center)
-        frame.py = (frame.oh / 2 + frame.ty) | 0; //pivot y (center)
+        frame.px = frame.ow / 2; //pivot x (center)
+        frame.py = frame.oh / 2; //pivot y (center)
 
         frames[spriteName] = frame;
     }
