@@ -73,46 +73,6 @@
 		"disappearing_00": {
 			"oh": 96,
 			"ow": 96,
-			"sh": 39,
-			"sw": 40,
-			"sx": 70,
-			"sy": 94,
-			"tx": 28,
-			"ty": 28
-		},
-		"disappearing_01": {
-			"oh": 96,
-			"ow": 96,
-			"sh": 67,
-			"sw": 70,
-			"sx": 0,
-			"sy": 94,
-			"tx": 13,
-			"ty": 15
-		},
-		"disappearing_02": {
-			"oh": 96,
-			"ow": 96,
-			"sh": 83,
-			"sw": 84,
-			"sx": 94,
-			"sy": 0,
-			"tx": 6,
-			"ty": 7
-		},
-		"disappearing_03": {
-			"oh": 96,
-			"ow": 96,
-			"sh": 94,
-			"sw": 94,
-			"sx": 0,
-			"sy": 0,
-			"tx": 1,
-			"ty": 1
-		},
-		"disappearing_04": {
-			"oh": 96,
-			"ow": 96,
 			"sh": 29,
 			"sw": 22,
 			"sx": 110,
@@ -120,7 +80,7 @@
 			"tx": 37,
 			"ty": 35
 		},
-		"disappearing_05": {
+		"disappearing_01": {
 			"oh": 96,
 			"ow": 96,
 			"sh": 29,
@@ -130,7 +90,7 @@
 			"tx": 37,
 			"ty": 35
 		},
-		"disappearing_06": {
+		"disappearing_02": {
 			"oh": 96,
 			"ow": 96,
 			"sh": 16,
@@ -139,6 +99,46 @@
 			"sy": 133,
 			"tx": 40,
 			"ty": 40
+		},
+		"disappearing_03": {
+			"oh": 96,
+			"ow": 96,
+			"sh": 39,
+			"sw": 40,
+			"sx": 70,
+			"sy": 94,
+			"tx": 28,
+			"ty": 28
+		},
+		"disappearing_04": {
+			"oh": 96,
+			"ow": 96,
+			"sh": 67,
+			"sw": 70,
+			"sx": 0,
+			"sy": 94,
+			"tx": 13,
+			"ty": 15
+		},
+		"disappearing_05": {
+			"oh": 96,
+			"ow": 96,
+			"sh": 83,
+			"sw": 84,
+			"sx": 94,
+			"sy": 0,
+			"tx": 6,
+			"ty": 7
+		},
+		"disappearing_06": {
+			"oh": 96,
+			"ow": 96,
+			"sh": 94,
+			"sw": 94,
+			"sx": 0,
+			"sy": 0,
+			"tx": 1,
+			"ty": 1
 		}
 	},
 	"collect_particle": {
