@@ -23,9 +23,9 @@ export interface SpriteData {
     oh: number;
 
     /** pivot x (center) */
-    px: number;
+    px?: number;
     /** pivot y (center) */
-    py: number;
+    py?: number;
 }
 
 export default class Sprite {
@@ -35,16 +35,6 @@ export default class Sprite {
     constructor(data: SpriteData, image: ImageLike | null) {
         this.data = data;
         this.setImage(image);
-    }
-
-    /** Margin x */
-    get mx(): number {
-        return this.data.tx * 2 - this.data.px;
-    }
-
-    /** Margin y */
-    get my(): number {
-        return this.data.ty * 2 - this.data.py;
     }
 
     setImage(image: ImageLike | null): this {
@@ -68,11 +58,71 @@ export default class Sprite {
         ctx.translate(vec.x, vec.y);
         ctx.drawImage(
                 this.image,
-                this.data.sx, this.data.sy,
-                this.data.sw, this.data.sh,
-                this.mx * scale / 2, this.my * scale / 2,
-                this.data.sw * scale, this.data.sh * scale
+                this.sx, this.sy,
+                this.sw, this.sh,
+                this.mx * scale, this.my * scale,
+                this.sw * scale, this.sh * scale
         );
         ctx.restore();
+    }
+
+    /** source width */
+    get sw(): number {
+        return this.data.sw;
+    }
+
+    /** source height */
+    get sh(): number {
+        return this.data.sh;
+    }
+
+    /** source x */
+    get sx(): number {
+        return this.data.sx;
+    }
+
+    /** source y */
+    get sy(): number {
+        return this.data.sy;
+    }
+
+    /** trimmed x */
+    get tx(): number {
+        return this.data.tx;
+    }
+
+    /** trimmed y */
+    get ty(): number {
+        return this.data.ty;
+    }
+
+    /** origin width */
+    get ow(): number {
+        return this.data.ow;
+    }
+
+    /** origin height */
+    get oh(): number {
+        return this.data.oh;
+    }
+
+    /** pivot x (center) */
+    get px(): number {
+        return this.data.px;
+    }
+
+    /** pivot y (center) */
+    get py(): number {
+        return this.data.py;
+    }
+
+    /** Margin x */
+    get mx(): number {
+        return this.data.tx - this.data.px;
+    }
+
+    /** Margin y */
+    get my(): number {
+        return this.data.ty - this.data.py;
     }
 }

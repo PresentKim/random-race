@@ -36,8 +36,7 @@ export default class SpriteAnimationWidget extends Widget {
             if (!currentFrame)
                 return;
 
-            const deltaVec = Vector2.from(currentFrame).multiply(this.getScale() / 2);
-            currentFrame.draw(ctx, this.pos.subtract(deltaVec.divide(2)), this.getScale());
+            currentFrame.draw(ctx, this.pos, this.getScale());
         };
     }
 
@@ -70,8 +69,9 @@ export default class SpriteAnimationWidget extends Widget {
         if (!currentFrame)
             return null;
 
-        const deltaVec = Vector2.from(currentFrame).multiply(this.getScale() / 2);
-        return BoundingBox.from(this.pos).expand(deltaVec);
+        return BoundingBox
+                .from(new Vector2, Vector2.from(currentFrame.sw, currentFrame.sh).multiply(this.getScale()))
+                .add(this.pos.add(Vector2.from(currentFrame.mx, currentFrame.my).multiply(this.getScale())));
     }
 
     setSheet(sheet: SpriteSheet | null): this {

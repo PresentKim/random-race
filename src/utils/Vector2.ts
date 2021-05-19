@@ -121,7 +121,7 @@ export default class Vector2 implements IPointData {
         else if (value instanceof HTMLCanvasElement || value instanceof HTMLImageElement)
             return new Vector2(value.width, value.height);
         else if (value instanceof Sprite)
-            return new Vector2(value.data.ow, value.data.oh);
+            return new Vector2(value.sw, value.sh);
         else
             return new Vector2(value.x, value.y);
     }

@@ -3,7 +3,6 @@ import Sprite from "@/sprite/Sprite";
 import BoundingBox from "@/utils/BoundingBox";
 import Vector2 from "@/utils/Vector2";
 import RenderOption from "@/utils/RenderOption";
-import SpriteAnimation from "@/sprite/SpriteAnimation";
 
 export default class SpriteWidget extends Widget {
     public sprite: Sprite | null;
@@ -18,8 +17,7 @@ export default class SpriteWidget extends Widget {
             if (!this.sprite)
                 return;
 
-            const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
-            this.sprite.draw(ctx, this.pos.subtract(deltaVec.divide(2)), this.getScale());
+            this.sprite.draw(ctx, this.pos, this.getScale());
         };
     }
 
@@ -27,8 +25,9 @@ export default class SpriteWidget extends Widget {
         if (!this.sprite)
             return null;
 
-        const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
-        return BoundingBox.from(this.pos).expand(deltaVec);
+        return BoundingBox
+                .from(new Vector2, Vector2.from(this.sprite.sw, this.sprite.sh).multiply(this.getScale()))
+                .add(this.pos.add(Vector2.from(this.sprite.mx, this.sprite.my).multiply(this.getScale())));
     }
 
     setSprite(sprite: Sprite | null): this {
