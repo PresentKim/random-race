@@ -72,13 +72,11 @@ export default class MainActivity extends Activity {
             if (!this.titleCharacter.animation) {
                 console.log(this.titleCharacter)
             }
-            this.titleCharacter.animation.fps -= 3;
-            this.titleCharacter.animation.fps -= 3;
-            if (this.titleCharacter.animation.fps < 0) {
-                this.titleCharacter.animation.fps = 60;
-                this.titleCharacter.animation.fps = 60;
+            this.titleCharacter.playRate += 0.1;
+            if (this.titleCharacter.playRate > 3) {
+                this.titleCharacter.playRate = 1;
             }
-            this.addWidget(new TextWidget(vec.add(Math.random() * 80 - 40, 0), this.titleCharacter.animation.fps === 60 ? "-60" : "+3", new RenderOption().absolute())
+            this.addWidget(new TextWidget(vec.add(Math.random() * 80 - 40, 0), this.titleCharacter.playRate === 1 ? "-200" : "+10", new RenderOption().absolute())
                     .setRenderOption(new RenderOption().scale(2).absolute().hue(Math.random() * 360).brightness(6).contrast(2))
                     .setOnUpdate((diffSecs, component) => {
                         if (!(component instanceof TextWidget)) {
@@ -112,7 +110,6 @@ export default class MainActivity extends Activity {
                 if (!runner.sheet) {
                     runner.renderOption.scale(Math.random() * 5 + 5);
                     runner.setSheet(characterGroup.random()).setAnimationName("run").reset().setRepeatCount(-1).setPlayRate(1 + Math.random() * 0.3);
-                    runner.pos.y = this.vh(100) - runner.getCurrentFrame().data.oh * runner.getScale() / 2;
                 }
                 if (runner.animation instanceof SpriteAnimation && runner.repeatCount === -1) {
                     runner.pos.x += diffSecs / 3 * runner.playRate * runner.getScale() / 5;
@@ -167,7 +164,7 @@ export default class MainActivity extends Activity {
     relocation(ratio: number) {
         this.titleText.pos = this.viewport(50, 10);
         const textBox = this.titleText.getBoundingBox();
-        this.titleCharacter.pos = textBox.min.add(-this.titleCharacter.getBoundingBox().max.x, textBox.max.y / 2);
+        this.titleCharacter.pos = textBox.min.add(this.titleCharacter?.getCurrentFrame()?.mx * this.titleCharacter.getScale() , textBox.max.y - textBox.min.y);
 
         this.startGameButton.pos = this.viewport(50, 30);
         this.descriptionButton.pos = this.viewport(50, 50);
