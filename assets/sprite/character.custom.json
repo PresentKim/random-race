@@ -1,0 +1,19 @@
+{
+    ".*": {
+        "pivot": [0.5, 1],
+        "animation_fps": {
+            "idle": 15,
+            "run": 10,
+            "hit": 15
+        }
+    },
+    "blue_bird": {
+        "pivot": [0.375, 1]
+    },
+    "chameleon": {
+        "pivot": [0.25, 1]
+    },
+    "ghost": {
+        "pivot": [0.625, 1]
+    }
+}
