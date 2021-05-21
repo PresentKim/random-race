@@ -55,6 +55,7 @@ export default class SpriteAnimationWidget extends Widget {
             } else {
                 if (this.onAnimationEnd) {
                     this.onAnimationEnd(this);
+                    return null;
                 }
             }
         }
