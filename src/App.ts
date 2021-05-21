@@ -2,6 +2,19 @@ import Vector2 from "@/utils/Vector2";
 import {getCanvasMousePos, intervalPerAnimationFrame} from "@/utils/utils";
 import Activity from "@/activity/Activity";
 import fullscreen from "fullscreen-wrapper";
+import OverlayActivity from "@/activity/OverlayActivity";
+import BackgroundActivity from "@/activity/BackgroundActivity";
+import HeaderActivity from "@/activity/HeaderActivity";
+import FooterActivity from "@/activity/FooterActivity";
+import MainActivity from "@/activity/MainActivity";
+
+export const ACTIVITY_PRIORITY = {
+    BACKGROUND: 0,
+    MAIN: 1,
+    HEADER: 98,
+    FOOTER: 99,
+    OVERLAY: 100,
+};
 
 export default class App {
     public activities: Activity[];
@@ -18,6 +31,12 @@ export default class App {
         this.elapsedSecs = 0;
         this.lastUpdate = -1;
         this.resizingCanvas();
+
+        this.setActivity(ACTIVITY_PRIORITY.BACKGROUND, new BackgroundActivity(this));
+        this.setActivity(ACTIVITY_PRIORITY.HEADER, new HeaderActivity(this));
+        this.setActivity(ACTIVITY_PRIORITY.MAIN, new MainActivity(this));
+        this.setActivity(ACTIVITY_PRIORITY.FOOTER, new FooterActivity(this));
+        this.setActivity(ACTIVITY_PRIORITY.OVERLAY, new OverlayActivity(this));
 
         this.canvas.onclick = ev => {
             if (ev.button !== 0)
@@ -92,8 +111,8 @@ export default class App {
         intervalPerAnimationFrame(this.update.bind(this));
     }
 
-    addActivity(activity: Activity): void {
-        this.activities.push(activity);
+    setActivity(index: number, activity: Activity): void {
+        this.activities[index] = activity;
     }
 
     resizingCanvas() {

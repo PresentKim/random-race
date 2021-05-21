@@ -1,5 +1,4 @@
 import App from "@/App";
-import MainActivity from "@/activity/MainActivity";
 import SpriteManager, {CustomDataset, GroupDataset} from "@/sprite/SpriteManager";
 
 //Create canvas element and app instance
@@ -11,7 +10,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.appendChild(canvas);
 
     const app = new App(canvas);
-    app.addActivity(new MainActivity(app));
     app.update();
 });
 
