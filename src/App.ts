@@ -70,7 +70,7 @@ export default class App {
 
     /** Update all activities and rendering on requestAnimationFrame (defaults, update per 1/60 sec) */
     update(): void {
-        const now = Date.now();
+        const now = performance.now();
         if (this.lastUpdate !== -1) {
             const diffSecs = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
 
