@@ -108,11 +108,11 @@ export default class MainActivity extends Activity {
                     runner.sheet = null;
                 }
                 if (!runner.sheet) {
-                    runner.renderOption.scale(Math.random() * 5 + 5);
+                    runner.renderOption.scale(Math.random() * 3 + 5);
                     runner.setSheet(characterGroup.random()).setAnimationName("run").reset().setRepeatCount(-1).setPlayRate(1 + Math.random() * 0.3);
                 }
                 if (runner.animation instanceof SpriteAnimation && runner.repeatCount === -1) {
-                    runner.pos.x += diffSecs / 3 * runner.playRate * runner.getScale() / 5;
+                    runner.pos.x += diffSecs / runner.playRate * runner.getScale() / 15;
                 }
             }).setOnMouseClick(() => {
                         if (runner.animation instanceof SpriteAnimation && runner.repeatCount === -1) {
