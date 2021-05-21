@@ -1,75 +1,128 @@
 import Vector2, {Vector2Like} from "@/utils/Vector2";
 
-export interface SpriteJson {
-    w: number;
-    h: number;
-    sx?: number;
-    sy?: number;
-    ox?: number;
-    oy?: number;
-    name?: string;
-}
-
 export type ImageLike = string | HTMLImageElement;
 
+export interface SpriteData {
+    /** source width */
+    sw: number;
+    /** source height */
+    sh: number;
+    /** source x */
+    sx: number;
+    /** source y */
+    sy: number;
+
+    /** trimmed x */
+    tx: number;
+    /** trimmed y */
+    ty: number;
+
+    /** origin width */
+    ow: number;
+    /** origin height */
+    oh: number;
+
+    /** pivot x (center) */
+    px?: number;
+    /** pivot y (center) */
+    py?: number;
+}
+
 export default class Sprite {
-    public w: number;
-    public h: number;
-    public ox: number;
-    public oy: number;
-    public sx: number;
-    public sy: number;
-    private _image: HTMLImageElement | null;
+    public readonly data: SpriteData;
+    public image: HTMLImageElement | null;
 
-    constructor(json: SpriteJson) {
-        const {w, h, sx, sy, ox, oy} = json;
-        this.w = w ?? 0;
-        this.h = h ?? 0;
-        this.sx = sx ?? 0;
-        this.sy = sy ?? 0;
-        this.ox = ox ?? 0;
-        this.oy = oy ?? 0;
-        this._image = null;
+    constructor(data: SpriteData, image: ImageLike | null) {
+        this.data = data;
+        this.setImage(image);
     }
 
-    getImage(): HTMLImageElement | null {
-        return this._image;
-    }
-
-    setImage(image: ImageLike | null | undefined): this {
+    setImage(image: ImageLike | null): this {
         if (image instanceof HTMLImageElement) {
-            this._image = image;
+            this.image = image;
         } else if (typeof image === "string") {
-            this._image = new Image();
-            this._image.src = image;
+            this.image = new Image();
+            this.image.src = image;
         } else {
-            this._image = null;
+            this.image = null;
         }
         return this;
     }
 
-    update(diffSecs: number): void {
-    }
-
     draw(ctx: CanvasRenderingContext2D, vecObj: Vector2Like, scale: number = 1): void {
-        const image = this.getImage();
-        if (!image || !image.complete || image.naturalHeight === 0)
+        if (!this.image || !this.image.complete || this.image.naturalHeight === 0)
             return;
 
         const vec = Vector2.from(vecObj);
         ctx.save();
         ctx.translate(vec.x, vec.y);
         ctx.drawImage(
-                image,
+                this.image,
                 this.sx, this.sy,
-                this.w, this.h,
-                -this.ox * scale / 2, -this.oy * scale / 2,
-                this.w * scale, this.h * scale
+                this.sw, this.sh,
+                this.mx * scale, this.my * scale,
+                this.sw * scale, this.sh * scale
         );
         ctx.restore();
     }
 
-    static from(w: number, h: number, sx: number, sy: number, ox: number, oy: number): Sprite {
-        return new Sprite({w, h, sx, sy, ox, oy});
+    /** source width */
+    get sw(): number {
+        return this.data.sw;
+    }
+
+    /** source height */
+    get sh(): number {
+        return this.data.sh;
+    }
+
+    /** source x */
+    get sx(): number {
+        return this.data.sx;
+    }
+
+    /** source y */
+    get sy(): number {
+        return this.data.sy;
+    }
+
+    /** trimmed x */
+    get tx(): number {
+        return this.data.tx;
+    }
+
+    /** trimmed y */
+    get ty(): number {
+        return this.data.ty;
+    }
+
+    /** origin width */
+    get ow(): number {
+        return this.data.ow;
+    }
+
+    /** origin height */
+    get oh(): number {
+        return this.data.oh;
+    }
+
+    /** pivot x (center) */
+    get px(): number {
+        return this.data.px;
+    }
+
+    /** pivot y (center) */
+    get py(): number {
+        return this.data.py;
+    }
+
+    /** Margin x */
+    get mx(): number {
+        return this.data.tx - this.data.px;
+    }
+
+    /** Margin y */
+    get my(): number {
+        return this.data.ty - this.data.py;
     }
 }

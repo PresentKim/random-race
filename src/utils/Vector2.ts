@@ -1,12 +1,17 @@
 import Sprite from "@/sprite/Sprite";
 
-export type Vector2Like = Vector2 | Sprite | HTMLCanvasElement | HTMLImageElement;
+export interface IPointData {
+    x: number;
+    y: number;
+}
+
+export type Vector2Like = IPointData | Sprite | HTMLCanvasElement | HTMLImageElement;
 
 export type Vector2Value = number | Vector2Like;
 
 export type Vector2Fallback = Vector2Value | undefined;
 
-export default class Vector2 {
+export default class Vector2 implements IPointData {
     public x: number;
     public y: number;
 
@@ -115,7 +120,9 @@ export default class Vector2 {
             return value;
         else if (value instanceof HTMLCanvasElement || value instanceof HTMLImageElement)
             return new Vector2(value.width, value.height);
+        else if (value instanceof Sprite)
+            return new Vector2(value.sw, value.sh);
         else
-            return new Vector2(value.w, value.h);
+            return new Vector2(value.x, value.y);
     }
 }

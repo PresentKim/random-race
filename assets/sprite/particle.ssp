@@ -1,0 +1,35 @@
+{
+    "algorithm": "Rect",
+    "dataFormat": "sprite-packer-format",
+    "destPath": ".",
+    "encryptionKey": "",
+    "epsilon": 15,
+    "heuristicMask": false,
+    "imageFormat": "*.png",
+    "jpgQuality": 80,
+    "pixelFormat": "ARGB8565",
+    "pngOptLevel": 7,
+    "pngOptMode": "Lossy",
+    "premultiplied": true,
+    "prependSmartFolderName": true,
+    "rotateSprites": false,
+    "scalingVariants": [
+        {
+            "forceSquared": false,
+            "maxTextureSize": 2048,
+            "name": "",
+            "pow2": false,
+            "scale": 1
+        }
+    ],
+    "spriteBorder": 0,
+    "spriteSheetName": "particle",
+    "srcList": [
+        "particle"
+    ],
+    "textureBorder": 0,
+    "trimMode": "Rect",
+    "trimSpriteNames": true,
+    "trimThreshold": 1,
+    "webpQuality": 80
+}

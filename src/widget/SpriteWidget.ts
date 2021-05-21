@@ -14,14 +14,10 @@ export default class SpriteWidget extends Widget {
 
     init(): void {
         this.onRender = ctx => {
-            if (!this.sprite || !this.sprite.getImage())
+            if (!this.sprite)
                 return;
 
-            const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
-            this.sprite.draw(ctx, this.pos.subtract(deltaVec), this.getScale());
-        };
-        this.onUpdate = (diffSecs: number) => {
-            this.sprite?.update(diffSecs);
+            this.sprite.draw(ctx, this.pos, this.getScale());
         };
     }
 
@@ -29,8 +25,9 @@ export default class SpriteWidget extends Widget {
         if (!this.sprite)
             return null;
 
-        const deltaVec = Vector2.from(this.sprite).multiply(this.getScale() / 2);
-        return BoundingBox.from(this.pos.subtract(new Vector2(this.sprite.ox, this.sprite.oy).multiply(this.getScale() / 2))).expand(deltaVec);
+        return BoundingBox
+                .from(new Vector2, Vector2.from(this.sprite.sw, this.sprite.sh).multiply(this.getScale()))
+                .add(this.pos.add(Vector2.from(this.sprite.mx, this.sprite.my).multiply(this.getScale())));
     }
 
     setSprite(sprite: Sprite | null): this {
