@@ -5,12 +5,7 @@ import SpriteManager, {CustomDataset, GroupDataset} from "@/sprite/SpriteManager
 document.addEventListener("DOMContentLoaded", async () => {
     await loadSpriteSheets();
 
-    const canvas = document.createElement("canvas");
-    canvas.id = "game";
-    document.body.appendChild(canvas);
-
-    const app = new App(canvas);
-    app.update();
+    new App().update();
 });
 
 async function loadSpriteSheets() {

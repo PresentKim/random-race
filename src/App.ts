@@ -17,16 +17,19 @@ export const ACTIVITY_PRIORITY = {
 };
 
 export default class App {
-    public activities: Activity[];
     public readonly canvas: HTMLCanvasElement;
+    public activities: Activity[];
     public mouseVec: Vector2;
 
     public elapsedTime: number;
     public lastUpdate: number;
 
-    constructor(canvasElement: HTMLCanvasElement) {
+    constructor() {
+        this.canvas = document.createElement("canvas");
+        this.canvas.id = "game";
+        document.body.appendChild(this.canvas);
+
         this.activities = [];
-        this.canvas = canvasElement;
         this.mouseVec = new Vector2();
         this.elapsedTime = 0;
         this.lastUpdate = -1;
@@ -98,7 +101,7 @@ export default class App {
                 if (activity.isDestroyed)
                     return false;
 
-                activity.update(diffSecs);
+                activity.update(elapsedTime);
                 activity.render(this.ctx);
                 return true;
             });
