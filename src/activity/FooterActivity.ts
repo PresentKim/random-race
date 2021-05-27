@@ -15,7 +15,7 @@ export default class FooterActivity extends Activity {
         this.runners = [];
         for (let i = 0; i < 30; ++i) {
             const runner = new SpriteAnimationWidget(this.viewport(Math.random() * 100, 100))
-                    .setOnUpdate(diffSecs => {
+                    .setOnUpdate(elapsedTime => {
                         const maxX = this.getBoundingBox().add(this.camera).maxX;
                         if ((runner.getBoundingBox()?.minX ?? 0) > maxX) {
                             runner.pos.x = this.camera.x;
@@ -26,7 +26,7 @@ export default class FooterActivity extends Activity {
                             runner.setSheet(characterGroup.random()).setAnimationName("run").reset().setRepeatCount(-1).setPlayRate(1 + Math.random() * 0.3);
                         }
                         if (runner.animation instanceof SpriteAnimation && runner.repeatCount === -1) {
-                            runner.pos.x += diffSecs / runner.playRate * runner.getScale() / 15;
+                            runner.pos.x += elapsedTime / runner.playRate * runner.getScale() / 15;
                         }
                     }).setOnMouseClick(() => {
                                 if (runner.animation instanceof SpriteAnimation && runner.repeatCount === -1) {
@@ -49,8 +49,8 @@ export default class FooterActivity extends Activity {
             this.runners[i] = runner;
             this.addWidget(runner);
         }
-        this.setOnUpdate(diffSecs => {
-            this.camera.x += diffSecs / 10;
+        this.setOnUpdate(elapsedTime => {
+            this.camera.x += elapsedTime / 10;
         })
 
         this.relocation(1);

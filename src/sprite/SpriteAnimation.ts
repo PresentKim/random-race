@@ -9,8 +9,8 @@ export default class SpriteAnimation {
         this.fps = fps;
     }
 
-    getFrame(elapsedSecs: number): Sprite | null {
-        return this.frames[Math.floor(elapsedSecs / 1000 * this.fps)] ?? null;
+    getFrame(elapsedTime: number): Sprite | null {
+        return this.frames[Math.floor(elapsedTime / 1000 * this.fps)] ?? null;
     }
 
     setFps(value: number): this {

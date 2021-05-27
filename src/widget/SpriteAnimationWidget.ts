@@ -13,7 +13,7 @@ export default class SpriteAnimationWidget extends Widget {
     public animationName: string;
     public repeatCount: number;
     public playRate: number;
-    public elapsedSecs: number;
+    public elapsedTime: number;
     public onAnimationEnd: AnimationEndHandler;
 
     constructor(pos: Vector2 | null, sheet: SpriteSheet | null = null, animationName: string = "", renderOption: RenderOption = new RenderOption()) {
@@ -22,7 +22,7 @@ export default class SpriteAnimationWidget extends Widget {
         this.animationName = animationName;
         this.repeatCount = -1;
         this.playRate = 1;
-        this.elapsedSecs = 0;
+        this.elapsedTime = 0;
         this.onAnimationEnd = () => {
         };
     }
@@ -40,14 +40,14 @@ export default class SpriteAnimationWidget extends Widget {
         };
     }
 
-    update(diffSecs: number) {
-        this.elapsedSecs += diffSecs * this.playRate;
-        super.update(diffSecs);
+    update(elapsedTime: number) {
+        this.elapsedTime += elapsedTime * this.playRate;
+        super.update(elapsedTime);
     }
 
     getCurrentFrame(): Sprite | null {
-        if (!this.animation?.getFrame(this.elapsedSecs)) {
-            this.elapsedSecs = 0;
+        if (!this.animation?.getFrame(this.elapsedTime)) {
+            this.elapsedTime = 0;
             if (this.repeatCount !== 0) {
                 if (this.repeatCount !== -1) {
                     --this.repeatCount;
@@ -59,7 +59,7 @@ export default class SpriteAnimationWidget extends Widget {
                 }
             }
         }
-        return this.animation?.getFrame(this.elapsedSecs);
+        return this.animation?.getFrame(this.elapsedTime);
     }
 
     getBoundingBox(): BoundingBox | null {
@@ -105,7 +105,7 @@ export default class SpriteAnimationWidget extends Widget {
     }
 
     reset(): this {
-        this.elapsedSecs = 0;
+        this.elapsedTime = 0;
         return this;
     }
 }

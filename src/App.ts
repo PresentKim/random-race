@@ -21,14 +21,14 @@ export default class App {
     public readonly canvas: HTMLCanvasElement;
     public mouseVec: Vector2;
 
-    public elapsedSecs: number;
+    public elapsedTime: number;
     public lastUpdate: number;
 
     constructor(canvasElement: HTMLCanvasElement) {
         this.activities = [];
         this.canvas = canvasElement;
         this.mouseVec = new Vector2();
-        this.elapsedSecs = 0;
+        this.elapsedTime = 0;
         this.lastUpdate = -1;
         this.resizingCanvas();
 
@@ -91,7 +91,7 @@ export default class App {
     update(): void {
         const now = performance.now();
         if (this.lastUpdate !== -1) {
-            const diffSecs = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
+            const elapsedTime = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
 
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             this.activities = this.activities.filter(activity => {

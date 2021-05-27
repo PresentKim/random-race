@@ -47,12 +47,12 @@ export default class HeaderActivity extends Activity {
             }
             this.addWidget(new TextWidget(vec.add(Math.random() * 80 - 40, 0), this.titleCharacter.playRate === 1 ? "-200" : "+10", new RenderOption().absolute())
                     .setRenderOption(new RenderOption().scale(2).absolute().hue(Math.random() * 360).brightness(6).contrast(2))
-                    .setOnUpdate((diffSecs, component) => {
+                    .setOnUpdate((elapsedTime, component) => {
                         if (!(component instanceof TextWidget)) {
                             component.destroy();
                             return;
                         }
-                        component.pos.y -= diffSecs / 20;
+                        component.pos.y -= elapsedTime / 20;
                         if (component.pos.y < 0) {
                             component.destroy();
                         }

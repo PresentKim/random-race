@@ -3,7 +3,7 @@ import Vector2 from "./Vector2";
 import BoundingBox from "./BoundingBox";
 
 export type DefaultHandler = (self: Component) => void;
-export type UpdateHandler = (diffSecs: number, self: Component) => void;
+export type UpdateHandler = (elapsedTime: number, self: Component) => void;
 export type RequestRenderHandler = (ctx: CanvasRenderingContext2D, self: Component) => void;
 export type MouseEventHandler = (absoluteVec: Vector2, relativeVec: Vector2, self: Component) => boolean | void;
 
@@ -46,23 +46,23 @@ export default class Component {
     init(): void {
     }
 
-    update(diffSecs: number): void {
+    update(elapsedTime: number): void {
         this.children = this.children.filter(component => {
             if (component.isDestroyed)
                 return false;
 
-            component.update(diffSecs);
+            component.update(elapsedTime);
             return true;
         });
 
         if (this.hoverOutDelay > 0) {
-            this.hoverOutDelay -= diffSecs;
+            this.hoverOutDelay -= elapsedTime;
             if (this.hoverOutDelay <= 0) {
                 this.hoverOutDelay = 0;
                 this.onMouseHoverOut(this);
             }
         }
-        this.onUpdate(diffSecs, this);
+        this.onUpdate(elapsedTime, this);
     }
 
     render(ctx: CanvasRenderingContext2D): void {

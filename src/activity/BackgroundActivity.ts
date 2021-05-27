@@ -10,7 +10,7 @@ export default class BackgroundActivity extends Activity {
 
         this.addWidget(new BackgroundWidget(null, SpriteManager.getSheet("ui/background").sprites.random())
                 .setRenderOption(new RenderOption().scale(2))
-                .setOnUpdate((diffSecs, self) => (self as BackgroundWidget).pos.x -= diffSecs / 10)
+                .setOnUpdate((elapsedTime, self) => (self as BackgroundWidget).pos.x -= elapsedTime / 10)
         );
     }
 }
