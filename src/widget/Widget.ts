@@ -21,4 +21,9 @@ export default class Widget extends Component {
         this.pos = pos;
         return this;
     }
+
+    onAttach(activity: Activity) {
+        this.app = activity.app;
+        this.activity = activity;
+    }
 }

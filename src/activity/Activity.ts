@@ -20,8 +20,7 @@ export default class Activity extends Component {
 
     addWidget(widget: Widget): void {
         this.children.push(widget);
-        widget.app = this.app;
-        widget.activity = this;
+        widget.onAttach(this);
     }
 
     render(ctx: CanvasRenderingContext2D): void {
