@@ -1,8 +1,9 @@
 import Activity from "./Activity";
-import App from "@/App";
+import App, {ACTIVITY_PRIORITY} from "@/App";
 import RenderOption from "@/utils/RenderOption";
 import SpriteWidget from "@/widget/SpriteWidget";
 import SpriteManager from "@/sprite/SpriteManager";
+import SelectActivity from "@/activity/SelectActivity";
 
 export default class MainActivity extends Activity {
     private readonly startGameButton: SpriteWidget;
@@ -17,6 +18,7 @@ export default class MainActivity extends Activity {
 
         this.startGameButton.setOnUpdate((_, component) => component.renderOption.scale(component.isHover() ? 10.5 : 10) || true);
         this.descriptionButton.setOnUpdate((_, component) => component.renderOption.scale(component.isHover() ? 8.5 : 8) || true);
+        this.startGameButton.setOnMouseClick(() => app.setActivity(ACTIVITY_PRIORITY.MAIN, new SelectActivity(app)));
 
         this.addWidget(this.startGameButton);
         this.addWidget(this.descriptionButton);
