@@ -16,6 +16,10 @@ export default class BoundingBox {
         }
     }
 
+    get center(): Vector2 {
+        return this.min.add(this.max).divide(2);
+    }
+
     get minX(): number {
         return this.min.x;
     }
