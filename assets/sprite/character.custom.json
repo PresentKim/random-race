@@ -13,9 +13,6 @@
     "chameleon": {
         "pivot": [0.25, 1]
     },
-    "ghost": {
-        "pivot": [0.625, 1]
-    },
     "skull": {
         "pivot": [0.5, 0.875]
     }
