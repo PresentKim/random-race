@@ -55,13 +55,13 @@ export default class Sprite {
 
         const vec = Vector2.from(vecObj);
         ctx.save();
-        ctx.translate(vec.x, vec.y);
+        ctx.translate(vec.x | 0, vec.y | 0);
         ctx.drawImage(
                 this.image,
-                this.sx, this.sy,
-                this.sw, this.sh,
-                this.mx * scale, this.my * scale,
-                this.sw * scale, this.sh * scale
+                this.sx | 0, this.sy | 0,
+                this.sw | 0, this.sh | 0,
+                this.mx * scale | 0, this.my * scale | 0,
+                this.sw * scale | 0, this.sh * scale | 0
         );
         ctx.restore();
     }
