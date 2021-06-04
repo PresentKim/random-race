@@ -20,8 +20,9 @@ export default class Vector2 implements IPointData {
         this.y = y;
     }
 
-    set(x: number | null, y: number | null = null): Vector2 {
-        return new Vector2(x ?? this.x, y ?? this.y);
+    set(x: number | null, y: number | null = null) {
+        this.x = x ?? this.x;
+        this.y = y ?? this.y;
     }
 
     add(xy: number): Vector2;
