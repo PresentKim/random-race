@@ -1,6 +1,6 @@
 {
     "name": "random-race",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "Random race game in which several characters run automatically",
     "main": "index.ts",
     "scripts": {
