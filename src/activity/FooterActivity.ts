@@ -3,9 +3,13 @@ import App from "@/App";
 import SpriteAnimation from "@/sprite/SpriteAnimation";
 import SpriteManager from "@/sprite/SpriteManager";
 import SpriteAnimationWidget from "@/widget/SpriteAnimationWidget";
+import VersionInfo from "@/version_info.json";
+import TextWidget from "@/widget/TextWidget";
+import RenderOption from "@/utils/RenderOption";
 
 export default class FooterActivity extends Activity {
     private readonly runners: SpriteAnimationWidget[];
+    private readonly versionText: TextWidget;
 
     constructor(app: App) {
         super(app);
@@ -49,6 +53,10 @@ export default class FooterActivity extends Activity {
             this.runners[i] = runner;
             this.addWidget(runner);
         }
+
+        this.versionText = new TextWidget(null, "v" + VersionInfo.version + "-" + VersionInfo.status, new RenderOption().scale(3).absolute());
+        this.addWidget(this.versionText);
+
         this.setOnUpdate(elapsedTime => {
             this.camera.x += elapsedTime / 10;
         })
@@ -58,5 +66,8 @@ export default class FooterActivity extends Activity {
 
     relocation(ratio: number) {
         this.runners.forEach(runner => runner.pos.set(runner.pos.x * ratio, this.vh(100)));
+
+        const versionBB = this.versionText.getBoundingBox();
+        this.versionText.pos.set(this.vw(1) + versionBB.xLength / 2, this.vh(99) - +versionBB.yLength / 2);
     }
 }
