@@ -27,10 +27,8 @@ workbox.core.clientsClaim();
             self.addEventListener("fetch", this.dynamicCacheStrategy.bind(this));
         },
 
-        async staticCacheStrategy() {
-            /** @var {Cache} */
-            const staticCache = await caches.open(STATIC_CACHE_NAME);
-            await staticCache.addAll(STATIC_FILES);
+        async staticCacheStrategy(event) {
+            event.waitUntil(caches.open(STATIC_CACHE_NAME).then(cache => cache.addAll(STATIC_FILES)));
         },
 
         async deleteOldCache() {
@@ -45,16 +43,25 @@ workbox.core.clientsClaim();
             if (event.request.method !== "GET")
                 return;
 
+            const url = new URL(event.request.url);
+            url.search = '';
+            let request = new Request(url, event.request);
+
             const requests = [
-                caches.open(STATIC_CACHE_NAME).then(cache => cache.match(event.request)),
-                caches.open(DYNAMIC_CACHE_NAME).then(cache => cache.match(event.request)),
+                caches.open(STATIC_CACHE_NAME).then(cache => cache.match(request)),
+                caches.open(DYNAMIC_CACHE_NAME).then(cache => cache.match(request)),
             ];
-            if (event.request.referrer !== "") {
-                requests.push(fetch(event.request).then(networkResponse => {
+            if (request.referrer !== "") {
+                requests.push(fetch(request).then(networkResponse => {
                     if (STATIC_FILES.some(fileName => networkResponse.url.endsWith(fileName))) {
-                        caches.open(STATIC_CACHE_NAME).then(cache => cache.put(event.request, networkResponse));
+                        if (networkResponse.url.endsWith("version_info.json")) {
+                            console.log("version_info Update!!");
+                            caches.open(STATIC_CACHE_NAME).then(cache => cache.put(request, networkResponse));
+                        } else {
+                            caches.open(STATIC_CACHE_NAME).then(cache => cache.put(request, networkResponse));
+                        }
                     } else {
-                        caches.open(DYNAMIC_CACHE_NAME).then(cache => cache.put(event.request, networkResponse));
+                        caches.open(DYNAMIC_CACHE_NAME).then(cache => cache.put(request, networkResponse));
                     }
                     return networkResponse.clone();
                 }));
