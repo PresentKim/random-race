@@ -95,6 +95,12 @@ export default class App {
         const now = performance.now();
         if (this.lastUpdate !== -1) {
             const elapsedTime = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
+            if(elapsedTime > 1000){
+                console.log(elapsedTime)
+                this.lastUpdate = now;
+                intervalPerAnimationFrame(this.update.bind(this));
+                return;
+            }
 
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             this.activities = this.activities.filter(activity => {
