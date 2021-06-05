@@ -26,11 +26,11 @@ export default class BackgroundWidget extends SpriteWidget {
             }
             if (!this.cache || this.cachedSprite !== this.sprite || this.cachedScale !== scale) {
                 const bufferCanvas = document.createElement('canvas');
+                bufferCanvas.width = drawBox.x + spriteBox.x * 2;
+                bufferCanvas.height = drawBox.y + spriteBox.y * 2;
                 this.draw(bufferCanvas.getContext('2d'), spriteBox, drawBox);
 
                 this.cache = document.createElement('img');
-                this.cache.crossOrigin = 'anonymous';
-                (this.cache as any).origin = 'anonymous';
                 this.cache.src = bufferCanvas.toDataURL('image/png');
                 this.cachedSprite = this.sprite;
                 this.cachedScale = scale;
