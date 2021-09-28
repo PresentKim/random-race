@@ -1,7 +1,6 @@
 import Sprite, {ImageLike, SpriteData} from "@/sprite/Sprite";
 import SpriteAnimation from "@/sprite/SpriteAnimation";
 import SpriteSheet from "@/sprite/SpriteSheet";
-import {IPointData} from "@/utils/Vector2";
 import RandomMap from "@/utils/RandomMap";
 
 export declare interface GroupDataset {
@@ -93,7 +92,7 @@ class SpriteManager {
             sheetGroup.set(sheetName, sheet);
             this.setSheet(fullSheetName, sheet);
 
-            console.log(`%c│      └────[${++i}/${Object.keys(groupDataset).length}] : ${groupName}/%c${sheetName}`, "color: gray", "color: lightgray");
+            console.debug(`%c  └─[${++i}/${Object.keys(groupDataset).length}] : ${groupName}/%c${sheetName}`, "color: gray", "color: lightgray");
         });
         this.setGroup(groupName, sheetGroup);
         return this;

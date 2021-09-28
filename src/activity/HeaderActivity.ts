@@ -29,7 +29,6 @@ export default class HeaderActivity extends Activity {
                 const currentFrame = this.titleCharacter.getCurrentFrame();
                 if (currentFrame) {
                     this.titleCharacter.pos = textBox.min.add(-(currentFrame.data.ow * this.titleCharacter.getScale() / 2), textBox.max.y / 2);
-                    console.log(this.titleCharacter.sheet, this.titleCharacter.sheet.animations.keys())
                 }
             } else if (this.titleCharacter.animationName === "run") {
                 this.titleCharacter.setAnimationName("idle").reset().setRepeatCount(4);
@@ -38,9 +37,6 @@ export default class HeaderActivity extends Activity {
             }
         });
         this.titleCharacter.setOnMouseClick(vec => {
-            if (!this.titleCharacter.animation) {
-                console.log(this.titleCharacter)
-            }
             this.titleCharacter.playRate += 0.1;
             if (this.titleCharacter.playRate > 3) {
                 this.titleCharacter.playRate = 1;

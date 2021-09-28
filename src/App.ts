@@ -96,7 +96,6 @@ export default class App {
         if (this.lastUpdate !== -1) {
             const elapsedTime = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
             if(elapsedTime > 1000){
-                console.log(elapsedTime)
                 this.lastUpdate = now;
                 intervalPerAnimationFrame(this.update.bind(this));
                 return;
