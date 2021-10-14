@@ -52,50 +52,52 @@ class SpriteManager {
         return this;
     }
 
-    loadSheetGroup(groupName: string, image: ImageLike, groupDataset: GroupDataset, customDataset: CustomDataset): this {
+    async loadSheetGroup(groupName: string, image: ImageLike, groupDataset: GroupDataset, customDataset: CustomDataset): unknown[] {
         const sheetGroup = new RandomMap<string, SpriteSheet>();
         let i = 0;
+        let promises = [];
         Object.entries(groupDataset).forEach(([sheetName, sheetDataset]) => {
             const fullSheetName = `${groupName}/${sheetName}`;
-
-            //Prepare custom data (pivot value, animation fps, ETC...)
-            let customData: CustomData = DEFAULT_CUSTOM_DATA;
-            Object.entries(customDataset).forEach(([regex, data]) => {
-                if (fullSheetName.search(regex) !== -1) {
-                    customData = {...customData, ...data};
-                }
-            });
-
-            //Create sprite sheet instance via sheet dataset and custom data
-            const sheet = new SpriteSheet();
-            Object.entries(sheetDataset).forEach(([spriteName, spriteData]) => {
-                spriteData.px = spriteData.ow * customData.pivot[0];
-                spriteData.py = spriteData.oh * customData.pivot[1];
-                const sprite = new Sprite(spriteData, image);
-
-                const match = spriteName.match(/[_\-][\d]+$/i);
-                if (match) { //if is this animation sprites, register to animation map
-                    const animationName = spriteName.slice(0, spriteName.length - match[0].length);
-                    if (!sheet.animations.has(animationName)) {
-                        sheet.animations.set(animationName, new SpriteAnimation());
-
-                        if (customData?.animation_fps?.hasOwnProperty(animationName)) {
-                            sheet.animations.get(animationName).setFps(customData?.animation_fps[animationName]);
-                        }
+            promises.push(new Promise(async resolve => {
+                //Prepare custom data (pivot value, animation fps, ETC...)
+                let customData: CustomData = DEFAULT_CUSTOM_DATA;
+                Object.entries(customDataset).forEach(([regex, data]) => {
+                    if (fullSheetName.search(regex) !== -1) {
+                        customData = {...customData, ...data};
                     }
-                    sheet.animations.get(animationName).frames.push(sprite);
-                } else {
-                    sheet.sprites.set(spriteName, sprite);
-                }
-            });
+                });
 
-            sheetGroup.set(sheetName, sheet);
-            this.setSheet(fullSheetName, sheet);
+                //Create sprite sheet instance via sheet dataset and custom data
+                const sheet = new SpriteSheet();
+                Object.entries(sheetDataset).forEach(([spriteName, spriteData]) => {
+                    spriteData.px = spriteData.ow * customData.pivot[0];
+                    spriteData.py = spriteData.oh * customData.pivot[1];
+                    const sprite = new Sprite(spriteData, image);
 
-            console.debug(`%c  └─[${++i}/${Object.keys(groupDataset).length}] : ${groupName}/%c${sheetName}`, "color: gray", "color: lightgray");
+                    const match = spriteName.match(/[_\-][\d]+$/i);
+                    if (match) { //if is this animation sprites, register to animation map
+                        const animationName = spriteName.slice(0, spriteName.length - match[0].length);
+                        if (!sheet.animations.has(animationName)) {
+                            sheet.animations.set(animationName, new SpriteAnimation());
+
+                            if (customData?.animation_fps?.hasOwnProperty(animationName)) {
+                                sheet.animations.get(animationName).setFps(customData?.animation_fps[animationName]);
+                            }
+                        }
+                        sheet.animations.get(animationName).frames.push(sprite);
+                    } else {
+                        sheet.sprites.set(spriteName, sprite);
+                    }
+                });
+
+                resolve(sheet);
+            }).then((sheet: SpriteSheet) => {
+                sheetGroup.set(sheetName, sheet);
+                this.setSheet(fullSheetName, sheet);
+                console.debug(`%c  └─[${++i}/${Object.keys(groupDataset).length}] : ${groupName}/%c${sheetName}`, "color: gray", "color: lightgray");
+            }));
         });
-        this.setGroup(groupName, sheetGroup);
-        return this;
+        return Promise.all(promises).then(()=>this.setGroup(groupName, sheetGroup));
     }
 }
 

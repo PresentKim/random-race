@@ -72,7 +72,7 @@ export default class Component {
         ctx.save();
         this.renderOption.applyFilter(ctx);
         this.children.forEach((component) => {
-            ctx.save();
+            ctx.save()
             component.render(ctx);
             ctx.restore();
         });

@@ -15,9 +15,9 @@ async function loadSpriteSheets() {
 
     const count = sheetPromises.length;
     sheetPromises.forEach((promise, i) => {
-        promise.then(([name, png, json, customJson]) => {
+        promise.then(async ([name, png, json, customJson]) => {
             console.debug(`%c[load-sprites](${i + 1}/${count}) : %cGroup '${name}'`, "color: gray", "background: dimgray");
-            SpriteManager.loadSheetGroup(name, png.default, json.default, customJson.default);
+            await SpriteManager.loadSheetGroup(name, png.default, json.default, customJson.default);
         });
     })
     return Promise.all(sheetPromises);
