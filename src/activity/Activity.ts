@@ -5,14 +5,46 @@ import App from "@/App";
 import Widget from "@/widget/Widget";
 
 export default class Activity extends Component {
-    public readonly app: any;
     public readonly camera: Vector2;
 
-    constructor(app: App) {
-        super();
+    public readonly canvas: HTMLCanvasElement
+    public ctx: CanvasRenderingContext2D
 
-        this.app = app;
+    constructor(
+            public readonly app: App,
+    ) {
+        super();
         this.camera = new Vector2();
+        this.canvas = document.createElement("canvas");
+        this.ctx = this.createContext2D();
+    }
+
+    createContext2D(): CanvasRenderingContext2D {
+        const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
+        if (!ctx)
+            throw "Can't get context from canvas";
+        /**
+         * Disable smoothing feature of canvas context for use a clear dot image
+         * @url https://github.com/niklasvh/html2canvas/issues/576#issuecomment-316739410
+         */
+        (ctx as any).imageSmoothingEnabled = false; //standard
+        (ctx as any).mozImageSmoothingEnabled = false; //Firefox
+        (ctx as any).oImageSmoothingEnabled = false; //Opera
+        (ctx as any).webkitImageSmoothingEnabled = false; //Safari
+        (ctx as any).msImageSmoothingEnabled = false; //IE
+        return ctx;
+    }
+
+
+    resize(canvas: HTMLCanvasElement) {
+        if (this.canvas.width !== canvas.width) {
+            let ratio: number = this.canvas.width / canvas.width;
+
+            this.canvas.width = canvas.width;
+            this.canvas.height = canvas.height;
+
+            this.relocation(ratio);
+        }
     }
 
     relocation(ratio: number) {
@@ -23,24 +55,26 @@ export default class Activity extends Component {
         widget.onAttach(this);
     }
 
-    render(ctx: CanvasRenderingContext2D): void {
+    render(): void {
         if (this.isDestroyed || this.isHidden())
             return;
 
+        this.ctx = this.createContext2D();
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.children.forEach((component) => {
             if (!component.isAbsolute()) {
-                ctx.save();
-                ctx.translate(-this.camera.x, -this.camera.y);
+                this.ctx.save();
+                this.ctx.translate(-this.camera.x, -this.camera.y);
             }
-            component.render(ctx);
+            component.render(this.ctx);
             if (!component.isAbsolute()) {
-                ctx.restore();
+                this.ctx.restore();
             }
         });
     }
 
     getBoundingBox(): BoundingBox {
-        return BoundingBox.from(0, this.app.canvas);
+        return BoundingBox.from(0, this.canvas);
     }
 
     isAbsolute(): boolean {
@@ -52,10 +86,10 @@ export default class Activity extends Component {
     }
 
     vw(ratio: number): number {
-        return this.app.canvas.width / 100 * ratio;
+        return this.canvas.width / 100 * ratio;
     }
 
     vh(ratio: number): number {
-        return this.app.canvas.height / 100 * ratio;
+        return this.canvas.height / 100 * ratio;
     }
 }

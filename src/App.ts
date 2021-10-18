@@ -14,24 +14,24 @@ export const ACTIVITY_PRIORITY = {
     HEADER: 98,
     FOOTER: 99,
     OVERLAY: 100,
+    MAX: 99999999,
 };
 
 export default class App {
     public readonly canvas: HTMLCanvasElement;
-    public activities: Activity[];
-    public mouseVec: Vector2;
+    private activities: Activity[];
+    private mouseVec: Vector2;
 
-    public elapsedTime: number;
-    public lastUpdate: number;
+    private lastUpdate: number;
 
     constructor() {
         this.canvas = document.createElement("canvas");
-        this.canvas.id = "game";
-        document.body.appendChild(this.canvas);
+        this.canvas.id = "app-overlay"
+        this.canvas.style.zIndex = `${ACTIVITY_PRIORITY.MAX}`;
+        document.body.append(this.canvas);
 
         this.activities = [];
         this.mouseVec = new Vector2();
-        this.elapsedTime = 0;
         this.lastUpdate = -1;
         this.resizingCanvas();
 
@@ -73,41 +73,23 @@ export default class App {
         }
     }
 
-    get ctx(): CanvasRenderingContext2D {
-        const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
-        if (!ctx)
-            throw "Can't get context from canvas";
-
-        /**
-         * Disable smoothing feature of canvas context for use a clear dot image
-         * @url https://github.com/niklasvh/html2canvas/issues/576#issuecomment-316739410
-         */
-        (ctx as any).imageSmoothingEnabled = false; //standard
-        (ctx as any).mozImageSmoothingEnabled = false; //Firefox
-        (ctx as any).oImageSmoothingEnabled = false; //Opera
-        (ctx as any).webkitImageSmoothingEnabled = false; //Safari
-        (ctx as any).msImageSmoothingEnabled = false; //IE
-        return ctx;
-    }
-
     /** Update all activities and rendering on requestAnimationFrame (defaults, update per 1/60 sec) */
     update(): void {
         const now = performance.now();
         if (this.lastUpdate !== -1) {
             const elapsedTime = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
-            if(elapsedTime > 1000){
+            if (elapsedTime > 1000) {
                 this.lastUpdate = now;
                 intervalPerAnimationFrame(this.update.bind(this));
                 return;
             }
 
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             this.activities = this.activities.filter(activity => {
                 if (activity.isDestroyed)
                     return false;
 
                 activity.update(elapsedTime);
-                activity.render(this.ctx);
+                activity.render();
                 return true;
             });
         }
@@ -120,20 +102,29 @@ export default class App {
     }
 
     setActivity(index: number, activity: Activity): void {
+        if (this.activities[index] !== undefined) {
+            document.body.removeChild(this.activities[index].canvas);
+        }
+        activity.canvas.style.zIndex = `${index}`;
+        activity.resize(this.canvas);
+        document.body.append(activity.canvas);
+
         this.activities[index] = activity;
     }
 
     resizingCanvas() {
         const widthMin = 1080 * 16 / 9; //ratio 9:16 (Galaxy 4~)
         const widthMax = 1080 * 21 / 9; //ratio 9:21 (~Galaxy Fold)
+
         const beforeWidth = this.canvas.width;
         this.canvas.width = Math.min(widthMax, Math.max(widthMin, window.innerWidth / window.innerHeight * 1080));
         this.canvas.height = 1080;
-
         if (beforeWidth !== this.canvas.width) {
-            const ratio = beforeWidth / this.canvas.width;
-            this.mouseVec.multiply(ratio, 1);
-            this.activities.forEach(activity => activity.relocation(ratio));
+            this.mouseVec.multiply(beforeWidth / this.canvas.width, 1);
+
+            this.activities.forEach(activity => {
+                activity.resize(this.canvas)
+            });
         }
     }
 }
