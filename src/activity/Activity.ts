@@ -38,7 +38,7 @@ export default class Activity extends Component {
 
     resize(canvas: HTMLCanvasElement) {
         if (this.canvas.width !== canvas.width) {
-            let ratio: number = this.canvas.width / canvas.width;
+            let ratio: number = canvas.width / this.canvas.width;
 
             this.canvas.width = canvas.width;
             this.canvas.height = canvas.height;
