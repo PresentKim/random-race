@@ -10,7 +10,7 @@ export default class MainActivity extends Activity {
     private readonly descriptionButton: SpriteWidget;
 
     constructor(app: App) {
-        super(app);
+        super(app, ActivityIdentifier.MAIN);
 
         const buttonSheet = SpriteManager.getSheet("ui/button");
         this.startGameButton = new SpriteWidget(null, buttonSheet.getSprite("start_game"), new RenderOption().absolute());
@@ -24,10 +24,6 @@ export default class MainActivity extends Activity {
         this.addWidget(this.descriptionButton);
 
         this.relocation(1);
-    }
-
-    getIdentifier(): ActivityIdentifier {
-        return ActivityIdentifier.MAIN;
     }
 
     relocation(ratio: number) {

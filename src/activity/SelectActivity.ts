@@ -16,7 +16,7 @@ export default class SelectActivity extends Activity {
     private readonly increaseButton: SpriteWidget;
 
     constructor(app: App) {
-        super(app);
+        super(app, ActivityIdentifier.MAIN);
 
         const iconSheet = SpriteManager.getSheet("ui/icon");
         const characterGroup = new RandomArray(...SpriteManager.getGroup("character").values());
@@ -54,10 +54,6 @@ export default class SelectActivity extends Activity {
         this.addWidget(this.reduceButton);
         this.addWidget(this.increaseButton);
         this.relocation(1);
-    }
-
-    getIdentifier(): ActivityIdentifier {
-        return ActivityIdentifier.MAIN;
     }
 
     relocation(ratio: number) {

@@ -12,7 +12,7 @@ export default class FooterActivity extends Activity {
     private readonly versionText: TextWidget;
 
     constructor(app: App) {
-        super(app);
+        super(app, ActivityIdentifier.FOOTER);
 
         const characterGroup = SpriteManager.getGroup("character");
 
@@ -62,10 +62,6 @@ export default class FooterActivity extends Activity {
         })
 
         this.relocation(1);
-    }
-
-    getIdentifier(): ActivityIdentifier {
-        return ActivityIdentifier.FOOTER;
     }
 
     relocation(ratio: number) {

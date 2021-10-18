@@ -13,7 +13,7 @@ export default class HeaderActivity extends Activity {
     private readonly fullscreenButton: SpriteWidget | null;
 
     constructor(app: App) {
-        super(app);
+        super(app, ActivityIdentifier.HEADER);
 
         const characterGroup = SpriteManager.getGroup("character");
         const iconSheet = SpriteManager.getSheet("ui/icon");
@@ -76,10 +76,6 @@ export default class HeaderActivity extends Activity {
         }
 
         this.relocation(1);
-    }
-
-    getIdentifier(): ActivityIdentifier {
-        return ActivityIdentifier.HEADER;
     }
 
     relocation(ratio: number) {

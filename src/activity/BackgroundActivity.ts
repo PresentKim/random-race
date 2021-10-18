@@ -6,15 +6,11 @@ import BackgroundWidget from "@/widget/BackgroundWidget";
 
 export default class BackgroundActivity extends Activity {
     constructor(app: App) {
-        super(app);
+        super(app, ActivityIdentifier.BACKGROUND);
 
         this.addWidget(new BackgroundWidget(null, SpriteManager.getSheet("ui/background").sprites.random())
                 .setRenderOption(new RenderOption().scale(2))
                 .setOnUpdate((elapsedTime, self) => (self as BackgroundWidget).pos.x -= elapsedTime / 10)
         );
-    }
-
-    getIdentifier(): ActivityIdentifier {
-        return ActivityIdentifier.BACKGROUND;
     }
 }

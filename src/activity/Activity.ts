@@ -4,41 +4,43 @@ import BoundingBox from "@/utils/BoundingBox";
 import App from "@/App";
 import Widget from "@/widget/Widget";
 
-export enum ActivityIdentifier {
-    BACKGROUND = 0,
-    MAIN = 1,
-    HEADER = 2,
-    FOOTER = 3,
-    OVERLAY = 9,
+export class ActivityIdentifier {
+    private constructor(
+            public readonly name: string,
+            public readonly zIndex: number
+    ) {
+    }
+
+    public static BACKGROUND = new ActivityIdentifier("background", 0);
+    public static MAIN = new ActivityIdentifier("main", 1);
+    public static HEADER = new ActivityIdentifier("header", 2);
+    public static FOOTER = new ActivityIdentifier("footer", 3);
+    public static OVERLAY = new ActivityIdentifier("overlay", 9);
 }
 
 export default abstract class Activity extends Component {
     public readonly camera: Vector2;
 
     public readonly canvas: HTMLCanvasElement
-    public ctx: CanvasRenderingContext2D
+    public readonly ctx: CanvasRenderingContext2D
 
     protected constructor(
             public readonly app: App,
+            public readonly identifier: ActivityIdentifier
     ) {
         super();
 
-        const identifier = this.getIdentifier();
-        const elementId = Object.keys(ActivityIdentifier).find((name) => ActivityIdentifier[name] == identifier).toLowerCase();
-
         this.camera = new Vector2();
-        const canvas = document.getElementById(elementId);
+        const canvas = document.getElementById(this.identifier.name);
         if (canvas instanceof HTMLCanvasElement) {
             this.canvas = canvas;
         } else {
             this.canvas = document.createElement("canvas");
-            this.canvas.id = elementId;
-            this.canvas.style.zIndex = identifier.toString();
+            this.canvas.id = this.identifier.name;
+            this.canvas.style.zIndex += identifier.zIndex;
         }
         this.ctx = this.createContext2D();
     }
-
-    abstract getIdentifier(): ActivityIdentifier;
 
     createContext2D(): CanvasRenderingContext2D {
         const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
@@ -55,7 +57,6 @@ export default abstract class Activity extends Component {
         (ctx as any).msImageSmoothingEnabled = false; //IE
         return ctx;
     }
-
 
     resize(canvas: HTMLCanvasElement) {
         if (this.canvas.width !== canvas.width) {
@@ -80,7 +81,6 @@ export default abstract class Activity extends Component {
         if (this.isDestroyed || this.isHidden())
             return;
 
-        this.ctx = this.createContext2D();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.children.forEach((component) => {
             if (!component.isAbsolute()) {

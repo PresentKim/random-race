@@ -6,7 +6,7 @@ import SpriteAnimationWidget from "@/widget/SpriteAnimationWidget";
 
 export default class OverlayActivity extends Activity {
     constructor(app: App) {
-        super(app);
+        super(app, ActivityIdentifier.OVERLAY);
 
         this.setOnMouseClick(vec => {
             this.addWidget(new SpriteAnimationWidget(vec, SpriteManager.getSheet("particle/collect_particle"))
@@ -16,9 +16,5 @@ export default class OverlayActivity extends Activity {
                     .setOnAnimationEnd((self) => self.destroy()));
             return false;
         })
-    }
-
-    getIdentifier(): ActivityIdentifier {
-        return ActivityIdentifier.OVERLAY;
     }
 }

@@ -92,10 +92,10 @@ export default class App {
 
     setActivity(activity: Activity): void {
         activity.resize(this.canvas);
-        if (this.activities[activity.getIdentifier()] == undefined) {
+        if (this.activities[activity.identifier.name] == undefined) {
             document.body.append(activity.canvas);
         }
-        this.activities[activity.getIdentifier()] = activity;
+        this.activities[activity.identifier.name] = activity;
     }
 
     resizingCanvas() {
