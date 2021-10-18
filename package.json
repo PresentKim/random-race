@@ -25,6 +25,8 @@
     "homepage": "https://github.com/PresentKim/random-race",
     "devDependencies": {
         "@babel/core": "^7.13.14",
+        "@babel/plugin-proposal-class-properties": "^7.14.5",
+        "@babel/plugin-proposal-object-rest-spread": "^7.15.6",
         "@babel/plugin-transform-runtime": "^7.13.10",
         "@babel/preset-env": "^7.13.12",
         "@babel/preset-typescript": "^7.13.0",
@@ -44,6 +46,5 @@
         "webpack-nomodule-plugin": "^1.1.0",
         "webpack-pwa-manifest": "^4.3.0",
         "workbox-webpack-plugin": "^6.1.2"
-    },
-    "dependencies": {}
+    }
 }
