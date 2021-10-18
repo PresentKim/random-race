@@ -16,8 +16,8 @@ export default class App {
     private lastUpdate: number;
 
     constructor() {
-        this.canvas = new OverlayActivity(this).canvas
-        document.body.append(this.canvas);
+        const overlayActivity = new OverlayActivity(this);
+        this.canvas = overlayActivity.canvas
 
         this.activities = [];
         this.mouseVec = new Vector2();
@@ -28,6 +28,7 @@ export default class App {
         this.setActivity(new HeaderActivity(this));
         this.setActivity(new MainActivity(this));
         this.setActivity(new FooterActivity(this));
+        this.setActivity(overlayActivity)
 
         this.canvas.onclick = ev => {
             if (ev.button !== 0)
