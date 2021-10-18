@@ -1,4 +1,4 @@
-import Activity from "./Activity";
+import Activity, {ActivityIdentifier} from "./Activity";
 import App from "@/App";
 import SpriteManager from "@/sprite/SpriteManager";
 import SelectCharacterWidget from "@/widget/SelectCharacterWidget";
@@ -54,6 +54,10 @@ export default class SelectActivity extends Activity {
         this.addWidget(this.reduceButton);
         this.addWidget(this.increaseButton);
         this.relocation(1);
+    }
+
+    getIdentifier(): ActivityIdentifier {
+        return ActivityIdentifier.MAIN;
     }
 
     relocation(ratio: number) {

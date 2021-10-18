@@ -1,4 +1,4 @@
-import Activity from "./Activity";
+import Activity, {ActivityIdentifier} from "./Activity";
 import App from "@/App";
 import SpriteAnimation from "@/sprite/SpriteAnimation";
 import SpriteManager from "@/sprite/SpriteManager";
@@ -62,6 +62,10 @@ export default class FooterActivity extends Activity {
         })
 
         this.relocation(1);
+    }
+
+    getIdentifier(): ActivityIdentifier {
+        return ActivityIdentifier.FOOTER;
     }
 
     relocation(ratio: number) {

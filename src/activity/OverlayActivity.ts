@@ -1,4 +1,4 @@
-import Activity from "./Activity";
+import Activity, {ActivityIdentifier} from "./Activity";
 import App from "@/App";
 import SpriteManager from "@/sprite/SpriteManager";
 import RenderOption from "@/utils/RenderOption";
@@ -16,5 +16,9 @@ export default class OverlayActivity extends Activity {
                     .setOnAnimationEnd((self) => self.destroy()));
             return false;
         })
+    }
+
+    getIdentifier(): ActivityIdentifier {
+        return ActivityIdentifier.OVERLAY;
     }
 }

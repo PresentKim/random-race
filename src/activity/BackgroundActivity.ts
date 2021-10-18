@@ -1,4 +1,4 @@
-import Activity from "./Activity";
+import Activity, {ActivityIdentifier} from "./Activity";
 import App from "@/App";
 import SpriteManager from "@/sprite/SpriteManager";
 import RenderOption from "@/utils/RenderOption";
@@ -12,5 +12,9 @@ export default class BackgroundActivity extends Activity {
                 .setRenderOption(new RenderOption().scale(2))
                 .setOnUpdate((elapsedTime, self) => (self as BackgroundWidget).pos.x -= elapsedTime / 10)
         );
+    }
+
+    getIdentifier(): ActivityIdentifier {
+        return ActivityIdentifier.BACKGROUND;
     }
 }

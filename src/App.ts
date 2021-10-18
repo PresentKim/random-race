@@ -8,15 +8,6 @@ import HeaderActivity from "@/activity/HeaderActivity";
 import FooterActivity from "@/activity/FooterActivity";
 import MainActivity from "@/activity/MainActivity";
 
-export const ACTIVITY_PRIORITY = {
-    BACKGROUND: 0,
-    MAIN: 1,
-    HEADER: 98,
-    FOOTER: 99,
-    OVERLAY: 100,
-    MAX: 99999999,
-};
-
 export default class App {
     public readonly canvas: HTMLCanvasElement;
     private activities: Activity[];
@@ -25,9 +16,7 @@ export default class App {
     private lastUpdate: number;
 
     constructor() {
-        this.canvas = document.createElement("canvas");
-        this.canvas.id = "app-overlay"
-        this.canvas.style.zIndex = `${ACTIVITY_PRIORITY.MAX}`;
+        this.canvas = new OverlayActivity(this).canvas
         document.body.append(this.canvas);
 
         this.activities = [];
@@ -35,11 +24,10 @@ export default class App {
         this.lastUpdate = -1;
         this.resizingCanvas();
 
-        this.setActivity(ACTIVITY_PRIORITY.BACKGROUND, new BackgroundActivity(this));
-        this.setActivity(ACTIVITY_PRIORITY.HEADER, new HeaderActivity(this));
-        this.setActivity(ACTIVITY_PRIORITY.MAIN, new MainActivity(this));
-        this.setActivity(ACTIVITY_PRIORITY.FOOTER, new FooterActivity(this));
-        this.setActivity(ACTIVITY_PRIORITY.OVERLAY, new OverlayActivity(this));
+        this.setActivity(new BackgroundActivity(this));
+        this.setActivity(new HeaderActivity(this));
+        this.setActivity(new MainActivity(this));
+        this.setActivity(new FooterActivity(this));
 
         this.canvas.onclick = ev => {
             if (ev.button !== 0)
@@ -101,15 +89,12 @@ export default class App {
         intervalPerAnimationFrame(this.update.bind(this));
     }
 
-    setActivity(index: number, activity: Activity): void {
-        if (this.activities[index] !== undefined) {
-            document.body.removeChild(this.activities[index].canvas);
-        }
-        activity.canvas.style.zIndex = `${index}`;
+    setActivity(activity: Activity): void {
         activity.resize(this.canvas);
-        document.body.append(activity.canvas);
-
-        this.activities[index] = activity;
+        if (this.activities[activity.getIdentifier()] == undefined) {
+            document.body.append(activity.canvas);
+        }
+        this.activities[activity.getIdentifier()] = activity;
     }
 
     resizingCanvas() {

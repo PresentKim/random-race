@@ -1,4 +1,4 @@
-import Activity from "./Activity";
+import Activity, {ActivityIdentifier} from "./Activity";
 import App from "@/App";
 import RenderOption from "@/utils/RenderOption";
 import TextWidget from "@/widget/TextWidget";
@@ -76,6 +76,10 @@ export default class HeaderActivity extends Activity {
         }
 
         this.relocation(1);
+    }
+
+    getIdentifier(): ActivityIdentifier {
+        return ActivityIdentifier.HEADER;
     }
 
     relocation(ratio: number) {

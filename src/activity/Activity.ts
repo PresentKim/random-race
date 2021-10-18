@@ -4,20 +4,41 @@ import BoundingBox from "@/utils/BoundingBox";
 import App from "@/App";
 import Widget from "@/widget/Widget";
 
-export default class Activity extends Component {
+export enum ActivityIdentifier {
+    BACKGROUND = 0,
+    MAIN = 1,
+    HEADER = 2,
+    FOOTER = 3,
+    OVERLAY = 9,
+}
+
+export default abstract class Activity extends Component {
     public readonly camera: Vector2;
 
     public readonly canvas: HTMLCanvasElement
     public ctx: CanvasRenderingContext2D
 
-    constructor(
+    protected constructor(
             public readonly app: App,
     ) {
         super();
+
+        const identifier = this.getIdentifier();
+        const elementId = Object.keys(ActivityIdentifier).find((name) => ActivityIdentifier[name] == identifier).toLowerCase();
+
         this.camera = new Vector2();
-        this.canvas = document.createElement("canvas");
+        const canvas = document.getElementById(elementId);
+        if (canvas instanceof HTMLCanvasElement) {
+            this.canvas = canvas;
+        } else {
+            this.canvas = document.createElement("canvas");
+            this.canvas.id = elementId;
+            this.canvas.style.zIndex = identifier.toString();
+        }
         this.ctx = this.createContext2D();
     }
+
+    abstract getIdentifier(): ActivityIdentifier;
 
     createContext2D(): CanvasRenderingContext2D {
         const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
