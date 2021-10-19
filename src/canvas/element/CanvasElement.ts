@@ -98,7 +98,7 @@ export default class CanvasElement {
         if (!bb || !bb.isInside(this.isAbsolute() ? absoluteVec : relativeVec))
             return false;
 
-        this.hoverOutDelay = 20;
+        this.hoverOutDelay = 50;
         return this.onMouseHover(absoluteVec, relativeVec, this);
     }
 
