@@ -64,23 +64,9 @@ export default class CanvasElement {
         if (this.isHidden())
             return;
 
-        ctx.save();
         this.renderOption.applyFilter(ctx);
         this.onRender(ctx, this);
-        ctx.restore();
 
-        if (new URLSearchParams(window.location.search).get("renderBoundingBox")) {
-            const bb = this.getBoundingBox();
-            if (bb) {
-                ctx.beginPath();
-                ctx.moveTo(bb.minX, bb.minY);
-                ctx.lineTo(bb.minX, bb.maxY);
-                ctx.lineTo(bb.maxX, bb.maxY);
-                ctx.lineTo(bb.maxX, bb.minY);
-                ctx.closePath();
-                ctx.stroke();
-            }
-        }
     }
 
     /** @return {boolean} if returns true, stop click event handling */
