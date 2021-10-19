@@ -1,15 +1,16 @@
-import Activity from "@/activity/Activity";
+import CanvasLayer from "@/canvas/layer/CanvasLayer";
 import Vector2 from "@/utils/Vector2";
 import RenderOption from "@/utils/RenderOption";
 import BoundingBox from "@/utils/BoundingBox";
 
-export type DefaultHandler = (self: Widget) => void;
-export type UpdateHandler = (elapsedTime: number, self: Widget) => void;
-export type RequestRenderHandler = (ctx: CanvasRenderingContext2D, self: Widget) => void;
-export type MouseEventHandler = (absoluteVec: Vector2, relativeVec: Vector2, self: Widget) => boolean;
+export type DefaultHandler = (self: CanvasElement) => void;
+export type UpdateHandler = (elapsedTime: number, self: CanvasElement) => void;
+export type RequestRenderHandler = (ctx: CanvasRenderingContext2D, self: CanvasElement) => void;
+export type MouseEventHandler = (absoluteVec: Vector2, relativeVec: Vector2, self: CanvasElement) => boolean;
 
-export default class Widget {
-    public activity: Activity | null;
+export default class CanvasElement {
+    public parent: CanvasLayer | null;
+
     public pos: Vector2;
     public renderOption: RenderOption;
     private hoverOutDelay: number = 0;
@@ -32,7 +33,7 @@ export default class Widget {
         this.renderOption = renderOption ?? new RenderOption();
 
         this.pos = pos ?? new Vector2();
-        this.activity = null;
+        this.parent = null;
     }
 
     setPos(pos: Vector2): this {
@@ -40,12 +41,12 @@ export default class Widget {
         return this;
     }
 
-    onAttached(activity: Activity) {
-        this.activity = activity;
+    onAttached(layer: CanvasLayer) {
+        this.parent = layer;
     }
 
     onUnattached() {
-        this.activity = null;
+        this.parent = null;
     }
 
     update(elapsedTime: number): void {
@@ -102,7 +103,7 @@ export default class Widget {
     }
 
     destroy(): void {
-        this.activity?.removeWidget(this);
+        this.parent?.removeChild(this);
         this.onDestroy(this);
     }
 

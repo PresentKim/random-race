@@ -1,42 +1,38 @@
 import Vector2 from "@/utils/Vector2";
 import {getCanvasMousePos, intervalPerAnimationFrame} from "@/utils/utils";
-import Activity from "@/activity/Activity";
+import CanvasLayer from "@/canvas/layer/CanvasLayer";
 import fullscreen from "fullscreen-wrapper";
-import OverlayActivity from "@/activity/OverlayActivity";
-import BackgroundActivity from "@/activity/BackgroundActivity";
-import HeaderActivity from "@/activity/HeaderActivity";
-import FooterActivity from "@/activity/FooterActivity";
-import MainActivity from "@/activity/MainActivity";
+import OverlayLayer from "@/canvas/layer/OverlayLayer";
+import BackgroundLayer from "@/canvas/layer/BackgroundLayer";
+import HeaderLayer from "@/canvas/layer/HeaderLayer";
+import FooterLayer from "@/canvas/layer/FooterLayer";
+import MainLayer from "@/canvas/layer/MainLayer";
 
 export default class App {
     public readonly canvas: HTMLCanvasElement;
-    private activities: Activity[];
-    private mouseVec: Vector2;
+    private readonly layers: CanvasLayer[] = [];
+    private mouseVec: Vector2 = new Vector2();
 
-    private lastUpdate: number;
+    private lastUpdate: number = -1;
 
     constructor() {
-        const overlayActivity = new OverlayActivity(this);
-        this.canvas = overlayActivity.canvas
-
-        this.activities = [];
-        this.mouseVec = new Vector2();
-        this.lastUpdate = -1;
+        const overlayLayer = new OverlayLayer(this);
+        this.canvas = overlayLayer.canvas
         this.resizingCanvas();
 
-        this.setActivity(new BackgroundActivity(this));
-        this.setActivity(new HeaderActivity(this));
-        this.setActivity(new MainActivity(this));
-        this.setActivity(new FooterActivity(this));
-        this.setActivity(overlayActivity)
+        this.setLayer(new BackgroundLayer(this));
+        this.setLayer(new HeaderLayer(this));
+        this.setLayer(new MainLayer(this));
+        this.setLayer(new FooterLayer(this));
+        this.setLayer(overlayLayer)
 
         this.canvas.onclick = ev => {
             if (ev.button !== 0)
                 return;
 
             const clickVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, this.canvas.width, this.canvas.height);
-            this.activities.slice().reverse().some(activity => {
-                return activity.mouseClick(clickVec, clickVec.add(activity.camera));
+            this.layers.slice().reverse().some(layer => {
+                return layer.mouseClick(clickVec, clickVec.add(layer.camera));
             });
         };
         this.canvas.onmousemove = ev => {
@@ -74,15 +70,15 @@ export default class App {
                     return;
                 }
 
-                for (const activity of this.activities) {
-                    activity.update(elapsedTime);
-                    activity.render();
+                for (const layer of this.layers) {
+                    layer.update(elapsedTime);
+                    layer.render();
                 }
             }
             this.lastUpdate = now;
 
-            this.activities.slice().reverse().some(activity => {
-                return activity.mouseHover(this.mouseVec, this.mouseVec.add(activity.camera));
+            this.layers.slice().reverse().some(layer => {
+                return layer.mouseHover(this.mouseVec, this.mouseVec.add(layer.camera));
             });
         } catch (e) {
             console.error(e);
@@ -91,12 +87,12 @@ export default class App {
         }
     }
 
-    setActivity(activity: Activity): void {
-        activity.resize(this.canvas);
-        if (this.activities[activity.identifier.index] == undefined) {
-            document.body.append(activity.canvas);
+    setLayer(layer: CanvasLayer): void {
+        layer.resize(this.canvas);
+        if (this.layers[layer.identifier.index] == undefined) {
+            document.body.append(layer.canvas);
         }
-        this.activities[activity.identifier.index] = activity;
+        this.layers[layer.identifier.index] = layer;
     }
 
     resizingCanvas() {
@@ -109,8 +105,8 @@ export default class App {
         if (beforeWidth !== this.canvas.width) {
             this.mouseVec.multiply(beforeWidth / this.canvas.width, 1);
 
-            for (const activity of this.activities) {
-                activity.resize(this.canvas)
+            for (const layer of this.layers) {
+                layer.resize(this.canvas)
             }
         }
     }

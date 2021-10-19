@@ -1,25 +1,25 @@
-import Activity, {ActivityIdentifier} from "./Activity";
+import CanvasLayer, {LayerIndex} from "./CanvasLayer";
 import App from "@/App";
 import RenderOption from "@/utils/RenderOption";
-import TextWidget from "@/widget/TextWidget";
-import SpriteWidget from "@/widget/SpriteWidget";
+import TextElement from "@/canvas/element/TextElement";
+import SpriteElement from "@/canvas/element/SpriteElement";
 import SpriteManager from "@/sprite/SpriteManager";
-import SpriteAnimationWidget from "@/widget/SpriteAnimationWidget";
+import SpriteAnimationElement from "@/canvas/element/SpriteAnimationElement";
 import fullscreen from "fullscreen-wrapper";
 
-export default class HeaderActivity extends Activity {
-    private readonly titleText: TextWidget;
-    private readonly titleCharacter: SpriteAnimationWidget;
-    private readonly fullscreenButton: SpriteWidget | null;
+export default class HeaderLayer extends CanvasLayer {
+    private readonly titleText: TextElement;
+    private readonly titleCharacter: SpriteAnimationElement;
+    private readonly fullscreenButton: SpriteElement | null;
 
     constructor(app: App) {
-        super(app, ActivityIdentifier.HEADER);
+        super(app, LayerIndex.HEADER);
 
         const characterGroup = SpriteManager.getGroup("character");
         const iconSheet = SpriteManager.getSheet("ui/icon");
 
-        this.titleText = new TextWidget(null, "random race", new RenderOption().absolute().scale(12));
-        this.titleCharacter = new SpriteAnimationWidget(null, characterGroup.random(), "run", new RenderOption().absolute().scale(5));
+        this.titleText = new TextElement(null, "random race", new RenderOption().absolute().scale(12));
+        this.titleCharacter = new SpriteAnimationElement(null, characterGroup.random(), "run", new RenderOption().absolute().scale(5));
         this.titleCharacter.setOnAnimationEnd(() => {
             if (this.titleCharacter.animationName === "hit") {
                 const textBox = this.titleText.getBoundingBox();
@@ -41,16 +41,16 @@ export default class HeaderActivity extends Activity {
             if (this.titleCharacter.playRate > 3) {
                 this.titleCharacter.playRate = 1;
             }
-            this.addWidget(new TextWidget(vec.add(Math.random() * 80 - 40, 0), this.titleCharacter.playRate === 1 ? "-200" : "+10", new RenderOption().absolute())
+            this.appendChild(new TextElement(vec.add(Math.random() * 80 - 40, 0), this.titleCharacter.playRate === 1 ? "-200" : "+10", new RenderOption().absolute())
                     .setRenderOption(new RenderOption().scale(2).absolute().hue(Math.random() * 360).brightness(6).contrast(2))
-                    .setOnUpdate((elapsedTime, widget) => {
-                        if (!(widget instanceof TextWidget)) {
-                            widget.destroy();
+                    .setOnUpdate((elapsedTime, child) => {
+                        if (!(child instanceof TextElement)) {
+                            child.destroy();
                             return;
                         }
-                        widget.pos.y -= elapsedTime / 20;
-                        if (widget.pos.y < 0) {
-                            widget.destroy();
+                        child.pos.y -= elapsedTime / 20;
+                        if (child.pos.y < 0) {
+                            child.destroy();
                         }
                     })
             );
@@ -59,7 +59,7 @@ export default class HeaderActivity extends Activity {
 
         this.fullscreenButton = null;
         if (fullscreen.isEnabled) {
-            this.fullscreenButton = new SpriteWidget(null, iconSheet.getSprite("fullscreen_enter"), new RenderOption().absolute());
+            this.fullscreenButton = new SpriteElement(null, iconSheet.getSprite("fullscreen_enter"), new RenderOption().absolute());
             this.fullscreenButton.setOnMouseClick(() => fullscreen.toggle(document.body)).setOnUpdate(() => {
                 this.fullscreenButton.renderOption.scale(this.fullscreenButton.isHover() ? 6.5 : 6);
                 return true
@@ -70,10 +70,10 @@ export default class HeaderActivity extends Activity {
             })
         }
 
-        this.addWidget(this.titleText);
-        this.addWidget(this.titleCharacter);
+        this.appendChild(this.titleText);
+        this.appendChild(this.titleCharacter);
         if (this.fullscreenButton) {
-            this.addWidget(this.fullscreenButton);
+            this.appendChild(this.fullscreenButton);
         }
 
         this.relocation(1);

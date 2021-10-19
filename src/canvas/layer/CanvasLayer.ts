@@ -1,32 +1,32 @@
 import Vector2 from "@/utils/Vector2";
 import BoundingBox from "@/utils/BoundingBox";
 import App from "@/App";
-import Widget from "@/widget/Widget";
+import CanvasElement from "@/canvas/element/CanvasElement";
 
-export class ActivityIdentifier {
+export class LayerIndex {
     private constructor(
             public readonly name: string,
             public readonly index: number
     ) {
     }
 
-    public static BACKGROUND = new ActivityIdentifier("background", 0);
-    public static MAIN = new ActivityIdentifier("main", 1);
-    public static HEADER = new ActivityIdentifier("header", 2);
-    public static FOOTER = new ActivityIdentifier("footer", 3);
-    public static OVERLAY = new ActivityIdentifier("overlay", 4);
+    public static BACKGROUND = new LayerIndex("background", 0);
+    public static MAIN = new LayerIndex("main", 1);
+    public static HEADER = new LayerIndex("header", 2);
+    public static FOOTER = new LayerIndex("footer", 3);
+    public static OVERLAY = new LayerIndex("overlay", 4);
 }
 
-export default abstract class Activity {
+export default abstract class CanvasLayer {
     public readonly canvas: HTMLCanvasElement
 
-    private children: Array<Widget> = [];
+    private children: Array<CanvasElement> = [];
 
     public readonly camera: Vector2 = new Vector2();
 
     protected constructor(
             public readonly app: App,
-            public readonly identifier: ActivityIdentifier
+            public readonly identifier: LayerIndex
     ) {
         const canvas = document.getElementById(this.identifier.name);
         if (canvas instanceof HTMLCanvasElement) {
@@ -68,14 +68,14 @@ export default abstract class Activity {
     relocation(ratio: number) {
     }
 
-    addWidget(widget: Widget): void {
-        if (!this.children.some(e => e == widget)) {
-            this.children.push(widget)
-            widget.onAttached(this);
+    appendChild(element: CanvasElement): void {
+        if (!this.children.some(child => child == element)) {
+            this.children.push(element)
+            element.onAttached(this);
         }
     }
 
-    removeWidget(widget: Widget): void {
+    removeChild(widget: CanvasElement): void {
         const index = this.children.findIndex(e => e == widget);
         if (index > -1) {
             this.children.splice(index, 1);
@@ -84,8 +84,8 @@ export default abstract class Activity {
     }
 
     update(elapsedTime: number): void {
-        for (const widget of this.children) {
-            widget.update(elapsedTime);
+        for (const child of this.children) {
+            child.update(elapsedTime);
         }
     }
 
@@ -93,20 +93,20 @@ export default abstract class Activity {
         const ctx = this.createContext2D();
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        for (const widget of this.children) {
+        for (const child of this.children) {
             ctx.save();
-            if (!widget.isAbsolute()) {
+            if (!child.isAbsolute()) {
                 ctx.translate(-this.camera.x, -this.camera.y);
             }
-            widget.render(ctx);
+            child.render(ctx);
             ctx.restore();
         }
     }
 
     /** @return {boolean} if returns true, stop click event handling */
     mouseClick(absoluteVec: Vector2, relativeVec: Vector2): boolean {
-        for (const widget of this.children.slice().reverse()) {
-            if (widget.mouseClick(absoluteVec, relativeVec)) {
+        for (const child of this.children.slice().reverse()) {
+            if (child.mouseClick(absoluteVec, relativeVec)) {
                 return true;
             }
         }
@@ -115,8 +115,8 @@ export default abstract class Activity {
 
     /** @return {boolean} if returns true, stop click event handling */
     mouseHover(absoluteVec: Vector2, relativeVec: Vector2): boolean {
-        for (const widget of this.children.slice().reverse()) {
-            if (widget.mouseHover(absoluteVec, relativeVec)) {
+        for (const child of this.children.slice().reverse()) {
+            if (child.mouseHover(absoluteVec, relativeVec)) {
                 return true;
             }
         }

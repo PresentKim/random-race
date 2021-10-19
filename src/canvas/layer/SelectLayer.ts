@@ -1,33 +1,33 @@
-import Activity, {ActivityIdentifier} from "./Activity";
+import CanvasLayer, {LayerIndex} from "./CanvasLayer";
 import App from "@/App";
 import SpriteManager from "@/sprite/SpriteManager";
-import SelectCharacterWidget from "@/widget/SelectCharacterWidget";
+import SelectCharacterElement from "@/canvas/element/SelectCharacterElement";
 import RenderOption from "@/utils/RenderOption";
 import RandomArray from "@/utils/RandomArray";
-import SpriteWidget from "@/widget/SpriteWidget";
-import TextWidget from "@/widget/TextWidget";
+import SpriteElement from "@/canvas/element/SpriteElement";
+import TextElement from "@/canvas/element/TextElement";
 import SpriteSheet from "@/sprite/SpriteSheet";
 
-export default class SelectActivity extends Activity {
-    private readonly selectors: Array<SelectCharacterWidget>;
+export default class SelectLayer extends CanvasLayer {
+    private readonly selectors: Array<SelectCharacterElement>;
 
-    private readonly countText: TextWidget;
-    private readonly reduceButton: SpriteWidget;
-    private readonly increaseButton: SpriteWidget;
+    private readonly countText: TextElement;
+    private readonly reduceButton: SpriteElement;
+    private readonly increaseButton: SpriteElement;
 
     constructor(app: App) {
-        super(app, ActivityIdentifier.MAIN);
+        super(app, LayerIndex.MAIN);
 
         const iconSheet = SpriteManager.getSheet("ui/icon");
         const characterGroup = new RandomArray(...SpriteManager.getGroup("character").values());
         this.selectors = [];
         for (let i = 0; i < 5; ++i) {
             const selector = this.createSelector(characterGroup);
-            this.addWidget(selector);
+            this.appendChild(selector);
             this.selectors.push(selector)
         }
-        this.countText = new TextWidget(null, this.selectors.length + "", new RenderOption().scale(18));
-        this.reduceButton = new SpriteWidget(null, iconSheet.getSprite("prev"), new RenderOption().scale(10))
+        this.countText = new TextElement(null, this.selectors.length + "", new RenderOption().scale(18));
+        this.reduceButton = new SpriteElement(null, iconSheet.getSprite("prev"), new RenderOption().scale(10))
                 .setOnMouseClick(() => {
                     if (this.selectors.length > 2) {
                         const selector = this.selectors.pop();
@@ -40,11 +40,11 @@ export default class SelectActivity extends Activity {
                         return true;
                     }
                 });
-        this.increaseButton = new SpriteWidget(null, iconSheet.getSprite("next"), new RenderOption().scale(10))
+        this.increaseButton = new SpriteElement(null, iconSheet.getSprite("next"), new RenderOption().scale(10))
                 .setOnMouseClick(() => {
                     if (this.selectors.length < 5) {
                         const selector = this.createSelector(characterGroup);
-                        this.addWidget(selector);
+                        this.appendChild(selector);
                         this.selectors.push(selector)
 
                         this.countText.text = this.selectors.length + "";
@@ -54,9 +54,9 @@ export default class SelectActivity extends Activity {
                     }
                 });
 
-        this.addWidget(this.countText);
-        this.addWidget(this.reduceButton);
-        this.addWidget(this.increaseButton);
+        this.appendChild(this.countText);
+        this.appendChild(this.reduceButton);
+        this.appendChild(this.increaseButton);
         this.relocation(1);
     }
 
@@ -76,7 +76,7 @@ export default class SelectActivity extends Activity {
     }
 
     private createSelector(characterGroup: RandomArray<SpriteSheet>) {
-        const selector = new SelectCharacterWidget(null, characterGroup.randomPop(), new RenderOption().scale(7))
+        const selector = new SelectCharacterElement(null, characterGroup.randomPop(), new RenderOption().scale(7))
                 .setOnMouseClick((vec => {
                     const bb = selector.getBoundingBox();
                     const relativeVec = vec.subtract(bb.min);

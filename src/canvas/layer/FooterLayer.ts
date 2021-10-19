@@ -1,24 +1,24 @@
-import Activity, {ActivityIdentifier} from "./Activity";
+import CanvasLayer, {LayerIndex} from "./CanvasLayer";
 import App from "@/App";
 import SpriteAnimation from "@/sprite/SpriteAnimation";
 import SpriteManager from "@/sprite/SpriteManager";
-import SpriteAnimationWidget from "@/widget/SpriteAnimationWidget";
+import SpriteAnimationElement from "@/canvas/element/SpriteAnimationElement";
 import VersionInfo from "@/version_info.json";
-import TextWidget from "@/widget/TextWidget";
+import TextElement from "@/canvas/element/TextElement";
 import RenderOption from "@/utils/RenderOption";
 
-export default class FooterActivity extends Activity {
-    private readonly runners: SpriteAnimationWidget[];
-    private readonly versionText: TextWidget;
+export default class FooterLayer extends CanvasLayer {
+    private readonly runners: SpriteAnimationElement[];
+    private readonly versionText: TextElement;
 
     constructor(app: App) {
-        super(app, ActivityIdentifier.FOOTER);
+        super(app, LayerIndex.FOOTER);
 
         const characterGroup = SpriteManager.getGroup("character");
 
         this.runners = [];
         for (let i = 0; i < 30; ++i) {
-            const runner = new SpriteAnimationWidget(this.viewport(Math.random() * 100, 100))
+            const runner = new SpriteAnimationElement(this.viewport(Math.random() * 100, 100))
                     .setOnUpdate(elapsedTime => {
                         const maxX = this.getBoundingBox().add(this.camera).maxX;
                         if ((runner.getBoundingBox()?.minX ?? 0) > maxX) {
@@ -51,11 +51,11 @@ export default class FooterActivity extends Activity {
                             }
                     );
             this.runners[i] = runner;
-            this.addWidget(runner);
+            this.appendChild(runner);
         }
 
-        this.versionText = new TextWidget(null, "v" + VersionInfo.version + "-" + VersionInfo.status, new RenderOption().scale(3).absolute());
-        this.addWidget(this.versionText);
+        this.versionText = new TextElement(null, "v" + VersionInfo.version + "-" + VersionInfo.status, new RenderOption().scale(3).absolute());
+        this.appendChild(this.versionText);
 
         this.relocation(1);
     }

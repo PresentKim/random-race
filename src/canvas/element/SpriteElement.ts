@@ -1,10 +1,10 @@
-import Widget from "./Widget";
+import CanvasElement from "./CanvasElement";
 import Sprite from "@/sprite/Sprite";
 import BoundingBox from "@/utils/BoundingBox";
 import Vector2 from "@/utils/Vector2";
 import RenderOption from "@/utils/RenderOption";
 
-export default class SpriteWidget extends Widget {
+export default class SpriteElement extends CanvasElement {
     public sprite: Sprite | null;
 
     constructor(pos: Vector2 | null, sprite: Sprite | null = null, renderOption: RenderOption = new RenderOption()) {

@@ -1,4 +1,4 @@
-import Widget from "./Widget";
+import CanvasElement from "./CanvasElement";
 import BoundingBox from "@/utils/BoundingBox";
 import Vector2 from "@/utils/Vector2";
 import RenderOption from "@/utils/RenderOption";
@@ -6,9 +6,9 @@ import SpriteAnimation from "@/sprite/SpriteAnimation";
 import SpriteSheet from "@/sprite/SpriteSheet";
 import Sprite from "@/sprite/Sprite";
 
-export type AnimationEndHandler = (animation: SpriteAnimationWidget) => void;
+export type AnimationEndHandler = (animation: SpriteAnimationElement) => void;
 
-export default class SpriteAnimationWidget extends Widget {
+export default class SpriteAnimationElement extends CanvasElement {
     public sheet: SpriteSheet | null;
     public animationName: string;
     public repeatCount: number;

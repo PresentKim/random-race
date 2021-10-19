@@ -1,17 +1,17 @@
 import Vector2 from "@/utils/Vector2";
 import RenderOption from "@/utils/RenderOption";
 import SpriteSheet from "@/sprite/SpriteSheet";
-import SpriteAnimationWidget from "@/widget/SpriteAnimationWidget";
-import SpriteWidget from "@/widget/SpriteWidget";
+import SpriteAnimationElement from "@/canvas/element/SpriteAnimationElement";
+import SpriteElement from "@/canvas/element/SpriteElement";
 import SpriteManager from "@/sprite/SpriteManager";
 import BoundingBox from "@/utils/BoundingBox";
 
-export default class SelectCharacterWidget extends SpriteAnimationWidget {
-    private background: SpriteWidget;
+export default class SelectCharacterElement extends SpriteAnimationElement {
+    private background: SpriteElement;
 
     constructor(pos: Vector2 | null, sheet: SpriteSheet, renderOption: RenderOption = new RenderOption()) {
         super(pos, sheet, "idle", renderOption);
-        this.background = new SpriteWidget(null, SpriteManager.getSheet("ui/button").getSprite("select_block"), renderOption)
+        this.background = new SpriteElement(null, SpriteManager.getSheet("ui/button").getSprite("select_block"), renderOption)
 
         this.onRender = ctx => {
             if (!this.animation)

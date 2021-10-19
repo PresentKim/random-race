@@ -1,10 +1,10 @@
-import SpriteWidget from "./SpriteWidget";
+import SpriteElement from "./SpriteElement";
 import Vector2 from "@/utils/Vector2";
 import BoundingBox from "@/utils/BoundingBox";
 import Sprite from "@/sprite/Sprite";
 import RenderOption from "@/utils/RenderOption";
 
-export default class BackgroundWidget extends SpriteWidget {
+export default class BackgroundElement extends SpriteElement {
     private cache: HTMLImageElement | null;
     private cachedScale: number | null;
     private cachedSprite: Sprite | null;
@@ -13,12 +13,12 @@ export default class BackgroundWidget extends SpriteWidget {
         super(pos, sprite, renderOption);
 
         this.onRender = ctx => {
-            if (!this.activity || !this.sprite?.image?.complete)
+            if (!this.parent || !this.sprite?.image?.complete)
                 return;
 
             const scale = this.getScale();
             const spriteBox = Vector2.from(this.sprite).multiply(scale).floor();
-            const drawBox = (this.getDrawBox() ?? this.activity.getBoundingBox()).max.floor();
+            const drawBox = (this.getDrawBox() ?? this.parent.getBoundingBox()).max.floor();
 
             if (window.location.href.startsWith("file://")) {
                 ctx.save();

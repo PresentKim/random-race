@@ -1,4 +1,4 @@
-import Widget from "./Widget";
+import CanvasElement from "./CanvasElement";
 import BoundingBox from "@/utils/BoundingBox";
 import Vector2 from "@/utils/Vector2";
 import RenderOption from "@/utils/RenderOption";
@@ -7,7 +7,7 @@ import SpriteManager from "@/sprite/SpriteManager";
 const TEXT_WIDTH = 8;
 const TEXT_HEIGHT = 10;
 
-export default class TextWidget extends Widget {
+export default class TextElement extends CanvasElement {
     public text: string;
 
     constructor(pos: Vector2 | null, text: string, renderOption: RenderOption = new RenderOption()) {

@@ -1,18 +1,18 @@
-import Activity, {ActivityIdentifier} from "./Activity";
+import CanvasLayer, {LayerIndex} from "./CanvasLayer";
 import App from "@/App";
 import SpriteManager from "@/sprite/SpriteManager";
 import RenderOption from "@/utils/RenderOption";
-import SpriteAnimationWidget from "@/widget/SpriteAnimationWidget";
+import SpriteAnimationElement from "@/canvas/element/SpriteAnimationElement";
 import Vector2 from "@/utils/Vector2";
 
-export default class OverlayActivity extends Activity {
+export default class OverlayLayer extends CanvasLayer {
     constructor(app: App) {
-        super(app, ActivityIdentifier.OVERLAY);
+        super(app, LayerIndex.OVERLAY);
 
     }
 
     mouseClick(absoluteVec: Vector2, relativeVec: Vector2): boolean {
-        this.addWidget(new SpriteAnimationWidget(absoluteVec, SpriteManager.getSheet("particle/collect_particle"))
+        this.appendChild(new SpriteAnimationElement(absoluteVec, SpriteManager.getSheet("particle/collect_particle"))
                 .setRenderOption(new RenderOption().absolute().scale(4))
                 .setAnimationName("item")
                 .setRepeatCount(0)
