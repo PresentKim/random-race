@@ -1,4 +1,4 @@
-import CanvasLayer, {LayerIndex} from "./CanvasLayer";
+import CanvasLayer from "./CanvasLayer";
 import App from "@/App";
 import SpriteAnimation from "@/sprite/SpriteAnimation";
 import SpriteManager from "@/sprite/SpriteManager";
@@ -6,13 +6,14 @@ import SpriteAnimationElement from "@/canvas/element/SpriteAnimationElement";
 import VersionInfo from "@/version_info.json";
 import TextElement from "@/canvas/element/TextElement";
 import RenderOption from "@/utils/RenderOption";
+import CanvasIndex from "@/canvas/CanvasIndex";
 
 export default class FooterLayer extends CanvasLayer {
     private readonly runners: SpriteAnimationElement[];
     private readonly versionText: TextElement;
 
     constructor(app: App) {
-        super(app, LayerIndex.FOOTER);
+        super(app, CanvasIndex.FOOTER);
 
         const characterGroup = SpriteManager.getGroup("character");
 

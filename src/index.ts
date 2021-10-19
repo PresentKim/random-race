@@ -2,8 +2,9 @@ import App from "@/App";
 import SpriteManager from "@/sprite/SpriteManager";
 
 //Create canvas element and app instance
-document.addEventListener("DOMContentLoaded", () => {
-    loadSpriteSheets().then(() => new App().update());
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadSpriteSheets();
+    new App();
 });
 
 async function loadSpriteSheets() {

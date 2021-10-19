@@ -1,4 +1,4 @@
-import CanvasLayer, {LayerIndex} from "./CanvasLayer";
+import CanvasLayer from "./CanvasLayer";
 import App from "@/App";
 import RenderOption from "@/utils/RenderOption";
 import TextElement from "@/canvas/element/TextElement";
@@ -6,6 +6,7 @@ import SpriteElement from "@/canvas/element/SpriteElement";
 import SpriteManager from "@/sprite/SpriteManager";
 import SpriteAnimationElement from "@/canvas/element/SpriteAnimationElement";
 import fullscreen from "fullscreen-wrapper";
+import CanvasIndex from "@/canvas/CanvasIndex";
 
 export default class HeaderLayer extends CanvasLayer {
     private readonly titleText: TextElement;
@@ -13,7 +14,7 @@ export default class HeaderLayer extends CanvasLayer {
     private readonly fullscreenButton: SpriteElement | null;
 
     constructor(app: App) {
-        super(app, LayerIndex.HEADER);
+        super(app, CanvasIndex.HEADER);
 
         const characterGroup = SpriteManager.getGroup("character");
         const iconSheet = SpriteManager.getSheet("ui/icon");

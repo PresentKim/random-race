@@ -1,4 +1,4 @@
-import CanvasLayer, {LayerIndex} from "./CanvasLayer";
+import CanvasLayer from "./CanvasLayer";
 import App from "@/App";
 import SpriteManager from "@/sprite/SpriteManager";
 import SelectCharacterElement from "@/canvas/element/SelectCharacterElement";
@@ -7,6 +7,7 @@ import RandomArray from "@/utils/RandomArray";
 import SpriteElement from "@/canvas/element/SpriteElement";
 import TextElement from "@/canvas/element/TextElement";
 import SpriteSheet from "@/sprite/SpriteSheet";
+import CanvasIndex from "@/canvas/CanvasIndex";
 
 export default class SelectLayer extends CanvasLayer {
     private readonly selectors: Array<SelectCharacterElement>;
@@ -16,7 +17,7 @@ export default class SelectLayer extends CanvasLayer {
     private readonly increaseButton: SpriteElement;
 
     constructor(app: App) {
-        super(app, LayerIndex.MAIN);
+        super(app, CanvasIndex.MAIN);
 
         const iconSheet = SpriteManager.getSheet("ui/icon");
         const characterGroup = new RandomArray(...SpriteManager.getGroup("character").values());

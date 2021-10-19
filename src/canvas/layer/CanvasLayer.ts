@@ -2,40 +2,21 @@ import Vector2 from "@/utils/Vector2";
 import BoundingBox from "@/utils/BoundingBox";
 import App from "@/App";
 import CanvasElement from "@/canvas/element/CanvasElement";
-
-export class LayerIndex {
-    private constructor(
-            public readonly name: string,
-            public readonly index: number
-    ) {
-    }
-
-    public static BACKGROUND = new LayerIndex("background", 0);
-    public static MAIN = new LayerIndex("main", 1);
-    public static HEADER = new LayerIndex("header", 2);
-    public static FOOTER = new LayerIndex("footer", 3);
-    public static OVERLAY = new LayerIndex("overlay", 4);
-}
+import CanvasIndex from "@/canvas/CanvasIndex";
 
 export default abstract class CanvasLayer {
-    public readonly canvas: HTMLCanvasElement
-
     private children: Array<CanvasElement> = [];
 
     public readonly camera: Vector2 = new Vector2();
 
     protected constructor(
             public readonly app: App,
-            public readonly identifier: LayerIndex
+            public readonly index: CanvasIndex
     ) {
-        const canvas = document.getElementById(this.identifier.name);
-        if (canvas instanceof HTMLCanvasElement) {
-            this.canvas = canvas;
-        } else {
-            this.canvas = document.createElement("canvas");
-            this.canvas.id = this.identifier.name;
-            this.canvas.style.zIndex += identifier.index;
-        }
+    }
+
+    get canvas(): HTMLCanvasElement {
+        return this.index.canvas;
     }
 
     createContext2D(): CanvasRenderingContext2D {

@@ -1,13 +1,14 @@
-import CanvasLayer, {LayerIndex} from "./CanvasLayer";
+import CanvasLayer from "./CanvasLayer";
 import App from "@/App";
 import SpriteManager from "@/sprite/SpriteManager";
 import RenderOption from "@/utils/RenderOption";
 import SpriteAnimationElement from "@/canvas/element/SpriteAnimationElement";
 import Vector2 from "@/utils/Vector2";
+import CanvasIndex from "@/canvas/CanvasIndex";
 
 export default class OverlayLayer extends CanvasLayer {
     constructor(app: App) {
-        super(app, LayerIndex.OVERLAY);
+        super(app, CanvasIndex.OVERLAY);
 
     }
 

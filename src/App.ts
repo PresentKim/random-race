@@ -7,24 +7,21 @@ import BackgroundLayer from "@/canvas/layer/BackgroundLayer";
 import HeaderLayer from "@/canvas/layer/HeaderLayer";
 import FooterLayer from "@/canvas/layer/FooterLayer";
 import MainLayer from "@/canvas/layer/MainLayer";
+import CanvasIndex from "@/canvas/CanvasIndex";
 
 export default class App {
-    public readonly canvas: HTMLCanvasElement;
+    public readonly canvas: HTMLCanvasElement = CanvasIndex.OVERLAY.canvas;
     private readonly layers: CanvasLayer[] = [];
     private mouseVec: Vector2 = new Vector2();
 
     private lastUpdate: number = -1;
 
     constructor() {
-        const overlayLayer = new OverlayLayer(this);
-        this.canvas = overlayLayer.canvas
-        this.resizingCanvas();
-
         this.setLayer(new BackgroundLayer(this));
         this.setLayer(new HeaderLayer(this));
         this.setLayer(new MainLayer(this));
         this.setLayer(new FooterLayer(this));
-        this.setLayer(overlayLayer)
+        this.setLayer(new OverlayLayer(this));
 
         this.canvas.onclick = ev => {
             if (ev.button !== 0)
@@ -56,6 +53,9 @@ export default class App {
                 await screen.orientation.lock("landscape");
             });
         }
+
+        this.resizingCanvas();
+        this.update();
     }
 
     /** Update all activities and rendering on requestAnimationFrame (defaults, update per 1/60 sec) */
@@ -89,10 +89,10 @@ export default class App {
 
     setLayer(layer: CanvasLayer): void {
         layer.resize(this.canvas);
-        if (this.layers[layer.identifier.index] == undefined) {
+        if (this.layers[layer.index.index] == undefined) {
             document.body.append(layer.canvas);
         }
-        this.layers[layer.identifier.index] = layer;
+        this.layers[layer.index.index] = layer;
     }
 
     resizingCanvas() {

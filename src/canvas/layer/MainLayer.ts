@@ -1,16 +1,17 @@
-import CanvasLayer, {LayerIndex} from "./CanvasLayer";
+import CanvasLayer from "./CanvasLayer";
 import App from "@/App";
 import RenderOption from "@/utils/RenderOption";
 import SpriteElement from "@/canvas/element/SpriteElement";
 import SpriteManager from "@/sprite/SpriteManager";
 import SelectLayer from "@/canvas/layer/SelectLayer";
+import CanvasIndex from "@/canvas/CanvasIndex";
 
 export default class MainLayer extends CanvasLayer {
     private readonly startGameButton: SpriteElement;
     private readonly descriptionButton: SpriteElement;
 
     constructor(app: App) {
-        super(app, LayerIndex.MAIN);
+        super(app, CanvasIndex.MAIN);
 
         const buttonSheet = SpriteManager.getSheet("ui/button");
         this.startGameButton = new SpriteElement(null, buttonSheet.getSprite("start_game"), new RenderOption().absolute());
