@@ -16,9 +16,12 @@ export default class MainActivity extends Activity {
         this.startGameButton = new SpriteWidget(null, buttonSheet.getSprite("start_game"), new RenderOption().absolute());
         this.descriptionButton = new SpriteWidget(null, buttonSheet.getSprite("description"), new RenderOption().absolute());
 
-        this.startGameButton.setOnUpdate((_, component) => component.renderOption.scale(component.isHover() ? 10.5 : 10) || true);
-        this.descriptionButton.setOnUpdate((_, component) => component.renderOption.scale(component.isHover() ? 8.5 : 8) || true);
-        this.startGameButton.setOnMouseClick(() => app.setActivity(new SelectActivity(app)));
+        this.startGameButton.setOnUpdate((_, widget) => widget.renderOption.scale(widget.isHover() ? 10.5 : 10) || true);
+        this.descriptionButton.setOnUpdate((_, widget) => widget.renderOption.scale(widget.isHover() ? 8.5 : 8) || true);
+        this.startGameButton.setOnMouseClick(() => {
+            app.setActivity(new SelectActivity(app));
+            return true;
+        });
 
         this.addWidget(this.startGameButton);
         this.addWidget(this.descriptionButton);

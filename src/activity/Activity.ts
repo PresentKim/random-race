@@ -1,4 +1,3 @@
-import Component from "@/utils/Component";
 import Vector2 from "@/utils/Vector2";
 import BoundingBox from "@/utils/BoundingBox";
 import App from "@/App";
@@ -7,7 +6,7 @@ import Widget from "@/widget/Widget";
 export class ActivityIdentifier {
     private constructor(
             public readonly name: string,
-            public readonly zIndex: number
+            public readonly index: number
     ) {
     }
 
@@ -15,31 +14,28 @@ export class ActivityIdentifier {
     public static MAIN = new ActivityIdentifier("main", 1);
     public static HEADER = new ActivityIdentifier("header", 2);
     public static FOOTER = new ActivityIdentifier("footer", 3);
-    public static OVERLAY = new ActivityIdentifier("overlay", 9);
+    public static OVERLAY = new ActivityIdentifier("overlay", 4);
 }
 
-export default abstract class Activity extends Component {
-    public readonly camera: Vector2;
-
+export default abstract class Activity {
     public readonly canvas: HTMLCanvasElement
-    public readonly ctx: CanvasRenderingContext2D
+
+    private children: Array<Widget> = [];
+
+    public readonly camera: Vector2 = new Vector2();
 
     protected constructor(
             public readonly app: App,
             public readonly identifier: ActivityIdentifier
     ) {
-        super();
-
-        this.camera = new Vector2();
         const canvas = document.getElementById(this.identifier.name);
         if (canvas instanceof HTMLCanvasElement) {
             this.canvas = canvas;
         } else {
             this.canvas = document.createElement("canvas");
             this.canvas.id = this.identifier.name;
-            this.canvas.style.zIndex += identifier.zIndex;
+            this.canvas.style.zIndex += identifier.index;
         }
-        this.ctx = this.createContext2D();
     }
 
     createContext2D(): CanvasRenderingContext2D {
@@ -73,25 +69,58 @@ export default abstract class Activity extends Component {
     }
 
     addWidget(widget: Widget): void {
-        this.children.push(widget);
-        widget.onAttach(this);
+        if (!this.children.some(e => e == widget)) {
+            this.children.push(widget)
+            widget.onAttached(this);
+        }
+    }
+
+    removeWidget(widget: Widget): void {
+        const index = this.children.findIndex(e => e == widget);
+        if (index > -1) {
+            this.children.splice(index, 1);
+            widget.onUnattached();
+        }
+    }
+
+    update(elapsedTime: number): void {
+        for (const widget of this.children) {
+            widget.update(elapsedTime);
+        }
     }
 
     render(): void {
-        if (this.isDestroyed || this.isHidden())
-            return;
+        const ctx = this.createContext2D();
+        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.children.forEach((component) => {
-            if (!component.isAbsolute()) {
-                this.ctx.save();
-                this.ctx.translate(-this.camera.x, -this.camera.y);
+        for (const widget of this.children) {
+            ctx.save();
+            if (!widget.isAbsolute()) {
+                ctx.translate(-this.camera.x, -this.camera.y);
             }
-            component.render(this.ctx);
-            if (!component.isAbsolute()) {
-                this.ctx.restore();
+            widget.render(ctx);
+            ctx.restore();
+        }
+    }
+
+    /** @return {boolean} if returns true, stop click event handling */
+    mouseClick(absoluteVec: Vector2, relativeVec: Vector2): boolean {
+        for (const widget of this.children.slice().reverse()) {
+            if (widget.mouseClick(absoluteVec, relativeVec)) {
+                return true;
             }
-        });
+        }
+        return false;
+    }
+
+    /** @return {boolean} if returns true, stop click event handling */
+    mouseHover(absoluteVec: Vector2, relativeVec: Vector2): boolean {
+        for (const widget of this.children.slice().reverse()) {
+            if (widget.mouseHover(absoluteVec, relativeVec)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     getBoundingBox(): BoundingBox {

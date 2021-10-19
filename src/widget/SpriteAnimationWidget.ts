@@ -25,9 +25,7 @@ export default class SpriteAnimationWidget extends Widget {
         this.elapsedTime = 0;
         this.onAnimationEnd = () => {
         };
-    }
 
-    init(): void {
         this.onRender = ctx => {
             if (!this.animation)
                 return;

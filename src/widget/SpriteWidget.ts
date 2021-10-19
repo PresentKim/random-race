@@ -10,9 +10,7 @@ export default class SpriteWidget extends Widget {
     constructor(pos: Vector2 | null, sprite: Sprite | null = null, renderOption: RenderOption = new RenderOption()) {
         super(pos, renderOption);
         this.sprite = sprite;
-    }
 
-    init(): void {
         this.onRender = ctx => {
             if (!this.sprite)
                 return;

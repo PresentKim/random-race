@@ -13,9 +13,7 @@ export default class TextWidget extends Widget {
     constructor(pos: Vector2 | null, text: string, renderOption: RenderOption = new RenderOption()) {
         super(pos, renderOption);
         this.text = text;
-    }
 
-    init(): void {
         this.onRender = ctx => {
             const textSheet = SpriteManager.getSheet("ui/text");
             if (textSheet === null)

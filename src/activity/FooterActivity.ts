@@ -57,15 +57,18 @@ export default class FooterActivity extends Activity {
         this.versionText = new TextWidget(null, "v" + VersionInfo.version + "-" + VersionInfo.status, new RenderOption().scale(3).absolute());
         this.addWidget(this.versionText);
 
-        this.setOnUpdate(elapsedTime => {
-            this.camera.x += elapsedTime / 10;
-        })
-
         this.relocation(1);
     }
 
+    update(elapsedTime: number) {
+        this.camera.x += elapsedTime / 10;
+        super.update(elapsedTime);
+    }
+
     relocation(ratio: number) {
-        this.runners.forEach(runner => runner.pos.set(runner.pos.x * ratio, this.vh(100)));
+        for (const runner of this.runners) {
+            runner.pos.set(runner.pos.x * ratio, this.vh(100));
+        }
 
         const versionBB = this.versionText.getBoundingBox();
         this.versionText.pos.set(this.vw(1) + versionBB.xLength / 2, this.vh(99) - +versionBB.yLength / 2);

@@ -43,17 +43,18 @@ export default class HeaderActivity extends Activity {
             }
             this.addWidget(new TextWidget(vec.add(Math.random() * 80 - 40, 0), this.titleCharacter.playRate === 1 ? "-200" : "+10", new RenderOption().absolute())
                     .setRenderOption(new RenderOption().scale(2).absolute().hue(Math.random() * 360).brightness(6).contrast(2))
-                    .setOnUpdate((elapsedTime, component) => {
-                        if (!(component instanceof TextWidget)) {
-                            component.destroy();
+                    .setOnUpdate((elapsedTime, widget) => {
+                        if (!(widget instanceof TextWidget)) {
+                            widget.destroy();
                             return;
                         }
-                        component.pos.y -= elapsedTime / 20;
-                        if (component.pos.y < 0) {
-                            component.destroy();
+                        widget.pos.y -= elapsedTime / 20;
+                        if (widget.pos.y < 0) {
+                            widget.destroy();
                         }
                     })
             );
+            return true;
         });
 
         this.fullscreenButton = null;

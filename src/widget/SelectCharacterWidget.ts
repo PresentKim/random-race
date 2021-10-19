@@ -12,9 +12,7 @@ export default class SelectCharacterWidget extends SpriteAnimationWidget {
     constructor(pos: Vector2 | null, sheet: SpriteSheet, renderOption: RenderOption = new RenderOption()) {
         super(pos, sheet, "idle", renderOption);
         this.background = new SpriteWidget(null, SpriteManager.getSheet("ui/button").getSprite("select_block"), renderOption)
-    }
 
-    init(): void {
         this.onRender = ctx => {
             if (!this.animation)
                 return;

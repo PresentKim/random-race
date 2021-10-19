@@ -2,13 +2,16 @@ import SpriteWidget from "./SpriteWidget";
 import Vector2 from "@/utils/Vector2";
 import BoundingBox from "@/utils/BoundingBox";
 import Sprite from "@/sprite/Sprite";
+import RenderOption from "@/utils/RenderOption";
 
 export default class BackgroundWidget extends SpriteWidget {
     private cache: HTMLImageElement | null;
     private cachedScale: number | null;
     private cachedSprite: Sprite | null;
 
-    init(): void {
+    constructor(pos: Vector2 | null, sprite: Sprite | null = null, renderOption: RenderOption = new RenderOption()) {
+        super(pos, sprite, renderOption);
+
         this.onRender = ctx => {
             if (!this.activity || !this.sprite?.image?.complete)
                 return;

@@ -36,6 +36,8 @@ export default class SelectActivity extends Activity {
 
                         this.countText.text = this.selectors.length + "";
                         this.relocation(1);
+
+                        return true;
                     }
                 });
         this.increaseButton = new SpriteWidget(null, iconSheet.getSprite("next"), new RenderOption().scale(10))
@@ -47,6 +49,8 @@ export default class SelectActivity extends Activity {
 
                         this.countText.text = this.selectors.length + "";
                         this.relocation(1);
+
+                        return true;
                     }
                 });
 
@@ -81,6 +85,8 @@ export default class SelectActivity extends Activity {
                         selector.setSheet(characterGroup.randomPop());
                         characterGroup.push(beforeCharacter);
                     }
+
+                    return true;
                 }));
         return selector;
     }

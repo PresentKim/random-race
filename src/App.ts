@@ -64,38 +64,39 @@ export default class App {
 
     /** Update all activities and rendering on requestAnimationFrame (defaults, update per 1/60 sec) */
     update(): void {
-        const now = performance.now();
-        if (this.lastUpdate !== -1) {
-            const elapsedTime = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
-            if (elapsedTime > 1000) {
-                this.lastUpdate = now;
-                intervalPerAnimationFrame(this.update.bind(this));
-                return;
+        try {
+            const now = performance.now();
+            if (this.lastUpdate !== -1) {
+                const elapsedTime = this.lastUpdate === -1 ? 0 : now - this.lastUpdate;
+                if (elapsedTime > 1000) {
+                    this.lastUpdate = now;
+                    intervalPerAnimationFrame(this.update.bind(this));
+                    return;
+                }
+
+                for (const activity of this.activities) {
+                    activity.update(elapsedTime);
+                    activity.render();
+                }
             }
+            this.lastUpdate = now;
 
-            this.activities = this.activities.filter(activity => {
-                if (activity.isDestroyed)
-                    return false;
-
-                activity.update(elapsedTime);
-                activity.render();
-                return true;
+            this.activities.slice().reverse().some(activity => {
+                return activity.mouseHover(this.mouseVec, this.mouseVec.add(activity.camera));
             });
+        } catch (e) {
+            console.error(e);
+        } finally {
+            intervalPerAnimationFrame(this.update.bind(this));
         }
-        this.lastUpdate = now;
-
-        this.activities.slice().reverse().some(activity => {
-            return activity.mouseHover(this.mouseVec, this.mouseVec.add(activity.camera));
-        });
-        intervalPerAnimationFrame(this.update.bind(this));
     }
 
     setActivity(activity: Activity): void {
         activity.resize(this.canvas);
-        if (this.activities[activity.identifier.name] == undefined) {
+        if (this.activities[activity.identifier.index] == undefined) {
             document.body.append(activity.canvas);
         }
-        this.activities[activity.identifier.name] = activity;
+        this.activities[activity.identifier.index] = activity;
     }
 
     resizingCanvas() {
@@ -108,9 +109,9 @@ export default class App {
         if (beforeWidth !== this.canvas.width) {
             this.mouseVec.multiply(beforeWidth / this.canvas.width, 1);
 
-            this.activities.forEach(activity => {
+            for (const activity of this.activities) {
                 activity.resize(this.canvas)
-            });
+            }
         }
     }
 }
