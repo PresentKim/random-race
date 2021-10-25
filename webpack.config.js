@@ -38,7 +38,7 @@ module.exports = {
             short_name: manifest.short_name,
             favicon: "./assets/icon/favicon.ico",
             meta: {
-                viewport: "width=device-width, initial-scale=1",
+                viewport: "user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height",
                 description: manifest.description
             }
         }),
