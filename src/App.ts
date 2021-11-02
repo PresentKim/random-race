@@ -8,6 +8,7 @@ import HeaderLayer from "@/canvas/layer/HeaderLayer";
 import FooterLayer from "@/canvas/layer/FooterLayer";
 import MainLayer from "@/canvas/layer/MainLayer";
 import CanvasIndex from "@/canvas/CanvasIndex";
+import {CanvasTouchEventHandler} from "@/event/CanvasTouchEvent";
 
 export default class App {
     public readonly canvas: HTMLCanvasElement = CanvasIndex.OVERLAY.canvas;
@@ -23,18 +24,16 @@ export default class App {
         this.setLayer(new FooterLayer(this));
         this.setLayer(new OverlayLayer(this));
 
-        this.canvas.onclick = ev => {
-            if (ev.button !== 0)
-                return;
-
-            const clickVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, this.canvas.width, this.canvas.height);
+        const canvasTouchHandler = new CanvasTouchEventHandler(this.canvas);
+        canvasTouchHandler.addEventListener("touchstart", e => {
             this.layers.slice().reverse().some(layer => {
+                const clickVec = new Vector2(e.x, e.y);
                 return layer.mouseClick(clickVec, clickVec.add(layer.camera));
             });
-        };
-        this.canvas.onmousemove = ev => {
-            this.mouseVec = getCanvasMousePos(this.canvas, ev.pageX, ev.pageY, this.canvas.width, this.canvas.height);
-        };
+        });
+        canvasTouchHandler.addEventListener("touchmove", e => {
+            this.mouseVec = getCanvasMousePos(this.canvas, e.x, e.y, this.canvas.width, this.canvas.height);
+        });
 
         //Resize canvas when screen size and orientation changed
         window.addEventListener("resize", this.resizingCanvas.bind(this));
