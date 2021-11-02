@@ -47,6 +47,6 @@
         "workbox-webpack-plugin": "^6.3.0"
     },
     "dependencies": {
-        "fullscreen-wrapper": "^1.0.4"
+        "fullscreen-wrapper": "^1.1.0"
     }
 }
