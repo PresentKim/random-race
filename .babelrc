@@ -1,8 +1,17 @@
 {
     "presets": [
-        "@babel/preset-env",
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "usage",
+                "corejs": 3
+            }
+        ],
         "@babel/preset-typescript"
     ],
+    "targets": {
+        "browsers": ["> 0.1%"]
+    },
     "plugins": [
         "@babel/plugin-transform-runtime",
         "@babel/proposal-class-properties",

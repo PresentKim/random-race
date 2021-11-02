@@ -1,5 +1,4 @@
 const path = require("path");
-const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackNoModulePlugin = require("webpack-nomodule-plugin").WebpackNoModulePlugin;
 const CnameWebpackPlugin = require("cname-webpack-plugin");
@@ -10,7 +9,6 @@ const manifest = require("./site.webmanifest.json")
 module.exports = {
     entry: {
         sw_registration: "./src/sw_registration.ts",
-        polyfill: "core-js/stable",
         index: "./src/index.ts",
         styles: "./src/styles/index.ts"
     },
