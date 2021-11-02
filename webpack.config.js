@@ -53,8 +53,7 @@ module.exports = {
         }),
         new CnameWebpackPlugin({
             domain: "race.present.kim",
-        }),
-        new webpack.HotModuleReplacementPlugin()
+        })
     ],
     module: {
         rules: [

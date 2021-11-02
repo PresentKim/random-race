@@ -24,27 +24,29 @@
     },
     "homepage": "https://github.com/PresentKim/random-race",
     "devDependencies": {
-        "@babel/core": "^7.13.14",
+        "@babel/core": "^7.15.8",
         "@babel/plugin-proposal-class-properties": "^7.14.5",
         "@babel/plugin-proposal-object-rest-spread": "^7.15.6",
-        "@babel/plugin-transform-runtime": "^7.13.10",
-        "@babel/preset-env": "^7.13.12",
-        "@babel/preset-typescript": "^7.13.0",
-        "babel-loader": "^8.2.2",
+        "@babel/plugin-transform-runtime": "^7.15.8",
+        "@babel/preset-env": "^7.15.8",
+        "@babel/preset-typescript": "^7.15.0",
+        "babel-loader": "^8.2.3",
         "cname-webpack-plugin": "^3.0.0",
-        "core-js": "^3.10.0",
-        "css-loader": "^5.2.0",
+        "core-js": "^3.19.0",
+        "css-loader": "^6.4.0",
         "file-loader": "^6.2.0",
-        "fullscreen-wrapper": "^1.0.4",
-        "html-webpack-plugin": "^4.5.2",
+        "html-webpack-plugin": "^5.5.0",
         "image-webpack-loader": "^8.0.1",
-        "style-loader": "^2.0.0",
-        "typescript": "^4.2.3",
-        "webpack": "^5.30.0",
-        "webpack-cli": "^4.5.0",
+        "style-loader": "^3.3.1",
+        "typescript": "^4.4.4",
+        "webpack": "^5.60.0",
+        "webpack-cli": "^4.9.1",
         "webpack-dev-server": "^4.3.1",
         "webpack-nomodule-plugin": "^1.1.0",
         "webpack-pwa-manifest": "^4.3.0",
-        "workbox-webpack-plugin": "^6.1.2"
+        "workbox-webpack-plugin": "^6.3.0"
+    },
+    "dependencies": {
+        "fullscreen-wrapper": "^1.0.4"
     }
 }
