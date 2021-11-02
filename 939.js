@@ -1,1 +1,1 @@
-(self.webpackChunkrandom_race=self.webpackChunkrandom_race||[]).push([[939],{5939:function(a,e,c){"use strict";c.r(e),e.default=c.p+"ea56a924c281042d379f1b633470b3fb.png"}}]);
+"use strict";(self.webpackChunkrandom_race=self.webpackChunkrandom_race||[]).push([[939],{5939:function(a,e,c){c.r(e),e.default=c.p+"ea56a924c281042d379f1b633470b3fb.png"}}]);

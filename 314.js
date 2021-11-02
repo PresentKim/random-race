@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkrandom_race=self.webpackChunkrandom_race||[]).push([[314],{2314:function(e){e.exports=JSON.parse('{".":{"pivot":[0.5,0.5]}}')}}]);

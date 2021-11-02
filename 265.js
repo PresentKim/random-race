@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkrandom_race=self.webpackChunkrandom_race||[]).push([[265],{6265:function(e){e.exports=JSON.parse('{".*":{"pivot":[0.5,1],"animation_fps":{"idle":20,"run":20,"hit":15}},"blue_bird":{"pivot":[0.375,1]},"chameleon":{"pivot":[0.25,1]},"skull":{"pivot":[0.5,0.875]}}')}}]);
