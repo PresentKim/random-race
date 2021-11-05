@@ -1,14 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WebpackNoModulePlugin = require("webpack-nomodule-plugin").WebpackNoModulePlugin;
-const CnameWebpackPlugin = require("cname-webpack-plugin");
-const {InjectManifest} = require("workbox-webpack-plugin")
-const WebpackPwaManifest = require("webpack-pwa-manifest")
 const manifest = require("./site.webmanifest.json")
 
 module.exports = {
     entry: {
-        sw_registration: "./src/sw_registration.ts",
         index: "./src/index.ts",
         styles: "./src/styles/index.ts"
     },
@@ -25,9 +20,6 @@ module.exports = {
         path: path.resolve(__dirname, "dist"),
         filename: "[name].js",
     },
-    devServer: {
-        hot: true
-    },
     target: ["web", "es5"],
     plugins: [
         new HtmlWebpackPlugin({
@@ -39,18 +31,6 @@ module.exports = {
                 viewport: "user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height",
                 description: manifest.description
             }
-        }),
-        new WebpackNoModulePlugin({
-            filePatterns: ["polyfill.**.js"]
-        }),
-        new WebpackPwaManifest(manifest),
-        new InjectManifest({
-            swSrc: path.resolve(__dirname, "src/sw.js"),
-            swDest: "sw.js",
-            exclude: [/CNAME/]
-        }),
-        new CnameWebpackPlugin({
-            domain: "race.present.kim",
         })
     ],
     module: {
