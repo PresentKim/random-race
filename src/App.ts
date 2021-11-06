@@ -1,5 +1,5 @@
 import Vector2 from "@/utils/Vector2";
-import {getCanvasMousePos, intervalPerAnimationFrame} from "@/utils/utils";
+import {intervalPerAnimationFrame} from "@/utils/utils";
 import CanvasLayer from "@/canvas/layer/CanvasLayer";
 import fullscreen from "fullscreen-wrapper";
 import OverlayLayer from "@/canvas/layer/OverlayLayer";
@@ -8,7 +8,7 @@ import HeaderLayer from "@/canvas/layer/HeaderLayer";
 import FooterLayer from "@/canvas/layer/FooterLayer";
 import MainLayer from "@/canvas/layer/MainLayer";
 import CanvasIndex from "@/canvas/CanvasIndex";
-import {CanvasTouchEventHandler} from "@/event/CanvasTouchEvent";
+import CanvasClick from "canvas-click-wrapper";
 
 export default class App {
     public readonly canvas: HTMLCanvasElement = CanvasIndex.OVERLAY.canvas;
@@ -24,16 +24,14 @@ export default class App {
         this.setLayer(new FooterLayer(this));
         this.setLayer(new OverlayLayer(this));
 
-        const canvasTouchHandler = new CanvasTouchEventHandler(this.canvas);
-        canvasTouchHandler.addEventListener("touchstart", e => {
+        CanvasClick.addClickListener(["start", "move"], this.canvas, (click, type) => {
             this.layers.slice().reverse().some(layer => {
-                const clickVec = new Vector2(e.x, e.y);
-                return layer.mouseClick(clickVec, clickVec.add(layer.camera));
+                const clickVec = new Vector2(click.x, click.y);
+                return type === "start" ?
+                        layer.mouseClick(clickVec, clickVec.add(layer.camera)) :
+                        layer.mouseHover(clickVec, clickVec.add(layer.camera));
             });
-        });
-        canvasTouchHandler.addEventListener("touchmove", e => {
-            this.mouseVec = getCanvasMousePos(this.canvas, e.x, e.y, this.canvas.width, this.canvas.height);
-        });
+        }, document.body);
 
         //Resize canvas when screen size and orientation changed
         window.addEventListener("resize", this.resizingCanvas.bind(this));
