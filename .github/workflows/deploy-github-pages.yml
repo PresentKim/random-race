@@ -12,6 +12,9 @@ jobs:
             -   name: Use Yarn-berry
                 run: yarn set version berry
 
+            -   name: Instan via yarn
+                run: yarn install --immutable --immutable-cache --check-cache
+
             -   name: Build #build webpack project
                 run: yarn run build
 
