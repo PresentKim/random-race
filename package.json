@@ -30,6 +30,7 @@
         "@babel/plugin-transform-runtime": "^7.15.8",
         "@babel/preset-env": "^7.15.8",
         "@babel/preset-typescript": "^7.15.0",
+        "@babel/runtime": "^7.16.0",
         "babel-loader": "^8.2.3",
         "cname-webpack-plugin": "^3.0.0",
         "core-js": "^3.19.0",
@@ -49,5 +50,6 @@
     "dependencies": {
         "canvas-click-wrapper": "^1.0.0",
         "fullscreen-wrapper": "^1.1.0"
-    }
+    },
+    "packageManager": "yarn@3.1.0"
 }
