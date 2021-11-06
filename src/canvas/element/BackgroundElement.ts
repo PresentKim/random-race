@@ -5,9 +5,11 @@ import Sprite from "@/sprite/Sprite";
 import RenderOption from "@/utils/RenderOption";
 
 export default class BackgroundElement extends SpriteElement {
-    private cache: HTMLImageElement | null;
-    private cachedScale: number | null;
-    private cachedSprite: Sprite | null;
+    private cachedIimage: HTMLImageElement | null = null;
+    private cachedSprite: Sprite | null = null;
+    private cachedScale: number | null = null;
+    private cachedWidth: number | null = null;
+    private cachedHeight: number | null = null;
 
     constructor(pos: Vector2 | null, sprite: Sprite | null = null, renderOption: RenderOption = new RenderOption()) {
         super(pos, sprite, renderOption);
@@ -27,19 +29,28 @@ export default class BackgroundElement extends SpriteElement {
                 ctx.restore();
                 return;
             }
-            if (!this.cache || this.cachedSprite !== this.sprite || this.cachedScale !== scale) {
+            if (
+                !this.cachedImage ||
+                this.cachedSprite !== this.sprite ||
+                this.cachedScale !== scale ||
+                this.cachedWidth !== drawBox.x ||
+                this.cachedHeight !== drawBox.y
+            ) {
                 const bufferCanvas = document.createElement('canvas');
                 bufferCanvas.width = drawBox.x + spriteBox.x * 2;
                 bufferCanvas.height = drawBox.y + spriteBox.y * 2;
                 this.draw(bufferCanvas.getContext('2d'), spriteBox, drawBox);
 
-                this.cache = document.createElement('img');
-                this.cache.src = bufferCanvas.toDataURL('image/png');
+                this.cachedImage = document.createElement('img');
+                this.cachedImage.src = bufferCanvas.toDataURL('image/png');
+
                 this.cachedSprite = this.sprite;
                 this.cachedScale = scale;
+                this.cachedWidth = drawBox.x;
+                this.cachedHeight = drawBox.y;
             }
 
-            ctx.drawImage(this.cache, this.pos.x % spriteBox.x, this.pos.y % spriteBox.y);
+            ctx.drawImage(this.cachedImage, this.pos.x % spriteBox.x, this.pos.y % spriteBox.y);
         };
     }
 
