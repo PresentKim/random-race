@@ -9,11 +9,10 @@ jobs:
             -   name: Checkout
                 uses: actions/checkout@v2.3.1
 
-            -   name: Use Yarn-berry
-                run: yarn set version berry
-
-            -   name: Instan via yarn
-                run: yarn install --immutable --immutable-cache --check-cache
+            -   name: Prepare yarn-berry
+                run: |
+                    yarn set version berry
+                    yarn install --immutable --immutable-cache
 
             -   name: Build #build webpack project
                 run: yarn run build
